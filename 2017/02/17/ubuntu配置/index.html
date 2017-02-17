@@ -99,7 +99,7 @@
 安装Windows 10 和 ubuntu 共存安装参考
 切换显卡系统设置–&amp;gt; 软件和更行 –&amp;gt; 附加驱动（据说开源驱动性能虽然不强，但是稳定性好，我还是继续用开源驱动吧）
 换主题unity乳齿便秘的默认主题真的让我第一次开机看到它过">
-<meta property="og:updated_time" content="2017-02-17T15:58:59.627Z">
+<meta property="og:updated_time" content="2017-02-17T16:03:00.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu 14.04配置">
 <meta name="twitter:description" content="最近从尝试从Windows 又切换到 ubuntu 。经过很多次折腾，发现自己对linux 有了一定的理解过后再去接触这些，已经不再那么陌生和“恐惧”了
@@ -349,8 +349,9 @@
 <p>然后推荐去<a href="http://www.noobslab.com/p/themes-icons.html" target="_blank" rel="external">noobSlab</a>，这个网站有很多个主题可以选择，安装方式也写出来了，配合unity-tweak-tool使用。个人喜欢Numix主题</p>
 <h1 id="安装cairo-dock"><a href="#安装cairo-dock" class="headerlink" title="安装cairo-dock"></a>安装cairo-dock</h1><p>很实用的小工具（模拟mac的dock栏）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:cairo-dock-team/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install cairo-dock</div><div class="line"><span class="comment"># 启动命令 cairo-dock</span></div></pre></td></tr></table></figure></p>
 <p>第一次打开会提示是否开启OpenGl，我的电脑上面测试开启过后会出问题，我选择不开启，如果以后想开启，可以使用cairo-dock -c（不开启） / cario-dock -o（开启OpenGl）切换</p>
-<h1 id="安装shadowsocks-qt5"><a href="#安装shadowsocks-qt5" class="headerlink" title="安装shadowsocks-qt5"></a>安装shadowsocks-qt5</h1><p>“纸飞机”这个东西还是必须要有的啊，没有这个东西感觉整个人都不好了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div><div class="line"><span class="comment">#启动命令 ss-qt5</span></div></pre></td></tr></table></figure></p>
-<h1 id="安装proxychain4"><a href="#安装proxychain4" class="headerlink" title="安装proxychain4"></a>安装proxychain4</h1>
+<h1 id="安装shadowsocks-qt5"><a href="#安装shadowsocks-qt5" class="headerlink" title="安装shadowsocks-qt5"></a>安装shadowsocks-qt5</h1><p>“纸飞机”这个东西还是必须要有的啊，没有这个东西感觉整个人都不好了<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div><div class="line"><span class="comment">#启动命令 ss-qt5</span></div></pre></td></tr></table></figure></p>
+<h1 id="安装proxychain4"><a href="#安装proxychain4" class="headerlink" title="安装proxychain4"></a>安装proxychain4</h1><p>ss-qt5 是桌面级应用，尽管连上代理，命令行还是无法通过代理上网。proxychain 可以完美解决命令行不能使用代理的问题<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone https:<span class="regexp">//github</span>.com/rofl0r/proxychains-ng.git</div><div class="line">cd proxychains-ng</div><div class="line">./configure</div><div class="line">(sudo) make &amp;&amp; make instal</div></pre></td></tr></table></figure></p>
+
       
     </div>
 
