@@ -258,6 +258,138 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/19/react-native学习日记之ListView三/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/19/react-native学习日记之ListView三/" itemprop="url">
+                  react-native学习日记之ListView三
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-19T14:42:05+08:00">
+                2017-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>ListView with SectionHeader<br>要实现拥有section header 的ListView，需要dataBlob数据结构和renderSectionHeader 属性</p>
+<h1 id="dataBlob"><a href="#dataBlob" class="headerlink" title="dataBlob"></a>dataBlob</h1><p>dataBlob是一个数据结构（通常是一个对象），包含了渲染ListView的所有数据。其中包括Section Header 数据和每个行Row的行数据Row Data。要获得dataBlob中的数据，首先要实现遍历方法(getSectionData 和 getRowData)</p>
+<p>dataBlob结构：<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/image002.png" alt=""></p>
+<h3 id="实现getSectionData-和-getRowData"><a href="#实现getSectionData-和-getRowData" class="headerlink" title="实现getSectionData 和 getRowData"></a>实现getSectionData 和 getRowData</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">constructor</span>(props) &#123;</div><div class="line">  <span class="keyword">super</span>(props);</div><div class="line">  <span class="keyword">var</span> getSectionData = <span class="function">(<span class="params">dataBlob,sectionID</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> dataBlob[sectionID];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> getRowData = <span class="function">(<span class="params">dataBlob,sectionID,rowID</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> dataBlob[sectionID+<span class="string">':'</span>+rowID];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">this</span>.state = &#123;</div><div class="line">    <span class="attr">dataSource</span>: <span class="keyword">new</span> ListView.DataSource(&#123;</div><div class="line">      <span class="attr">getSectionData</span>:getSectionData,</div><div class="line">      <span class="attr">getRowData</span>:getRowData,</div><div class="line">      <span class="attr">rowHasChanged</span>: <span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2,</div><div class="line">      <span class="attr">sectionHeaderHasChanged</span>:<span class="function">(<span class="params">s1,s2</span>)=&gt;</span>s1!==s2</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="处理外部json数据，生成dataBlob"><a href="#处理外部json数据，生成dataBlob" class="headerlink" title="处理外部json数据，生成dataBlob"></a>处理外部json数据，生成dataBlob</h1><p>json数据如下<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"data"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"images"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"a"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"路飞"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"b"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"阿里"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"c"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"。。。"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"d"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"风景"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"e"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"女神(づ￣ 3￣)づ"</span></div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      <span class="attr">"title"</span>: <span class="string">"B"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"images"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"a"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"路飞"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"b"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"阿里"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"c"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"。。。"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"d"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"风景"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"e"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"女神(づ￣ 3￣)づ"</span></div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      <span class="attr">"title"</span>: <span class="string">"B"</span></div><div class="line">    &#125;,</div><div class="line">    ...</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">loadDataFromJson() &#123;</div><div class="line">  <span class="keyword">var</span> data = <span class="built_in">require</span>(<span class="string">'./data.json'</span>).data;</div><div class="line">  <span class="built_in">console</span>.log(data);</div><div class="line">  <span class="keyword">var</span> dataBlob   = &#123;&#125;,</div><div class="line">      sectionIDs = []; <span class="comment">//存放组ID的数组</span></div><div class="line">      rowIDs     = []; <span class="comment">//存放行ID的数组</span></div><div class="line">      rows       = []; <span class="comment">//存放行数据数组</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>,l=data.length;i&lt;l;i++) &#123;</div><div class="line">    <span class="comment">// 1.把section id 放入sectionID数组中</span></div><div class="line">    <span class="keyword">var</span> sectionID = i;</div><div class="line">    <span class="comment">// sectionIDs.push(sectionID);</span></div><div class="line">    sectionIDs.push(i); <span class="comment">//sectionID 不一定必须是i：0,1,2,3...</span></div><div class="line">    <span class="comment">// 2. 把组中内容放入dataBlob中</span></div><div class="line">    <span class="comment">// 相当于dataBlob[SectionID]=data[i].title</span></div><div class="line">    dataBlob[i]=data[i].title;</div><div class="line">    <span class="comment">// 3. 取出该数组中所有的行数据</span></div><div class="line">    rows = data[i].images;</div><div class="line">    <span class="comment">// 4. 记录每一行中的数据</span></div><div class="line">    rowIDs[i]=[];</div><div class="line">    <span class="comment">// 5. 获取行中每一组数据</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>,lr=rows.length;j&lt;lr;j++)&#123;</div><div class="line">      <span class="comment">// 把行号放入rowIDs中</span></div><div class="line">      rowIDs[i].push(j);</div><div class="line">      <span class="comment">// 把每一行中的内容放如dataBlob对象中</span></div><div class="line">      dataBlob[i+<span class="string">':'</span>+j] = rows[j];</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(dataBlob,sectionIDs,rowIDs);</div><div class="line">  <span class="keyword">this</span>.setState(&#123;</div><div class="line">    <span class="attr">dataSource</span>: <span class="keyword">this</span>.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs)</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到将dataBlob，sectionIDs，rowIDs打印出来是如下结果<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/dataBlob-console-result" alt=""></p>
+<p>#完整代码<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/19/react-native学习日记之ListView三/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/ubuntu配置/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -340,10 +472,12 @@
           <p>最近又尝试从Windows 切换到 ubuntu 。经过很多次折腾，发现自己对linux 有了一定的理解过后再去<br>接触这些，已经不再那么陌生和“恐惧”了</p>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a href="http://www.jianshu.com/p/2eebd6ad284d">Windows 10 和 ubuntu 共存安装参考</a></p>
 <h1 id="切换显卡"><a href="#切换显卡" class="headerlink" title="切换显卡"></a>切换显卡</h1><p>系统设置–&gt; 软件和更行 –&gt; 附加驱动（据说开源驱动性能虽然不强，但是稳定性好，我还是继续用开源驱动吧）</p>
-<h1 id="换主题"><a href="#换主题" class="headerlink" title="换主题"></a>换主题</h1><p>unity乳齿便秘的默认主题真的让我第一次开机看到它过后就想换掉！ubuntu14.04的主题很多不是扁平化的，如果电脑支持的话还是安装16.04比较好（该死的联想z485）。</p>
+<h1 id="换主题"><a href="#换主题" class="headerlink" title="换主题"></a>换主题</h1><p>unity乳齿便秘的默认主题真的让我第一次开机看到它过后就想换掉！ubuntu14.04的主题很多不是扁平化的，如果电脑支持的话还是安装16.04比较好（该死的联想z485）</p>
 <p>首先安装unity-tweak-tool<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure></p>
 <p>然后推荐去<a href="http://www.noobslab.com/p/themes-icons.html">noobSlab</a>，这个网站有很多个主题可以选择，安装方式也写出来了，配合unity-tweak-tool使用。个人喜欢Numix主题</p>
 <h1 id="安装搜狗输入法"><a href="#安装搜狗输入法" class="headerlink" title="安装搜狗输入法"></a>安装搜狗输入法</h1><p>去搜狗官网下载linux 版本搜狗，然后双击安装，完毕后。<br><br>系统设置–&gt;语言支持–&gt;键盘输入方式系统：fcitx–&gt;重启</p>
+<p>如果发现安装好后不能调出输入法面板，输入时只能看不到候选词，那么可以检查一下依赖sudo apt-get install -f</p>
+<p>如果使用一段时间过后搜狗输入法一直崩溃,可能是配置文件出问题了，可以选择删除配置文件，然后重启fctix<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">killall fctix</div><div class="line">rm -rf ~/.config/sogou-qimpanel</div><div class="line">rm -rf ~/.config/SogouPY.users</div><div class="line">rm -rf ~/.config/SogouPY</div><div class="line">fctix</div></pre></td></tr></table></figure></p>
 <h1 id="安装cairo-dock"><a href="#安装cairo-dock" class="headerlink" title="安装cairo-dock"></a>安装cairo-dock</h1><p>很实用的小工具（模拟mac的dock栏）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:cairo-dock-team/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install cairo-dock</div><div class="line"><span class="comment"># 启动命令 cairo-dock</span></div></pre></td></tr></table></figure></p>
 <p>第一次打开会提示是否开启OpenGl，我的电脑上面测试开启过后会出问题，我选择不开启，如果以后想开启，可以使用cairo-dock -c（不开启） / cario-dock -o（开启OpenGl）切换</p>
 <h1 id="安装shadowsocks-qt5"><a href="#安装shadowsocks-qt5" class="headerlink" title="安装shadowsocks-qt5"></a>安装shadowsocks-qt5</h1><p>“纸飞机”这个东西还是必须要有的啊，没有这个东西感觉整个人都不好了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div><div class="line"><span class="comment">#启动命令 ss-qt5</span></div></pre></td></tr></table></figure></p>
@@ -927,7 +1061,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
