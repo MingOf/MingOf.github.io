@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="javascript,es6," />
+  <meta name="keywords" content="react-native," />
 
 
 
@@ -87,22 +87,19 @@
 
 
 
-<meta name="description" content="generator 不同于普通的函数，执行方式有区别
-12345678function* foo() &amp;#123;    yield 1;    console.log(yield);&amp;#125;let fooObj = foo();console.log(fooObj.next());console.log(fooObj.next());console.log(fooObj.next());
-第">
+<meta name="description" content="IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能react-native-tab-view
+基本用法如下12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626">
 <meta property="og:type" content="article">
-<meta property="og:title" content="'Generator 执行顺序'">
-<meta property="og:url" content="http://yoursite.com/2016/12/26/Generator/index.html">
+<meta property="og:title" content="react-native学习日记之tabBar">
+<meta property="og:url" content="http://yoursite.com/2017/02/22/react-native学习日记之tabBar/index.html">
 <meta property="og:site_name" content="爱凉拌菜真是太好了">
-<meta property="og:description" content="generator 不同于普通的函数，执行方式有区别
-12345678function* foo() &amp;#123;    yield 1;    console.log(yield);&amp;#125;let fooObj = foo();console.log(fooObj.next());console.log(fooObj.next());console.log(fooObj.next());
-第">
-<meta property="og:updated_time" content="2017-02-07T09:45:52.000Z">
+<meta property="og:description" content="IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能react-native-tab-view
+基本用法如下12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626">
+<meta property="og:updated_time" content="2017-02-22T03:59:43.526Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="'Generator 执行顺序'">
-<meta name="twitter:description" content="generator 不同于普通的函数，执行方式有区别
-12345678function* foo() &amp;#123;    yield 1;    console.log(yield);&amp;#125;let fooObj = foo();console.log(fooObj.next());console.log(fooObj.next());console.log(fooObj.next());
-第">
+<meta name="twitter:title" content="react-native学习日记之tabBar">
+<meta name="twitter:description" content="IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能react-native-tab-view
+基本用法如下12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626">
 
 
 
@@ -130,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/26/Generator/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/22/react-native学习日记之tabBar/"/>
 
 
 
 
 
-  <title> 'Generator 执行顺序' | 爱凉拌菜真是太好了 </title>
+  <title> react-native学习日记之tabBar | 爱凉拌菜真是太好了 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -263,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/26/Generator/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/react-native学习日记之tabBar/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Johnny Lin">
@@ -287,7 +284,7 @@
             
             
               
-                'Generator 执行顺序'
+                react-native学习日记之tabBar
               
             
           </h1>
@@ -302,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-26T12:13:50+08:00">
-                2016-12-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-22T11:44:59+08:00">
+                2017-02-22
               </time>
             
 
@@ -338,11 +335,8 @@
       
 
       
-        <p>generator 不同于普通的函数，执行方式有区别</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">yield</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> fooObj = foo();</div><div class="line"><span class="built_in">console</span>.log(fooObj.next());</div><div class="line"><span class="built_in">console</span>.log(fooObj.next());</div><div class="line"><span class="built_in">console</span>.log(fooObj.next());</div></pre></td></tr></table></figure>
-<p>第一个fooObj.next() 返回<code>Object {value: 1, done: false}</code><br>此时fooObj指针指向的是yield 1(第一个yield)</p>
-<p>第二次运行fooObj.next(), 指针指向console.log(yield)中的yield<br>即第二个yeild,此时函数返回<code>Object {value: undefined, done: false}</code></p>
-<p>第三次运行fooObj.next(), 指针继续向后移动,开始执行console.log(yield)<br>语句,由于next参数为undefined,则指定上一次(即第二次yeild)yeild为undefined<br>所以打印出<code>undefined 和 Object {value: undefined, done: true}</code></p>
+        <p>IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能<br><a href="https://github.com/react-native-community/react-native-tab-view" target="_blank" rel="external">react-native-tab-view</a></p>
+<p>基本用法如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"><span class="keyword">import</span> &#123;TabViewAnimated,TabBar&#125; <span class="keyword">from</span> <span class="string">'react-native-tab-view'</span>;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">tabView</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  state = &#123;</div><div class="line">    <span class="attr">index</span>: <span class="number">0</span>,</div><div class="line">    <span class="attr">routes</span>: [</div><div class="line">      &#123; <span class="attr">key</span>: <span class="string">'1'</span>, <span class="attr">title</span>: <span class="string">'First'</span> &#125;,</div><div class="line">      &#123; <span class="attr">key</span>: <span class="string">'2'</span>, <span class="attr">title</span>: <span class="string">'Second'</span> &#125;,</div><div class="line">    ],</div><div class="line">  &#125;;</div><div class="line">  _handleChangeTab = <span class="function">(<span class="params">index</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">this</span>.setState(&#123;index&#125;);</div><div class="line">  &#125;;</div><div class="line">  _renderHeader = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(TabBar);</div><div class="line">    <span class="keyword">return</span> &lt;TabBar &#123;...props&#125; style=&#123;styles.tabBar&#125;/&gt;</div><div class="line">  &#125;;</div><div class="line">  _renderFooter = (props) =&gt; &#123;</div><div class="line">    console.log(TabBar);</div><div class="line">    return &lt;TabBar &#123;...props&#125; style=&#123;styles.tabBar&#125; indicatorStyle=&#123;&#123;backgroundColor:'transparent'&#125;&#125;/&gt;</div><div class="line">  &#125;;</div><div class="line">  _renderScene = (&#123;route&#125;) =&gt; &#123;</div><div class="line">    switch (route.key) &#123;</div><div class="line">      case '1':</div><div class="line">        return &lt;View style=&#123;[styles.page,&#123;backgroundColor:'#ff4081'&#125;]&#125;&gt;</div><div class="line">                  &lt;Text&gt;</div><div class="line">                    第一页</div><div class="line">                  &lt;/Text&gt;</div><div class="line">               &lt;/View&gt;</div><div class="line">      case "2":</div><div class="line">        return &lt;View style=&#123;[styles.page,&#123;backgroundColor:'#673ab7'&#125;]&#125;&gt;</div><div class="line">                  &lt;Text&gt;</div><div class="line">                    第二页</div><div class="line">                  &lt;/Text&gt;</div><div class="line">               &lt;/View&gt;</div><div class="line">      default:</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">  render() &#123;</div><div class="line">    return (</div><div class="line">      &lt;TabViewAnimated</div><div class="line">        style=&#123;styles.container&#125;</div><div class="line">        navigationState=&#123;this.state&#125;</div><div class="line">        renderScene=&#123;this._renderScene&#125;</div><div class="line">        renderHeader=&#123;this._renderHeader&#125;</div><div class="line">        // renderFooter=&#123;this._renderFooter&#125;</div><div class="line">        onRequestChangeTab=&#123;this._handleChangeTab&#125;</div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const styles = StyleSheet.create(&#123;</div><div class="line">  container: &#123;</div><div class="line">    flex: 1,</div><div class="line">  &#125;,</div><div class="line">  page: &#123;</div><div class="line">    flex: 1,</div><div class="line">    alignItems: 'center',</div><div class="line">    justifyContent: 'center',</div><div class="line">  &#125;,</div><div class="line">&#125;);</div><div class="line"></div><div class="line">AppRegistry.registerComponent('tabView', () =&gt; tabView);</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -366,9 +360,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/javascript/" rel="tag"># javascript</a>
-          
-            <a href="/tags/es6/" rel="tag"># es6</a>
+            <a href="/tags/react-native/" rel="tag"># react-native</a>
           
         </div>
       
@@ -381,15 +373,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/02/19/atom-package清单/" rel="next" title="atom package清单">
+                <i class="fa fa-chevron-left"></i> atom package清单
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/07/学习日记/" rel="prev" title="react-native 学习日记之ScrollView">
-                react-native 学习日记之ScrollView <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
