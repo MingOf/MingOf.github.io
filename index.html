@@ -355,10 +355,12 @@ react-router v4 在<router> 下面只能放一个层级，类似与react 中rend
 ### webpack 配置问题
 
 v4 中引入`<browserrouter>` 组件, 而BrowserRouter使用的是HTML5 的history api, 在使用webpack-dev-server时会遇到
-<pre style="colo:red">1234:1 GET http://localhost:8080/xxx/xxx 404 (Not Found)</pre>
+
+<pre style="colo:red">GET http://localhost:8080/xxx/xxx 404 (Not Found)</pre>
 
 <h4 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h4><p>webpack.config.js中加入<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">  <span class="attr">apiHistoryFallback</span>: <span class="literal">true</span>,</div><div class="line">&#125;</div><div class="line">output: &#123;</div><div class="line">  ...,</div><div class="line">  <span class="attr">publicPath</span>: <span class="string">'/'</span>,</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后将index.html中的bundle.js改为/bundle.js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=<span class="string">'bundle.js'</span>&gt;&lt;/script&gt; ===&gt; &lt;script src='/bundle.js'&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>然后将index.html中的bundle.js改为/bundle.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=<span class="string">'bundle.js'</span>&gt;&lt;/script&gt; ===&gt; &lt;script src='/bundle.js'&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
 <p>参考：<a href="https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url" target="_blank" rel="external">https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url</a></p>
 </browserrouter></router></router>
           
