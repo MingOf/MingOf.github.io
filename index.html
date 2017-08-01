@@ -345,6 +345,7 @@
 ### A 'Router' may have only one child element
 react-router v4 在<router> 下面只能放一个层级，类似与react 中render 不能有两个平级div一样
 
+
 #### 解决办法：
 用div 或者[Switch](https://reacttraining.com/react-router/web/api/Switch) 包裹所有Route
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;Router&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;Route component=&#123;ComponentHeader&#125;&gt;&lt;/Route&gt;</div><div class="line">    &lt;Switch&gt;</div><div class="line">      &lt;Route component=&#123;ComponentFooter&#125; path='/footer/:id'&gt;&lt;/Route&gt;</div><div class="line">    &lt;/Switch&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;<span class="regexp">/Router&gt;</span></div></pre></td></tr></table></figure>
