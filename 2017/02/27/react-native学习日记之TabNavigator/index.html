@@ -388,7 +388,120 @@ import TabNavigator from &amp;#39;react-n">
 <p>使用：</p>
 <p><code>import TabNavigator from &#39;react-native-tab-navigator&#39;</code></p>
 <p>这个组件的使用方式类似于TabBarIOS，配合Navigator一起使用就可以到达跨平台的效果了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View,</div><div class="line">  Image,</div><div class="line">  Navigator</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"><span class="keyword">import</span> TabNavigator <span class="keyword">from</span> <span class="string">'react-native-tab-navigator'</span>;</div><div class="line"><span class="keyword">import</span> HomeView <span class="keyword">from</span> <span class="string">'./Components/homeView.js'</span>;</div><div class="line"><span class="keyword">import</span> ProfileView <span class="keyword">from</span> <span class="string">'./Components/profileView.js'</span>;</div><div class="line"><span class="keyword">var</span> icons=[</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_1.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_2.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_3.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_4.png'</span>)</div><div class="line">];</div><div class="line"><span class="keyword">var</span> pressIcons = [</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_1_press.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_2_press.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_3_press.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_4_press.png'</span>)</div><div class="line">]</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">TabNavigatorDemo</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">this</span>.state=&#123;</div><div class="line">      <span class="attr">selectedTab</span>:<span class="string">'home'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">let</span> defaultName = <span class="string">'HomeView'</span>;</div><div class="line">    <span class="keyword">let</span> defaultComponent = HomeView;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;View style=&#123;&#123;flex:1&#125;&#125;&gt;</div><div class="line">        &lt;TabNavigator tabBarStyle=&#123;styles.tabBarStyle&#125;&gt;</div><div class="line">          &lt;TabNavigator.Item</div><div class="line">            selected=&#123;this.state.selectedTab === 'home'&#125;</div><div class="line">            title="Home"</div><div class="line">            renderIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;icons[0]&#125; /&gt;&#125;</div><div class="line">            renderSelectedIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;pressIcons[0]&#125; /&gt;&#125;</div><div class="line">            badgeText="1"</div><div class="line">            onPress=&#123;() =&gt; this.setState(&#123; selectedTab: 'home' &#125;)&#125;&gt;</div><div class="line">            &lt;Navigator</div><div class="line">              initialRoute=&#123;&#123;name:defaultName,component:defaultComponent&#125;&#125;</div><div class="line">              configureScene=&#123;(route)=&gt;&#123;</div><div class="line">                return Navigator.SceneConfigs.VerticalDownSwipeJump;</div><div class="line">              &#125;&#125;</div><div class="line">              renderScene=&#123;(route,navigator)=&gt;&#123;</div><div class="line">                // console.log(route,navigator);</div><div class="line">                let Component = route.component;</div><div class="line">                return &lt;Component &#123;...route.params&#125; navigator=&#123;navigator&#125; /&gt;</div><div class="line">              &#125;&#125;</div><div class="line">              navigationBar=&#123;</div><div class="line">                &lt;Navigator.NavigationBar</div><div class="line">                  routeMapper=&#123;&#123;</div><div class="line">                    LeftButton: (route,navigator,index,navState)=&gt;&#123;</div><div class="line">                      return (&lt;Text&gt;前进&lt;/Text&gt;);</div><div class="line">                    &#125;,</div><div class="line">                    Title: (route,navigator,index,navState)=&gt;&#123;</div><div class="line">                      return (&lt;Text&gt;首页&lt;/Text&gt;);</div><div class="line">                    &#125;,</div><div class="line">                    RightButton: (route, navigator, index, navState) =&gt; &#123;&#125;,</div><div class="line">                  &#125;&#125;</div><div class="line">                  /&gt;</div><div class="line">              &#125;</div><div class="line">              /&gt;</div><div class="line">          &lt;/TabNavigator.Item&gt;</div><div class="line">          &lt;TabNavigator.Item</div><div class="line">            selected=&#123;this.state.selectedTab === 'profile'&#125;</div><div class="line">            title="Profile"</div><div class="line">            renderIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;icons[1]&#125; /&gt;&#125;</div><div class="line">            renderSelectedIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;pressIcons[1]&#125; /&gt;&#125;</div><div class="line">            // renderBadge=&#123;() =&gt; &lt;CustomBadgeView /&gt;&#125;</div><div class="line">            onPress=&#123;() =&gt; this.setState(&#123; selectedTab: 'profile' &#125;)&#125;&gt;</div><div class="line">            &lt;ProfileView/&gt;</div><div class="line">          &lt;/TabNavigator.Item&gt;</div><div class="line">          &lt;TabNavigator.Item</div><div class="line">            selected=&#123;this.state.selectedTab === 'favor'&#125;</div><div class="line">            title="favor"</div><div class="line">            renderIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;icons[2]&#125; /&gt;&#125;</div><div class="line">            renderSelectedIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;pressIcons[2]&#125; /&gt;&#125;</div><div class="line">            // renderBadge=&#123;() =&gt; &lt;CustomBadgeView /&gt;&#125;</div><div class="line">            onPress=&#123;() =&gt; this.setState(&#123; selectedTab: 'favor' &#125;)&#125;&gt;</div><div class="line">            &lt;ProfileView/&gt;</div><div class="line">          &lt;/TabNavigator.Item&gt;</div><div class="line">          &lt;TabNavigator.Item</div><div class="line">            selected=&#123;this.state.selectedTab === 'me'&#125;</div><div class="line">            title="me"</div><div class="line">            renderIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;icons[3]&#125; /&gt;&#125;</div><div class="line">            renderSelectedIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;pressIcons[3]&#125; /&gt;&#125;</div><div class="line">            // renderBadge=&#123;() =&gt; &lt;CustomBadgeView /&gt;&#125;</div><div class="line">            onPress=&#123;() =&gt; this.setState(&#123; selectedTab: 'me' &#125;)&#125;&gt;</div><div class="line">            &lt;ProfileView/&gt;</div><div class="line">          &lt;/TabNavigator.Item&gt;</div><div class="line">        &lt;/TabNavigator&gt;</div><div class="line">      &lt;/View&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const styles = StyleSheet.create(&#123;</div><div class="line">  tabBarStyle: &#123;</div><div class="line">    // backgroundColor:'red'</div><div class="line">  &#125;,</div><div class="line">  iconStyle: &#123;</div><div class="line">    width:20,</div><div class="line">    height:20</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">AppRegistry.registerComponent('TabNavigatorDemo', () =&gt; TabNavigatorDemo);</div></pre></td></tr></table></figure>
+<pre><code class="js">import React, { Component } from &#39;react&#39;;
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Navigator
+} from &#39;react-native&#39;;
+import TabNavigator from &#39;react-native-tab-navigator&#39;;
+import HomeView from &#39;./Components/homeView.js&#39;;
+import ProfileView from &#39;./Components/profileView.js&#39;;
+var icons=[
+  require(&#39;./imgs/tabbar_1.png&#39;),
+  require(&#39;./imgs/tabbar_2.png&#39;),
+  require(&#39;./imgs/tabbar_3.png&#39;),
+  require(&#39;./imgs/tabbar_4.png&#39;)
+];
+var pressIcons = [
+  require(&#39;./imgs/tabbar_1_press.png&#39;),
+  require(&#39;./imgs/tabbar_2_press.png&#39;),
+  require(&#39;./imgs/tabbar_3_press.png&#39;),
+  require(&#39;./imgs/tabbar_4_press.png&#39;)
+]
+export default class TabNavigatorDemo extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      selectedTab:&#39;home&#39;
+    }
+  }
+  render() {
+    let defaultName = &#39;HomeView&#39;;
+    let defaultComponent = HomeView;
+    return (
+      &lt;View style={{flex:1}}&gt;
+        &lt;TabNavigator tabBarStyle={styles.tabBarStyle}&gt;
+          &lt;TabNavigator.Item
+            selected={this.state.selectedTab === &#39;home&#39;}
+            title=&quot;Home&quot;
+            renderIcon={() =&gt; &lt;Image style={styles.iconStyle} source={icons[0]} /&gt;}
+            renderSelectedIcon={() =&gt; &lt;Image style={styles.iconStyle} source={pressIcons[0]} /&gt;}
+            badgeText=&quot;1&quot;
+            onPress={() =&gt; this.setState({ selectedTab: &#39;home&#39; })}&gt;
+            &lt;Navigator
+              initialRoute={{name:defaultName,component:defaultComponent}}
+              configureScene={(route)=&gt;{
+                return Navigator.SceneConfigs.VerticalDownSwipeJump;
+              }}
+              renderScene={(route,navigator)=&gt;{
+                // console.log(route,navigator);
+                let Component = route.component;
+                return &lt;Component {...route.params} navigator={navigator} /&gt;
+              }}
+              navigationBar={
+                &lt;Navigator.NavigationBar
+                  routeMapper={{
+                    LeftButton: (route,navigator,index,navState)=>{
+                      return (<text>前进</text>);
+                    },
+                    Title: (route,navigator,index,navState)=>{
+                      return (<text>首页</text>);
+                    },
+                    RightButton: (route, navigator, index, navState) => {},
+                  }}
+                  /&gt;
+              }
+              /&gt;
+          &lt;/TabNavigator.Item&gt;
+          &lt;TabNavigator.Item
+            selected={this.state.selectedTab === &#39;profile&#39;}
+            title=&quot;Profile&quot;
+            renderIcon={() =&gt; &lt;Image style={styles.iconStyle} source={icons[1]} /&gt;}
+            renderSelectedIcon={() =&gt; &lt;Image style={styles.iconStyle} source={pressIcons[1]} /&gt;}
+            // renderBadge={() =&gt; &lt;CustomBadgeView /&gt;}
+            onPress={() =&gt; this.setState({ selectedTab: &#39;profile&#39; })}&gt;
+            &lt;ProfileView/&gt;
+          &lt;/TabNavigator.Item&gt;
+          &lt;TabNavigator.Item
+            selected={this.state.selectedTab === &#39;favor&#39;}
+            title=&quot;favor&quot;
+            renderIcon={() =&gt; &lt;Image style={styles.iconStyle} source={icons[2]} /&gt;}
+            renderSelectedIcon={() =&gt; &lt;Image style={styles.iconStyle} source={pressIcons[2]} /&gt;}
+            // renderBadge={() =&gt; &lt;CustomBadgeView /&gt;}
+            onPress={() =&gt; this.setState({ selectedTab: &#39;favor&#39; })}&gt;
+            &lt;ProfileView/&gt;
+          &lt;/TabNavigator.Item&gt;
+          &lt;TabNavigator.Item
+            selected={this.state.selectedTab === &#39;me&#39;}
+            title=&quot;me&quot;
+            renderIcon={() =&gt; &lt;Image style={styles.iconStyle} source={icons[3]} /&gt;}
+            renderSelectedIcon={() =&gt; &lt;Image style={styles.iconStyle} source={pressIcons[3]} /&gt;}
+            // renderBadge={() =&gt; &lt;CustomBadgeView /&gt;}
+            onPress={() =&gt; this.setState({ selectedTab: &#39;me&#39; })}&gt;
+            &lt;ProfileView/&gt;
+          &lt;/TabNavigator.Item&gt;
+        &lt;/TabNavigator&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    // backgroundColor:&#39;red&#39;
+  },
+  iconStyle: {
+    width:20,
+    height:20
+  }
+});
+
+AppRegistry.registerComponent(&#39;TabNavigatorDemo&#39;, () =&gt; TabNavigatorDemo);
+</code></pre>
 
       
     </div>

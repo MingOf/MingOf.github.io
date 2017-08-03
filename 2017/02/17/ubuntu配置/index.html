@@ -385,27 +385,89 @@
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a href="http://www.jianshu.com/p/2eebd6ad284d" target="_blank" rel="external">Windows 10 和 ubuntu 共存安装参考</a></p>
 <h1 id="切换显卡"><a href="#切换显卡" class="headerlink" title="切换显卡"></a>切换显卡</h1><p>系统设置–&gt; 软件和更行 –&gt; 附加驱动（据说开源驱动性能虽然不强，但是稳定性好，我还是继续用开源驱动吧）</p>
 <h1 id="换主题"><a href="#换主题" class="headerlink" title="换主题"></a>换主题</h1><p>unity乳齿便秘的默认主题真的让我第一次开机看到它过后就想换掉！ubuntu14.04的主题很多不是扁平化的，如果电脑支持的话还是安装16.04比较好（该死的联想z485）</p>
-<p>首先安装unity-tweak-tool<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure></p>
+<p>首先安装unity-tweak-tool</p>
+<pre><code class="shell">sudo apt install unity-tweak-tool
+</code></pre>
 <p>然后推荐去<a href="http://www.noobslab.com/p/themes-icons.html" target="_blank" rel="external">noobSlab</a>，这个网站有很多个主题可以选择，安装方式也写出来了，配合unity-tweak-tool使用。个人喜欢Numix主题</p>
 <h1 id="安装搜狗输入法"><a href="#安装搜狗输入法" class="headerlink" title="安装搜狗输入法"></a>安装搜狗输入法</h1><p>去搜狗官网下载linux 版本搜狗，然后双击安装，完毕后。<br><br>系统设置–&gt;语言支持–&gt;键盘输入方式系统：fcitx–&gt;重启</p>
 <p>如果发现安装好后不能调出输入法面板，输入时只能看不到候选词，那么可以检查一下依赖sudo apt-get install -f</p>
-<p>如果使用一段时间过后搜狗输入法一直崩溃,可能是配置文件出问题了，可以选择删除配置文件，然后重启fctix<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">killall fctix</div><div class="line">rm -rf ~/.config/sogou-qimpanel</div><div class="line">rm -rf ~/.config/SogouPY.users</div><div class="line">rm -rf ~/.config/SogouPY</div><div class="line">fctix</div></pre></td></tr></table></figure></p>
-<h1 id="安装cairo-dock"><a href="#安装cairo-dock" class="headerlink" title="安装cairo-dock"></a>安装cairo-dock</h1><p>很实用的小工具（模拟mac的dock栏）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:cairo-dock-team/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install cairo-dock</div><div class="line"><span class="comment"># 启动命令 cairo-dock</span></div></pre></td></tr></table></figure></p>
+<p>如果使用一段时间过后搜狗输入法一直崩溃,可能是配置文件出问题了，可以选择删除配置文件，然后重启fctix</p>
+<pre><code class="sh">killall fctix
+rm -rf ~/.config/sogou-qimpanel
+rm -rf ~/.config/SogouPY.users
+rm -rf ~/.config/SogouPY
+fctix
+</code></pre>
+<h1 id="安装cairo-dock"><a href="#安装cairo-dock" class="headerlink" title="安装cairo-dock"></a>安装cairo-dock</h1><p>很实用的小工具（模拟mac的dock栏）</p>
+<pre><code class="bash">sudo add-apt-repository ppa:cairo-dock-team/ppa
+sudo apt-get update
+sudo apt-get install cairo-dock
+# 启动命令 cairo-dock
+</code></pre>
 <p>第一次打开会提示是否开启OpenGl，我的电脑上面测试开启过后会出问题，我选择不开启，如果以后想开启，可以使用cairo-dock -c（不开启） / cario-dock -o（开启OpenGl）切换</p>
-<h1 id="安装shadowsocks-qt5"><a href="#安装shadowsocks-qt5" class="headerlink" title="安装shadowsocks-qt5"></a>安装shadowsocks-qt5</h1><p>“纸飞机”这个东西还是必须要有的啊，没有这个东西感觉整个人都不好了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div><div class="line"><span class="comment">#启动命令 ss-qt5</span></div></pre></td></tr></table></figure></p>
-<h1 id="安装proxychain4"><a href="#安装proxychain4" class="headerlink" title="安装proxychain4"></a>安装proxychain4</h1><p>ss-qt5 是桌面级应用，尽管连上代理，命令行还是无法通过代理上网。proxychain 可以完美解决命令行不能使用代理的问题<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/rofl0r/proxychains-ng.git</div><div class="line"><span class="built_in">cd</span> proxychains-ng</div><div class="line">./configure</div><div class="line">(sudo) make &amp;&amp; make instal</div></pre></td></tr></table></figure></p>
-<p>安装完毕后，需要手动新建配置文件<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/proxychains.conf</div><div class="line"></div><div class="line"><span class="comment">#然后填入以下内容</span></div><div class="line">[ProxyList]</div><div class="line">socks5  127.0.0.1 1080</div></pre></td></tr></table></figure></p>
-<p>使用方法<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxychains (sudo) 需要执行的命令 ...</div></pre></td></tr></table></figure></p>
+<h1 id="安装shadowsocks-qt5"><a href="#安装shadowsocks-qt5" class="headerlink" title="安装shadowsocks-qt5"></a>安装shadowsocks-qt5</h1><p>“纸飞机”这个东西还是必须要有的啊，没有这个东西感觉整个人都不好了</p>
+<pre><code class="sh">sudo add-apt-repository ppa:hzwhuang/ss-qt5
+sudo apt-get update
+sudo apt-get install shadowsocks-qt5
+#启动命令 ss-qt5
+</code></pre>
+<h1 id="安装proxychain4"><a href="#安装proxychain4" class="headerlink" title="安装proxychain4"></a>安装proxychain4</h1><p>ss-qt5 是桌面级应用，尽管连上代理，命令行还是无法通过代理上网。proxychain 可以完美解决命令行不能使用代理的问题</p>
+<pre><code class="sh">git clone https://github.com/rofl0r/proxychains-ng.git
+cd proxychains-ng
+./configure
+(sudo) make &amp;&amp; make instal
+</code></pre>
+<p>安装完毕后，需要手动新建配置文件</p>
+<pre><code class="sh">sudo vi /etc/proxychains.conf
+
+#然后填入以下内容
+[ProxyList]
+socks5  127.0.0.1 1080
+</code></pre>
+<p>使用方法</p>
+<pre><code class="sh">proxychains (sudo) 需要执行的命令 ...
+</code></pre>
 <a id="more"></a>
-<h1 id="为firefox-和-chrome-安装flash"><a href="#为firefox-和-chrome-安装flash" class="headerlink" title="为firefox 和 chrome 安装flash"></a>为firefox 和 chrome 安装flash</h1><p>首先进入系统设置–&gt;软件和更行–&gt;其它软件–&gt;勾选Canonial合作伙伴，<br>然后运行命令<br><figure class="highlight zsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install adobe-flashplugin</div></pre></td></tr></table></figure></p>
-<h1 id="安装atom"><a href="#安装atom" class="headerlink" title="安装atom"></a>安装atom</h1><p>atom 是一款非常优秀的编辑器，不解释。由于官方网站没有提供32bit deb包（64bit无视），因此需要自行通过ppa安装<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:webupd8team/atom  </div><div class="line">sudo apt-get update  </div><div class="line">sudo apt-get install atom</div></pre></td></tr></table></figure></p>
-<h1 id="安装nodejs-最新版（较新版）"><a href="#安装nodejs-最新版（较新版）" class="headerlink" title="安装nodejs 最新版（较新版）"></a>安装nodejs 最新版（较新版）</h1><p>到<a href="https://nodejs.org/download/release/v7.5.0/" target="_blank" rel="external">https://nodejs.org/download/release/v7.5.0/</a> 去下载最新的nodejs包<br>我这里选择node-v7.5.0-linux-x86.tar.gz<br>下载下来过后，执行<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">tar -zxvf node-v7.5.0-linux-x86.tar.gz</div><div class="line">cp node-v7.5.0-linux-x86 /opt/node-v7.5.0</div><div class="line">sudo ln <span class="_">-s</span> /opt/node-v7.5.0/bin/node /usr/<span class="built_in">local</span>/bin/node</div><div class="line">sudo ln <span class="_">-s</span> /opt/node-v7.5.0/bin/npm /usr/<span class="built_in">local</span>/bin/npm</div></pre></td></tr></table></figure></p>
-<p>现在可以使用node 和npm命令了，接下载就是配置npm 全局安装路径了（可以不用配置）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm config <span class="built_in">set</span> prefix <span class="string">"/home/johnny/.npm-global/"</span></div><div class="line"><span class="comment"># 使用npm config get prefix 可以查看全局安装路径</span></div></pre></td></tr></table></figure></p>
-<p>还没完，这时候npm install xxx -g 过后会发现执行xxx命令无效。比如说安装hexo， npm install hexo -g成功后，执行hexo却提示command not found。<br>配置一下环境变量就可以解决这个问题<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"export PATH=<span class="variable">$(npm prefix -g)</span>/bin:<span class="variable">$PATH</span>"</span> &gt;&gt; ~/.bashrc &amp;&amp; <span class="built_in">source</span> ~/.bashrc</div></pre></td></tr></table></figure></p>
-<h1 id="安装oracle-jdk"><a href="#安装oracle-jdk" class="headerlink" title="安装oracle-jdk"></a>安装oracle-jdk</h1><p>首先<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">下载jdk</a><br>然后解压,我将他解压到了~/jdk1.8.0_121/,如果只是当前用户用的话，直接改.bashrc文件中配置环境变量就好了，不过建议写到/etc/profile中<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">vi ~/.bashrc</div><div class="line"><span class="comment">#在最末尾加入</span></div><div class="line"><span class="built_in">export</span> JAVA_HOME=/home/johnny/jdk1.8.0_121  <span class="comment">## 这里要注意目录要换成自己解压的jdk 目录</span></div><div class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre  </div><div class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib  </div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></div></pre></td></tr></table></figure></p>
-<p>然后<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> ~/.bashrc</div><div class="line">java -version 就可以看到java版本已经变成安装的版本了</div></pre></td></tr></table></figure></p>
+<h1 id="为firefox-和-chrome-安装flash"><a href="#为firefox-和-chrome-安装flash" class="headerlink" title="为firefox 和 chrome 安装flash"></a>为firefox 和 chrome 安装flash</h1><p>首先进入系统设置–&gt;软件和更行–&gt;其它软件–&gt;勾选Canonial合作伙伴，<br>然后运行命令</p>
+<pre><code class="zsh">sudo apt install adobe-flashplugin
+</code></pre>
+<h1 id="安装atom"><a href="#安装atom" class="headerlink" title="安装atom"></a>安装atom</h1><p>atom 是一款非常优秀的编辑器，不解释。由于官方网站没有提供32bit deb包（64bit无视），因此需要自行通过ppa安装</p>
+<pre><code class="sh">sudo add-apt-repository ppa:webupd8team/atom  
+sudo apt-get update  
+sudo apt-get install atom
+</code></pre>
+<h1 id="安装nodejs-最新版（较新版）"><a href="#安装nodejs-最新版（较新版）" class="headerlink" title="安装nodejs 最新版（较新版）"></a>安装nodejs 最新版（较新版）</h1><p>到<a href="https://nodejs.org/download/release/v7.5.0/" target="_blank" rel="external">https://nodejs.org/download/release/v7.5.0/</a> 去下载最新的nodejs包<br>我这里选择node-v7.5.0-linux-x86.tar.gz<br>下载下来过后，执行</p>
+<pre><code class="sh">tar -zxvf node-v7.5.0-linux-x86.tar.gz
+cp node-v7.5.0-linux-x86 /opt/node-v7.5.0
+sudo ln -s /opt/node-v7.5.0/bin/node /usr/local/bin/node
+sudo ln -s /opt/node-v7.5.0/bin/npm /usr/local/bin/npm
+</code></pre>
+<p>现在可以使用node 和npm命令了，接下载就是配置npm 全局安装路径了（可以不用配置）</p>
+<pre><code class="sh">npm config set prefix &quot;/home/johnny/.npm-global/&quot;
+# 使用npm config get prefix 可以查看全局安装路径
+</code></pre>
+<p>还没完，这时候npm install xxx -g 过后会发现执行xxx命令无效。比如说安装hexo， npm install hexo -g成功后，执行hexo却提示command not found。<br>配置一下环境变量就可以解决这个问题</p>
+<pre><code class="sh">echo -e &quot;export PATH=$(npm prefix -g)/bin:$PATH&quot; &gt;&gt; ~/.bashrc &amp;&amp; source ~/.bashrc
+</code></pre>
+<h1 id="安装oracle-jdk"><a href="#安装oracle-jdk" class="headerlink" title="安装oracle-jdk"></a>安装oracle-jdk</h1><p>首先<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">下载jdk</a><br>然后解压,我将他解压到了~/jdk1.8.0_121/,如果只是当前用户用的话，直接改.bashrc文件中配置环境变量就好了，不过建议写到/etc/profile中</p>
+<pre><code class="sh">vi ~/.bashrc
+#在最末尾加入
+export JAVA_HOME=/home/johnny/jdk1.8.0_121  ## 这里要注意目录要换成自己解压的jdk 目录
+export JRE_HOME=${JAVA_HOME}/jre  
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
+export PATH=${JAVA_HOME}/bin:$PATH
+</code></pre>
+<p>然后</p>
+<pre><code class="sh">source ~/.bashrc
+java -version 就可以看到java版本已经变成安装的版本了
+</code></pre>
 <h1 id="安卓开发环境搭建"><a href="#安卓开发环境搭建" class="headerlink" title="安卓开发环境搭建"></a>安卓开发环境搭建</h1><p><a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">https://developer.android.com/studio/index.html</a><br>下载好sdk，解压到自己想解压的目录，我这里解压到/home/johnny/sdk<br>然后配置环境变量</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">vi ~/.bashrc</div><div class="line"><span class="comment">#在最末尾加入</span></div><div class="line"><span class="built_in">export</span> ANDROID_HOME=/home/johnny/Johnny/sdk</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;PATH&#125;</span>:<span class="variable">$&#123;ANDROID_HOME&#125;</span>/tools</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;PATH&#125;</span>:<span class="variable">$&#123;ANDROID_HOME&#125;</span>/platform-tools</div></pre></td></tr></table></figure>
+<pre><code class="sh">vi ~/.bashrc
+#在最末尾加入
+export ANDROID_HOME=/home/johnny/Johnny/sdk
+export PATH=${PATH}:${ANDROID_HOME}/tools
+export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+</code></pre>
 <p>现在执行android 就可以打开sdk 管理器了，下载自己需要的package就行了。<br>但是由于现在的sdk版本高了，默认是64位，所以32位ubuntu在运行adb命令时就会报错。file adb 也可以看到adb是64位的。<br>解决方案就是将platform-tools 替换成<a href="http://pan.baidu.com/s/1cKj9QQ" target="_blank" rel="external">32位的老版本</a>，替换后就可以成功运行adb命令了</p>
 <h1 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h1><p><img src="http://7xoilf.com1.z0.glb.clouddn.com/2017-02-18%2001:20:43%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
 
