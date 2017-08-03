@@ -380,147 +380,25 @@
         <h3 id="The-prop-history-is-marked-as-required-in-Router-…"><a href="#The-prop-history-is-marked-as-required-in-Router-…" class="headerlink" title="The prop `history` is marked as required in `Router` …"></a>The prop `history` is marked as required in `Router` …</h3><pre style="color:red">The prop `history` is marked as required in `Router`, but its value is `undefined`. in Router</pre>
 
 <h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法:"></a>解决办法:</h4><p>出现这个报错是因为我用npm 安装的是react-router v4，react-router v4不再使用<code>&lt;Router history={hashHistory}&gt;</code> 这种方式定义history 实现类型。而是直接通过组件如BrowserRouter,HashRouter等</p>
-<pre><code class="js">import {Router, Route, hashHistory} from &#39;react-router&#39;;
-&lt;Router history={hashHistory}&gt;
-  &lt;Route path=&quot;/&quot; component={Main}&gt;&lt;/Route&gt;
-&lt;/Router&gt;
-
-===&gt;
-
-import {BrowserRouter as Router, Route} from &#39;react-router-dom&#39;;
-&lt;Router&gt;
-  &lt;Route path=&quot;/&quot; component={Main}&gt;&lt;/Route&gt;
-&lt;/Router&gt;
-
-或者
-
-
-&lt;HashRouter&gt;
-  &lt;Route path=&quot;/&quot; component={Main}&gt;&lt;/Route&gt;
-&lt;/HashRouter&gt;
-</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;Router, Route, hashHistory&#125; <span class="keyword">from</span> <span class="string">'react-router'</span>;</div><div class="line">&lt;Router history=&#123;hashHistory&#125;&gt;</div><div class="line">  &lt;Route path=<span class="string">"/"</span> component=&#123;Main&#125;&gt;&lt;/Route&gt;</div><div class="line">&lt;<span class="regexp">/Router&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">===&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">import &#123;BrowserRouter as Router, Route&#125; from 'react-router-dom';</span></div><div class="line"><span class="regexp">&lt;Router&gt;</span></div><div class="line"><span class="regexp">  &lt;Route path="/</span><span class="string">" component=&#123;Main&#125;&gt;&lt;/Route&gt;</span></div><div class="line"><span class="string">&lt;/Router&gt;</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">或者</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">&lt;HashRouter&gt;</span></div><div class="line"><span class="string">  &lt;Route path="</span>/<span class="string">" component=&#123;Main&#125;&gt;&lt;/Route&gt;</span></div><div class="line"><span class="string">&lt;/HashRouter&gt;</span></div></pre></td></tr></table></figure>
 <h3 id="A-‘Router’-may-have-only-one-child-element"><a href="#A-‘Router’-may-have-only-one-child-element" class="headerlink" title="A ‘Router’ may have only one child element"></a>A ‘Router’ may have only one child element</h3><p>react-router v4 在<router> 下面只能放一个层级，类似与react 中render 不能有两个平级div一样</router></p>
-<h4 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h4><p>用div 或者<a href="https://reacttraining.com/react-router/web/api/Switch" target="_blank" rel="external">Switch</a> 包裹所有Route</p>
-<pre><code class="js">&lt;Router&gt;
-  &lt;div&gt;
-    &lt;Route component={ComponentHeader}&gt;&lt;/Route&gt;
-    &lt;Switch&gt;
-      &lt;Route component={ComponentFooter} path=&#39;/footer/:id&#39;&gt;&lt;/Route&gt;
-    &lt;/Switch&gt;
-  &lt;/div&gt;
-&lt;/Router&gt;
-</code></pre>
+<h4 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h4><p>用div 或者<a href="https://reacttraining.com/react-router/web/api/Switch" target="_blank" rel="external">Switch</a> 包裹所有Route<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;Router&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;Route component=&#123;ComponentHeader&#125;&gt;&lt;/Route&gt;</div><div class="line">    &lt;Switch&gt;</div><div class="line">      &lt;Route component=&#123;ComponentFooter&#125; path=<span class="string">'/footer/:id'</span>&gt;&lt;/Route&gt;</div><div class="line">    &lt;<span class="regexp">/Switch&gt;</span></div><div class="line"><span class="regexp">  &lt;/</span>div&gt;</div><div class="line">&lt;<span class="regexp">/Router&gt;</span></div></pre></td></tr></table></figure></p>
 <h3 id="webpack-配置问题"><a href="#webpack-配置问题" class="headerlink" title="webpack 配置问题"></a>webpack 配置问题</h3><p>v4 中引入<code>&lt;BrowserRouter&gt;</code> 组件, 而BrowserRouter使用的是HTML5 的history api, 在使用webpack-dev-server时会遇到</p>
 <pre style="color:red">GET http://localhost:8080/xxx/xxx 404 (Not Found)</pre>
 
-<h4 id="解决办法：-1"><a href="#解决办法：-1" class="headerlink" title="解决办法："></a>解决办法：</h4><p>webpack.config.js中加入</p>
-<pre><code class="js">devServer: {
-  apiHistoryFallback: true,
-}
-output: {
-  ...,
-  publicPath: &#39;/&#39;,
-}
-</code></pre>
+<h4 id="解决办法：-1"><a href="#解决办法：-1" class="headerlink" title="解决办法："></a>解决办法：</h4><p>webpack.config.js中加入<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">  apiHistoryFallback: <span class="literal">true</span>,</div><div class="line">&#125;</div><div class="line">output: &#123;</div><div class="line">  ...,</div><div class="line">  publicPath: <span class="string">'/'</span>,</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>然后将index.html中的bundle.js改为/bundle.js</p>
-<pre><code class="js">&lt;script src=&#39;bundle.js&#39;&gt;&lt;/script&gt; ===&gt; &lt;script src=&#39;/bundle.js&#39;&gt;&lt;/script&gt;
-</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=<span class="string">'bundle.js'</span>&gt;&lt;/script&gt; ===&gt; &lt;script src='/bundle.js'&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
 <p>参考：<a href="https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url" target="_blank" rel="external">https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url</a></p>
 <a id="more"></a>
 <h3 id="question"><a href="#question" class="headerlink" title="question"></a>question</h3><p><a href="https://segmentfault.com/q/1010000010432084?_ea=2287891" target="_blank" rel="external">https://segmentfault.com/q/1010000010432084?_ea=2287891</a></p>
 <h3 id="静态路由和动态路由"><a href="#静态路由和动态路由" class="headerlink" title="静态路由和动态路由"></a>静态路由和动态路由</h3><p><a href="https://reacttraining.com/react-router/web/guides/philosophy" target="_blank" rel="external">https://reacttraining.com/react-router/web/guides/philosophy</a></p>
-<h3 id="react-router-传参"><a href="#react-router-传参" class="headerlink" title="react-router 传参"></a>react-router 传参</h3><p>使用/xxx/:someparam 的形式书写Route 的path属性，如：</p>
-<pre><code class="js">&lt;Route component={ComponentFooter} path=&#39;/footer/:id&#39;&gt;&lt;/Route&gt;
-</code></pre>
+<h3 id="react-router-传参"><a href="#react-router-传参" class="headerlink" title="react-router 传参"></a>react-router 传参</h3><p>使用/xxx/:someparam 的形式书写Route 的path属性，如：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Route component=&#123;ComponentFooter&#125; path=<span class="string">'/footer/:id'</span>&gt;&lt;/Route&gt;</div></pre></td></tr></table></figure></p>
 <p>然后Link 的to属相加上参数即可，如：</p>
-<pre><code class="js">&lt;Link to=&#39;/footer/1234&#39;&gt;Ant design demo 1&lt;/Link&gt;
-</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Link to=<span class="string">'/footer/1234'</span>&gt;Ant design demo <span class="number">1</span>&lt;<span class="regexp">/Link&gt;</span></div></pre></td></tr></table></figure>
 <p>最后在ComponentFooter中通过this.props.match.params访问，如：</p>
-<pre><code class="js">&lt;footer className={footerCss.miniFooter}&gt;
-  &lt;em&gt;id:{this.props.match.params.id}&lt;/em&gt;
-&lt;/footer&gt;
-</code></pre>
-<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><pre><code class="js">/**
- * js|
- *   |root.js
- */
-import React from &#39;react&#39;;
-import ReactDOM from &#39;react-dom&#39;;
-import ComponentHeader from &#39;./components/header&#39;;
-// import ComponentFooter from &#39;./components/footer&#39;;
-var footerCss = require(&#39;../css/footer.css&#39;);
-
-import {BrowserRouter as Router, Route, Switch, Link} from &#39;react-router-dom&#39;;
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      &lt;Router&gt;
-        &lt;div&gt;
-          &lt;Route component={ComponentHeader}&gt;&lt;/Route&gt;
-          &lt;Switch&gt;
-            &lt;Route component={ComponentFooter} path=&#39;/footer/:id&#39;&gt;&lt;/Route&gt;
-          &lt;/Switch&gt;
-        &lt;/div&gt;
-      &lt;/Router&gt;
-    )
-  }
-}
-
-class ComponentFooter extends React.Component {
-  constructor() {
-    super();
-  }
-  render() {
-    return (
-      &lt;footer className={footerCss.miniFooter}&gt;
-        &lt;em&gt;id:{this.props.match.params.id}&lt;/em&gt;
-        &lt;h1&gt;&lt;Link to={`${this.props.match.url}/cr`}&gt;footer&lt;/Link&gt;&lt;/h1&gt;
-        &lt;Route component={CopyRight} path={`${this.props.match.url}/cr`}&gt;&lt;/Route&gt;
-      &lt;/footer&gt;
-    )
-  }
-}
-class CopyRight extends React.Component {
-  constructor() {
-    super();
-  }
-  render() {
-    return (
-        &lt;a&gt;copyright&lt;/a&gt;
-    )
-  }
-}
-ReactDOM.render(
-  &lt;App /&gt;,document.getElementById(&#39;root&#39;)
-)
-
-/**
- * js|
- *   |components|
- *              |header.js
- */
-
-import React from &#39;react&#39;;
-import {Link} from &#39;react-router-dom&#39;;
-var headerCss = require(&#39;../../css/header.css&#39;);
-export default class Header extends React.Component {
-  constructor() {
-    super();
-  }
-  render() {
-    console.log(headerCss);
-    return (
-      &lt;header className={headerCss.bgheader}&gt;
-        &lt;h1&gt;&lt;Link to=&#39;/footer/1234&#39;&gt;Ant design demo 1&lt;/Link&gt;&lt;/h1&gt;
-      &lt;/header&gt;
-    )
-  }
-}
-</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;footer className=&#123;footerCss.miniFooter&#125;&gt;</div><div class="line">  &lt;em&gt;id:&#123;<span class="keyword">this</span>.props.match.params.id&#125;&lt;<span class="regexp">/em&gt;</span></div><div class="line"><span class="regexp">&lt;/</span>footer&gt;</div></pre></td></tr></table></figure>
+<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * js|</span></div><div class="line"><span class="comment"> *   |root.js</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</div><div class="line"><span class="keyword">import</span> ComponentHeader <span class="keyword">from</span> <span class="string">'./components/header'</span>;</div><div class="line"><span class="comment">// import ComponentFooter from './components/footer';</span></div><div class="line"><span class="keyword">var</span> footerCss = <span class="built_in">require</span>(<span class="string">'../css/footer.css'</span>);</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123;BrowserRouter <span class="keyword">as</span> Router, Route, Switch, Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;Router&gt;</div><div class="line">        &lt;div&gt;</div><div class="line">          &lt;Route component=&#123;ComponentHeader&#125;&gt;&lt;/Route&gt;</div><div class="line">          &lt;Switch&gt;</div><div class="line">            &lt;Route component=&#123;ComponentFooter&#125; path=<span class="string">'/footer/:id'</span>&gt;&lt;/Route&gt;</div><div class="line">          &lt;<span class="regexp">/Switch&gt;</span></div><div class="line"><span class="regexp">        &lt;/</span>div&gt;</div><div class="line">      &lt;<span class="regexp">/Router&gt;</span></div><div class="line"><span class="regexp">    )</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">class ComponentFooter extends React.Component &#123;</span></div><div class="line"><span class="regexp">  constructor() &#123;</span></div><div class="line"><span class="regexp">    super();</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">  render() &#123;</span></div><div class="line"><span class="regexp">    return (</span></div><div class="line"><span class="regexp">      &lt;footer className=&#123;footerCss.miniFooter&#125;&gt;</span></div><div class="line"><span class="regexp">        &lt;em&gt;id:&#123;this.props.match.params.id&#125;&lt;/</span>em&gt;</div><div class="line">        &lt;h1&gt;&lt;Link to=&#123;`$&#123;this.props.match.url&#125;/cr`&#125;&gt;footer&lt;/Link&gt;&lt;/h1&gt;</div><div class="line">        &lt;Route component=&#123;CopyRight&#125; path=&#123;<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.props.match.url&#125;</span>/cr`</span>&#125;&gt;&lt;/Route&gt;</div><div class="line">      &lt;<span class="regexp">/footer&gt;</span></div><div class="line"><span class="regexp">    )</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div><div class="line"><span class="regexp">class CopyRight extends React.Component &#123;</span></div><div class="line"><span class="regexp">  constructor() &#123;</span></div><div class="line"><span class="regexp">    super();</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">  render() &#123;</span></div><div class="line"><span class="regexp">    return (</span></div><div class="line"><span class="regexp">        &lt;a&gt;copyright&lt;/</span>a&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">ReactDOM.render(</div><div class="line">  &lt;App /&gt;,<span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * js|</span></div><div class="line"><span class="comment"> *   |components|</span></div><div class="line"><span class="comment"> *              |header.js</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</div><div class="line"><span class="keyword">var</span> headerCss = <span class="built_in">require</span>(<span class="string">'../../css/header.css'</span>);</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Header</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">super</span>();</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="built_in">console</span>.log(headerCss);</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;header className=&#123;headerCss.bgheader&#125;&gt;</div><div class="line">        &lt;h1&gt;&lt;Link to='/footer/1234'&gt;Ant design demo 1&lt;/Link&gt;&lt;/h1&gt;</div><div class="line">      &lt;<span class="regexp">/header&gt;</span></div><div class="line"><span class="regexp">    )</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div></pre></td></tr></table></figure>
 
       
     </div>
