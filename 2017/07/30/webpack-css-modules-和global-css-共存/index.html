@@ -372,12 +372,109 @@
 
       
         <p>在使用ant design 时候遇到ant design css 和自定义的css 冲突的问题。<br>./node_modules/ 中ant desing 的css 文件作为全局的css 和 自定义的css_modules 会发生冲突。解决办法是将/node_modules/中的css与自定义的css 分开处理。即对css_modules使用<code>exclude:/node_modules/</code>，对node_modules中的css使用<code>include:path.resolve(__dirname,&#39;node_modules&#39;)</code></p>
-<p>最开始定义的webpack.config.js 的处理方式：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  context: __dirname+<span class="string">'/src'</span>,</div><div class="line">  entry: <span class="string">"./js/index.js"</span>,</div><div class="line">  <span class="built_in">module</span>: &#123;</div><div class="line">    rules: [</div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.js?$/</span>,</div><div class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">        use: &#123;</div><div class="line">          loader: <span class="string">'babel-loader'</span>,</div><div class="line">          options: &#123;</div><div class="line">            presets: [<span class="string">'react'</span>,<span class="string">'es2015'</span>],</div><div class="line">            <span class="comment">// ant design  babel-plugin-import</span></div><div class="line">            plugins: [[<span class="string">'import'</span>,&#123;<span class="string">'libraryName'</span>:<span class="string">'antd'</span>,<span class="string">'style'</span>:<span class="string">'css'</span>&#125;]]</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">        use: [</div><div class="line">          &#123;<span class="attr">loader</span>:<span class="string">'style-loader'</span>&#125;,</div><div class="line">          &#123;</div><div class="line">            loader: <span class="string">'css-loader'</span>,</div><div class="line">            options: &#123;</div><div class="line">              modules: <span class="literal">true</span>,</div><div class="line">              loacalIdentName: <span class="string">'[name]__[local]_[hash:base64:5]'</span>,</div><div class="line">              sourceMap: <span class="literal">true</span>,</div><div class="line">              importLoaders: <span class="number">1</span></div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        ]</div><div class="line">      &#125;,  </div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  output: &#123;</div><div class="line">    path: __dirname+<span class="string">'/src'</span>,</div><div class="line">    filename: <span class="string">'bundle.js'</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最开始定义的webpack.config.js 的处理方式：</p>
+<pre><code class="js">var webpack = require(&#39;webpack&#39;);
+var path = require(&#39;path&#39;);
+module.exports = {
+  context: __dirname+&#39;/src&#39;,
+  entry: &quot;./js/index.js&quot;,
+  module: {
+    rules: [
+      {
+        test: /\.js?$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: &#39;babel-loader&#39;,
+          options: {
+            presets: [&#39;react&#39;,&#39;es2015&#39;],
+            // ant design  babel-plugin-import
+            plugins: [[&#39;import&#39;,{&#39;libraryName&#39;:&#39;antd&#39;,&#39;style&#39;:&#39;css&#39;}]]
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        exclude: /(node_modules)/,
+        use: [
+          {loader:&#39;style-loader&#39;},
+          {
+            loader: &#39;css-loader&#39;,
+            options: {
+              modules: true,
+              loacalIdentName: &#39;[name]__[local]_[hash:base64:5]&#39;,
+              sourceMap: true,
+              importLoaders: 1
+            }
+          }
+        ]
+      },  
+    ]
+  },
+  output: {
+    path: __dirname+&#39;/src&#39;,
+    filename: &#39;bundle.js&#39;
+  }
+}
+</code></pre>
 <p>报错：</p>
 <blockquote>
 <p>ERROR in ./node_modules/antd/lib/button/style/index.css<br>Module parse failed: /home/johnny/Project/react/demo3/node_modules/antd/lib/button/style/index.css Unexpected token (1:0)<br>You may need an appropriate loader to handle this file type.</p>
 </blockquote>
-<p>找到解决办法是，分别处理node_modules(ant design)中的css和css_modules：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  context: __dirname+<span class="string">'/src'</span>,</div><div class="line">  entry: <span class="string">"./js/index.js"</span>,</div><div class="line">  <span class="built_in">module</span>: &#123;</div><div class="line">    rules: [</div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.js?$/</span>,</div><div class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">        use: &#123;</div><div class="line">          loader: <span class="string">'babel-loader'</span>,</div><div class="line">          options: &#123;</div><div class="line">            presets: [<span class="string">'react'</span>,<span class="string">'es2015'</span>],</div><div class="line">            plugins: [[<span class="string">'import'</span>,&#123;<span class="string">'libraryName'</span>:<span class="string">'antd'</span>,<span class="string">'style'</span>:<span class="string">'css'</span>&#125;]]</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      <span class="comment">// css_modules 处理方式</span></div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">        use: [</div><div class="line">          &#123;<span class="attr">loader</span>:<span class="string">'style-loader'</span>&#125;,</div><div class="line">          &#123;</div><div class="line">            loader: <span class="string">'css-loader'</span>,</div><div class="line">            options: &#123;</div><div class="line">              modules: <span class="literal">true</span>,</div><div class="line">              loacalIdentName: <span class="string">'[name]__[local]_[hash:base64:5]'</span>,</div><div class="line">              sourceMap: <span class="literal">true</span>,</div><div class="line">              importLoaders: <span class="number">1</span></div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      <span class="comment">// ant design 处理方式</span></div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        include: path.resolve(__dirname, <span class="string">'node_modules'</span>),</div><div class="line">        use: [</div><div class="line">          &#123;<span class="attr">loader</span>:<span class="string">'style-loader'</span>&#125;,</div><div class="line">          &#123;</div><div class="line">            loader:<span class="string">'css-loader'</span>,</div><div class="line">          &#125;</div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  output: &#123;</div><div class="line">    path: __dirname+<span class="string">'/src'</span>,</div><div class="line">    filename: <span class="string">'bundle.js'</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>找到解决办法是，分别处理node_modules(ant design)中的css和css_modules：</p>
+<pre><code class="js">var webpack = require(&#39;webpack&#39;);
+var path = require(&#39;path&#39;);
+module.exports = {
+  context: __dirname+&#39;/src&#39;,
+  entry: &quot;./js/index.js&quot;,
+  module: {
+    rules: [
+      {
+        test: /\.js?$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: &#39;babel-loader&#39;,
+          options: {
+            presets: [&#39;react&#39;,&#39;es2015&#39;],
+            plugins: [[&#39;import&#39;,{&#39;libraryName&#39;:&#39;antd&#39;,&#39;style&#39;:&#39;css&#39;}]]
+          }
+        }
+      },
+      // css_modules 处理方式
+      {
+        test: /\.css$/,
+        exclude: /(node_modules)/,
+        use: [
+          {loader:&#39;style-loader&#39;},
+          {
+            loader: &#39;css-loader&#39;,
+            options: {
+              modules: true,
+              loacalIdentName: &#39;[name]__[local]_[hash:base64:5]&#39;,
+              sourceMap: true,
+              importLoaders: 1
+            }
+          }
+        ]
+      },
+      // ant design 处理方式
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, &#39;node_modules&#39;),
+        use: [
+          {loader:&#39;style-loader&#39;},
+          {
+            loader:&#39;css-loader&#39;,
+          }
+        ]
+      },
+    ]
+  },
+  output: {
+    path: __dirname+&#39;/src&#39;,
+    filename: &#39;bundle.js&#39;
+  }
+}
+</code></pre>
 
       
     </div>
@@ -689,12 +786,5 @@
   <script src="/js/src/algolia-search.js?v=5.1.0"></script>
 
 
-<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
-<script type="text/javascript">
-$(window).load(function(){
-   $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
-   prettyPrint();
- })    
-</script>
 </body>
 </html>

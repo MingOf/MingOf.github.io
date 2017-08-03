@@ -51,4 +51,3 @@ PR['registerLangHandler'](
          [PR['PR_PUNCTUATION'], /^[^\w\t\n\r \xA0()\"\\\';]+/]
         ]),
     ['apollo', 'agc', 'aea']);
-</p>

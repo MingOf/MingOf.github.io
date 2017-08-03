@@ -57,4 +57,3 @@ PR['registerLangHandler'](
 	    [PR['PR_STRING'], /^`.+`/]
         ]),
     ['r', 's', 'R', 'S', 'Splus']);
-</|></=|>

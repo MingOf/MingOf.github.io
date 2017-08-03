@@ -158,4 +158,3 @@ PR['registerLangHandler'](
          [PR['PR_STRING'], /^[^\)\"\']+/]
         ]),
     ['css-str']);
-</script>

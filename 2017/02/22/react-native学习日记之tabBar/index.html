@@ -88,18 +88,39 @@
 
 
 <meta name="description" content="IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能react-native-tab-view
-基本用法如下12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626">
+基本用法如下
+import React, { Component } from &amp;#39;react&amp;#39;;
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
+} from &amp;#39;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="react-native学习日记之tabBar">
 <meta property="og:url" content="http://yoursite.com/2017/02/22/react-native学习日记之tabBar/index.html">
 <meta property="og:site_name" content="爱凉拌菜真是太好了">
 <meta property="og:description" content="IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能react-native-tab-view
-基本用法如下12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626">
+基本用法如下
+import React, { Component } from &amp;#39;react&amp;#39;;
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
+} from &amp;#39;">
 <meta property="og:updated_time" content="2017-02-22T03:49:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react-native学习日记之tabBar">
 <meta name="twitter:description" content="IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能react-native-tab-view
-基本用法如下12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626">
+基本用法如下
+import React, { Component } from &amp;#39;react&amp;#39;;
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
+} from &amp;#39;">
 
 
 
@@ -375,7 +396,79 @@
 
       
         <p>IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能<br><a href="https://github.com/react-native-community/react-native-tab-view" target="_blank" rel="external">react-native-tab-view</a></p>
-<p>基本用法如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"><span class="keyword">import</span> &#123;TabViewAnimated,TabBar&#125; <span class="keyword">from</span> <span class="string">'react-native-tab-view'</span>;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">tabView</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  state = &#123;</div><div class="line">    index: <span class="number">0</span>,</div><div class="line">    routes: [</div><div class="line">      &#123; <span class="attr">key</span>: <span class="string">'1'</span>, <span class="attr">title</span>: <span class="string">'First'</span> &#125;,</div><div class="line">      &#123; <span class="attr">key</span>: <span class="string">'2'</span>, <span class="attr">title</span>: <span class="string">'Second'</span> &#125;,</div><div class="line">    ],</div><div class="line">  &#125;;</div><div class="line">  _handleChangeTab = <span class="function">(<span class="params">index</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">this</span>.setState(&#123;index&#125;);</div><div class="line">  &#125;;</div><div class="line">  _renderHeader = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(TabBar);</div><div class="line">    <span class="keyword">return</span> &lt;TabBar &#123;...props&#125; style=&#123;styles.tabBar&#125;/&gt;</div><div class="line">  &#125;;</div><div class="line">  _renderFooter = (props) =&gt; &#123;</div><div class="line">    console.log(TabBar);</div><div class="line">    return &lt;TabBar &#123;...props&#125; style=&#123;styles.tabBar&#125; indicatorStyle=&#123;&#123;backgroundColor:'transparent'&#125;&#125;/&gt;</div><div class="line">  &#125;;</div><div class="line">  _renderScene = (&#123;route&#125;) =&gt; &#123;</div><div class="line">    switch (route.key) &#123;</div><div class="line">      case '1':</div><div class="line">        return &lt;View style=&#123;[styles.page,&#123;backgroundColor:'#ff4081'&#125;]&#125;&gt;</div><div class="line">                  &lt;Text&gt;</div><div class="line">                    第一页</div><div class="line">                  &lt;/Text&gt;</div><div class="line">               &lt;/View&gt;</div><div class="line">      case "2":</div><div class="line">        return &lt;View style=&#123;[styles.page,&#123;backgroundColor:'#673ab7'&#125;]&#125;&gt;</div><div class="line">                  &lt;Text&gt;</div><div class="line">                    第二页</div><div class="line">                  &lt;/Text&gt;</div><div class="line">               &lt;/View&gt;</div><div class="line">      default:</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">  render() &#123;</div><div class="line">    return (</div><div class="line">      &lt;TabViewAnimated</div><div class="line">        style=&#123;styles.container&#125;</div><div class="line">        navigationState=&#123;this.state&#125;</div><div class="line">        renderScene=&#123;this._renderScene&#125;</div><div class="line">        renderHeader=&#123;this._renderHeader&#125;</div><div class="line">        // renderFooter=&#123;this._renderFooter&#125;</div><div class="line">        onRequestChangeTab=&#123;this._handleChangeTab&#125;</div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const styles = StyleSheet.create(&#123;</div><div class="line">  container: &#123;</div><div class="line">    flex: 1,</div><div class="line">  &#125;,</div><div class="line">  page: &#123;</div><div class="line">    flex: 1,</div><div class="line">    alignItems: 'center',</div><div class="line">    justifyContent: 'center',</div><div class="line">  &#125;,</div><div class="line">&#125;);</div><div class="line"></div><div class="line">AppRegistry.registerComponent('tabView', () =&gt; tabView);</div></pre></td></tr></table></figure></p>
+<p>基本用法如下</p>
+<pre><code class="js">import React, { Component } from &#39;react&#39;;
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
+} from &#39;react-native&#39;;
+import {TabViewAnimated,TabBar} from &#39;react-native-tab-view&#39;;
+export default class tabView extends Component {
+  state = {
+    index: 0,
+    routes: [
+      { key: &#39;1&#39;, title: &#39;First&#39; },
+      { key: &#39;2&#39;, title: &#39;Second&#39; },
+    ],
+  };
+  _handleChangeTab = (index) =&gt; {
+    this.setState({index});
+  };
+  _renderHeader = (props) =&gt; {
+    console.log(TabBar);
+    return &lt;TabBar {...props} style={styles.tabBar}/&gt;
+  };
+  _renderFooter = (props) =&gt; {
+    console.log(TabBar);
+    return &lt;TabBar {...props} style={styles.tabBar} indicatorStyle={{backgroundColor:'transparent'}}/&gt;
+  };
+  _renderScene = ({route}) =&gt; {
+    switch (route.key) {
+      case &#39;1&#39;:
+        return &lt;View style={[styles.page,{backgroundColor:&#39;#ff4081&#39;}]}&gt;
+                  &lt;Text&gt;
+                    第一页
+                  &lt;/Text&gt;
+               &lt;/View&gt;
+      case &quot;2&quot;:
+        return &lt;View style={[styles.page,{backgroundColor:&#39;#673ab7&#39;}]}&gt;
+                  &lt;Text&gt;
+                    第二页
+                  &lt;/Text&gt;
+               &lt;/View&gt;
+      default:
+        return null;
+    }
+  };
+  render() {
+    return (
+      &lt;TabViewAnimated
+        style={styles.container}
+        navigationState={this.state}
+        renderScene={this._renderScene}
+        renderHeader={this._renderHeader}
+        // renderFooter={this._renderFooter}
+        onRequestChangeTab={this._handleChangeTab}
+        /&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  page: {
+    flex: 1,
+    alignItems: &#39;center&#39;,
+    justifyContent: &#39;center&#39;,
+  },
+});
+
+AppRegistry.registerComponent(&#39;tabView&#39;, () =&gt; tabView);
+</code></pre>
 
       
     </div>
@@ -687,12 +780,5 @@
   <script src="/js/src/algolia-search.js?v=5.1.0"></script>
 
 
-<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
-<script type="text/javascript">
-$(window).load(function(){
-   $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
-   prettyPrint();
- })    
-</script>
 </body>
 </html>
