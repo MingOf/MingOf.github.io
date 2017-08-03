@@ -136,6 +136,7 @@ dataBlobdataBlob是一个数据结构（通常是一个对象），包含了渲�
 
 
 
+<link href="/js/google-code-prettify/tomorrow-night-bright.min.css" type="text/css" rel="stylesheet" />
 
   <title> react-native学习日记之ListView三 | 爱凉拌菜真是太好了 </title>
 </head>
@@ -383,240 +384,14 @@ dataBlobdataBlob是一个数据结构（通常是一个对象），包含了渲�
 <li><p>dataBlob结构：<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/image002.png" alt=""></p>
 </li>
 <li><p>实现getSectionData 和 getRowData</p>
-<pre><code class="js">constructor(props) {
-super(props);
-var getSectionData = (dataBlob,sectionID) =&gt; {
-  return dataBlob[sectionID];
-}
-var getRowData = (dataBlob,sectionID,rowID) =&gt; {
-  return dataBlob[sectionID+&#39;:&#39;+rowID];
-}
-this.state = {
-  dataSource: new ListView.DataSource({
-    getSectionData:getSectionData,
-    getRowData:getRowData,
-    rowHasChanged: (r1,r2)=&gt;r1!==r2,
-    sectionHeaderHasChanged:(s1,s2)=&gt;s1!==s2
-  })
-}
-}
-</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">constructor</span>(props) &#123;</div><div class="line">  <span class="keyword">super</span>(props);</div><div class="line">  <span class="keyword">var</span> getSectionData = <span class="function">(<span class="params">dataBlob,sectionID</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> dataBlob[sectionID];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> getRowData = <span class="function">(<span class="params">dataBlob,sectionID,rowID</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> dataBlob[sectionID+<span class="string">':'</span>+rowID];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">this</span>.state = &#123;</div><div class="line">    dataSource: <span class="keyword">new</span> ListView.DataSource(&#123;</div><div class="line">      getSectionData:getSectionData,</div><div class="line">      getRowData:getRowData,</div><div class="line">      rowHasChanged: <span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2,</div><div class="line">      sectionHeaderHasChanged:<span class="function">(<span class="params">s1,s2</span>)=&gt;</span>s1!==s2</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h1 id="处理外部json数据，生成dataBlob"><a href="#处理外部json数据，生成dataBlob" class="headerlink" title="处理外部json数据，生成dataBlob"></a>处理外部json数据，生成dataBlob</h1><p>json数据如下</p>
-<pre><code class="json">{
-  &quot;data&quot;: [
-    {
-      &quot;images&quot;: [
-        {
-          &quot;icon&quot;: &quot;a&quot;,
-          &quot;name&quot;: &quot;路飞&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;b&quot;,
-          &quot;name&quot;: &quot;阿里&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;c&quot;,
-          &quot;name&quot;: &quot;。。。&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;d&quot;,
-          &quot;name&quot;: &quot;风景&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;e&quot;,
-          &quot;name&quot;: &quot;女神(づ￣ 3￣)づ&quot;
-        }
-      ],
-      &quot;title&quot;: &quot;B&quot;
-    },
-    {
-      &quot;images&quot;: [
-        {
-          &quot;icon&quot;: &quot;a&quot;,
-          &quot;name&quot;: &quot;路飞&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;b&quot;,
-          &quot;name&quot;: &quot;阿里&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;c&quot;,
-          &quot;name&quot;: &quot;。。。&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;d&quot;,
-          &quot;name&quot;: &quot;风景&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;e&quot;,
-          &quot;name&quot;: &quot;女神(づ￣ 3￣)づ&quot;
-        }
-      ],
-      &quot;title&quot;: &quot;B&quot;
-    },
-    ...
-  ]
-}
-</code></pre>
-<pre><code class="js">loadDataFromJson() {
-  var data = require(&#39;./data.json&#39;).data;
-  console.log(data);
-  var dataBlob   = {},
-      sectionIDs = []; //存放组ID的数组
-      rowIDs     = []; //存放行ID的数组
-      rows       = []; //存放行数据数组
-  for(var i=0,l=data.length;i&lt;l;i++) {
-    // 1.把section id 放入sectionID数组中
-    var sectionID = i;
-    // sectionIDs.push(sectionID);
-    sectionIDs.push(i); //sectionID 不一定必须是i：0,1,2,3...
-    // 2. 把组中内容放入dataBlob中
-    // 相当于dataBlob[SectionID]=data[i].title
-    dataBlob[i]=data[i].title;
-    // 3. 取出该数组中所有的行数据
-    rows = data[i].images;
-    // 4. 记录每一行中的数据
-    rowIDs[i]=[];
-    // 5. 获取行中每一组数据
-    for(var j=0,lr=rows.length;j&lt;lr;j++){
-      // 把行号放入rowIDs中
-      rowIDs[i].push(j);
-      // 把每一行中的内容放如dataBlob对象中
-      dataBlob[i+&#39;:&#39;+j] = rows[j];
-    }
-  }
-  console.log(dataBlob,sectionIDs,rowIDs);
-  this.setState({
-    dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs)
-  });
-}
-</code></pre>
+<h1 id="处理外部json数据，生成dataBlob"><a href="#处理外部json数据，生成dataBlob" class="headerlink" title="处理外部json数据，生成dataBlob"></a>处理外部json数据，生成dataBlob</h1><p>json数据如下<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"data"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"images"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"a"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"路飞"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"b"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"阿里"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"c"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"。。。"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"d"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"风景"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"e"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"女神(づ￣ 3￣)づ"</span></div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      <span class="attr">"title"</span>: <span class="string">"B"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"images"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"a"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"路飞"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"b"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"阿里"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"c"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"。。。"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"d"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"风景"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"e"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"女神(づ￣ 3￣)づ"</span></div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      <span class="attr">"title"</span>: <span class="string">"B"</span></div><div class="line">    &#125;,</div><div class="line">    ...</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">loadDataFromJson() &#123;</div><div class="line">  <span class="keyword">var</span> data = <span class="built_in">require</span>(<span class="string">'./data.json'</span>).data;</div><div class="line">  <span class="built_in">console</span>.log(data);</div><div class="line">  <span class="keyword">var</span> dataBlob   = &#123;&#125;,</div><div class="line">      sectionIDs = []; <span class="comment">//存放组ID的数组</span></div><div class="line">      rowIDs     = []; <span class="comment">//存放行ID的数组</span></div><div class="line">      rows       = []; <span class="comment">//存放行数据数组</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>,l=data.length;i&lt;l;i++) &#123;</div><div class="line">    <span class="comment">// 1.把section id 放入sectionID数组中</span></div><div class="line">    <span class="keyword">var</span> sectionID = i;</div><div class="line">    <span class="comment">// sectionIDs.push(sectionID);</span></div><div class="line">    sectionIDs.push(i); <span class="comment">//sectionID 不一定必须是i：0,1,2,3...</span></div><div class="line">    <span class="comment">// 2. 把组中内容放入dataBlob中</span></div><div class="line">    <span class="comment">// 相当于dataBlob[SectionID]=data[i].title</span></div><div class="line">    dataBlob[i]=data[i].title;</div><div class="line">    <span class="comment">// 3. 取出该数组中所有的行数据</span></div><div class="line">    rows = data[i].images;</div><div class="line">    <span class="comment">// 4. 记录每一行中的数据</span></div><div class="line">    rowIDs[i]=[];</div><div class="line">    <span class="comment">// 5. 获取行中每一组数据</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>,lr=rows.length;j&lt;lr;j++)&#123;</div><div class="line">      <span class="comment">// 把行号放入rowIDs中</span></div><div class="line">      rowIDs[i].push(j);</div><div class="line">      <span class="comment">// 把每一行中的内容放如dataBlob对象中</span></div><div class="line">      dataBlob[i+<span class="string">':'</span>+j] = rows[j];</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(dataBlob,sectionIDs,rowIDs);</div><div class="line">  <span class="keyword">this</span>.setState(&#123;</div><div class="line">    dataSource: <span class="keyword">this</span>.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs)</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>可以看到将dataBlob，sectionIDs，rowIDs打印出来是如下结果<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/dataBlob-console-result" alt=""></p>
 <h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><a id="more"></a>
-<pre><code class="js">/**
- * 吸顶效果
- */
-import React, { Component } from &#39;react&#39;;
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  TouchableOpacity,
-  Image,
-} from &#39;react-native&#39;;
-
-export default class ListViewSectionHeader extends Component {
-  constructor(props) {
-    super(props);
-    var getSectionData = (dataBlob,sectionID) =&gt; {
-      return dataBlob[sectionID];
-    }
-    var getRowData = (dataBlob,sectionID,rowID) =&gt; {
-      return dataBlob[sectionID+&#39;:&#39;+rowID];
-    }
-    this.state = {
-      dataSource: new ListView.DataSource({
-        getSectionData:getSectionData,
-        getRowData:getRowData,
-        rowHasChanged: (r1,r2)=&gt;r1!==r2,
-        sectionHeaderHasChanged:(s1,s2)=&gt;s1!==s2
-      })
-    }
-  }
-  render() {
-    return (
-      &lt;ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        renderSectionHeader={this.renderSectionHeader}
-        /&gt;
-    );
-  }
-  componentDidMount() {
-    this.loadDataFromJson();
-  }
-  loadDataFromJson() {
-    var data = require(&#39;./data.json&#39;).data;
-    console.log(data);
-    var dataBlob   = {},
-        sectionIDs = []; //存放组ID的数组
-        rowIDs     = []; //存放行ID的数组
-        rows       = []; //存放行数据数组
-    for(var i=0,l=data.length;i&lt;l;i++) {
-      // 1.把section id 放入sectionID数组中
-      var sectionID = i;
-      // sectionIDs.push(sectionID);
-      sectionIDs.push(i); //sectionID 不一定必须是i：0,1,2,3...
-      // 2. 把组中内容放入dataBlob中
-      // 相当于dataBlob[SectionID]=data[i].title
-      dataBlob[i]=data[i].title;
-      // 3. 取出该数组中所有的行数据
-      rows = data[i].images;
-      // 4. 记录每一行中的数据
-      rowIDs[i]=[];
-      // 5. 获取行中每一组数据
-      for(var j=0,lr=rows.length;j&lt;lr;j++){
-        // 把行号放入rowIDs中
-        rowIDs[i].push(j);
-        // 把每一行中的内容放如dataBlob对象中
-        dataBlob[i+&#39;:&#39;+j] = rows[j];
-      }
-    }
-    console.log(dataBlob,sectionIDs,rowIDs);
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs)
-    });
-  }
-  renderRow(owData,sectionID,rowID,highlightRow) {
-    console.log(owData);
-    return(
-      &lt;TouchableOpacity activeOpacity={0.5}&gt;
-        &lt;View style={styles.innerViewStyle}&gt;
-          &lt;Image source={{uri:owData.icon}} style={styles.iconStyle}/&gt;
-          &lt;Text style={styles.descStyle}&gt;
-            {owData.name}
-          &lt;/Text&gt;
-        &lt;/View&gt;
-      &lt;/TouchableOpacity&gt;
-    );
-  }
-  renderSectionHeader(sectionData,sectionID) {
-    return(
-      &lt;View style={styles.secHeaderStyle}&gt;
-        &lt;Text&gt;
-          {sectionData}
-        &lt;/Text&gt;
-      &lt;/View&gt;
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  innerViewStyle: {
-    flexDirection:&#39;row&#39;
-  },
-  iconStyle: {
-    width: 100, height: 100,
-  },
-  descStyle: {
-    fontSize: 20,
-    alignSelf:&#39;center&#39;,
-    marginLeft:20
-  },
-  secHeaderStyle: {
-    height:30,
-    justifyContent:&#39;center&#39;,
-    paddingLeft:10,
-    backgroundColor:&quot;#ede1e1&quot;
-  }
-});
-
-AppRegistry.registerComponent(&#39;ListViewSectionHeader&#39;, () =&gt; ListViewSectionHeader);
-</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 吸顶效果</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View,</div><div class="line">  ListView,</div><div class="line">  TouchableOpacity,</div><div class="line">  Image,</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">ListViewSectionHeader</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">var</span> getSectionData = <span class="function">(<span class="params">dataBlob,sectionID</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">return</span> dataBlob[sectionID];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> getRowData = <span class="function">(<span class="params">dataBlob,sectionID,rowID</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">return</span> dataBlob[sectionID+<span class="string">':'</span>+rowID];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.state = &#123;</div><div class="line">      dataSource: <span class="keyword">new</span> ListView.DataSource(&#123;</div><div class="line">        getSectionData:getSectionData,</div><div class="line">        getRowData:getRowData,</div><div class="line">        rowHasChanged: <span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2,</div><div class="line">        sectionHeaderHasChanged:<span class="function">(<span class="params">s1,s2</span>)=&gt;</span>s1!==s2</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;ListView</div><div class="line">        dataSource=&#123;<span class="keyword">this</span>.state.dataSource&#125;</div><div class="line">        renderRow=&#123;<span class="keyword">this</span>.renderRow&#125;</div><div class="line">        renderSectionHeader=&#123;<span class="keyword">this</span>.renderSectionHeader&#125;</div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">  componentDidMount() &#123;</div><div class="line">    <span class="keyword">this</span>.loadDataFromJson();</div><div class="line">  &#125;</div><div class="line">  loadDataFromJson() &#123;</div><div class="line">    <span class="keyword">var</span> data = <span class="built_in">require</span>(<span class="string">'./data.json'</span>).data;</div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">    <span class="keyword">var</span> dataBlob   = &#123;&#125;,</div><div class="line">        sectionIDs = []; <span class="comment">//存放组ID的数组</span></div><div class="line">        rowIDs     = []; <span class="comment">//存放行ID的数组</span></div><div class="line">        rows       = []; <span class="comment">//存放行数据数组</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>,l=data.length;i&lt;l;i++) &#123;</div><div class="line">      <span class="comment">// 1.把section id 放入sectionID数组中</span></div><div class="line">      <span class="keyword">var</span> sectionID = i;</div><div class="line">      <span class="comment">// sectionIDs.push(sectionID);</span></div><div class="line">      sectionIDs.push(i); <span class="comment">//sectionID 不一定必须是i：0,1,2,3...</span></div><div class="line">      <span class="comment">// 2. 把组中内容放入dataBlob中</span></div><div class="line">      <span class="comment">// 相当于dataBlob[SectionID]=data[i].title</span></div><div class="line">      dataBlob[i]=data[i].title;</div><div class="line">      <span class="comment">// 3. 取出该数组中所有的行数据</span></div><div class="line">      rows = data[i].images;</div><div class="line">      <span class="comment">// 4. 记录每一行中的数据</span></div><div class="line">      rowIDs[i]=[];</div><div class="line">      <span class="comment">// 5. 获取行中每一组数据</span></div><div class="line">      <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>,lr=rows.length;j&lt;lr;j++)&#123;</div><div class="line">        <span class="comment">// 把行号放入rowIDs中</span></div><div class="line">        rowIDs[i].push(j);</div><div class="line">        <span class="comment">// 把每一行中的内容放如dataBlob对象中</span></div><div class="line">        dataBlob[i+<span class="string">':'</span>+j] = rows[j];</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(dataBlob,sectionIDs,rowIDs);</div><div class="line">    <span class="keyword">this</span>.setState(&#123;</div><div class="line">      dataSource: <span class="keyword">this</span>.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs)</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">  renderRow(owData,sectionID,rowID,highlightRow) &#123;</div><div class="line">    <span class="built_in">console</span>.log(owData);</div><div class="line">    <span class="keyword">return</span>(</div><div class="line">      &lt;TouchableOpacity activeOpacity=&#123;<span class="number">0.5</span>&#125;&gt;</div><div class="line">        &lt;View style=&#123;styles.innerViewStyle&#125;&gt;</div><div class="line">          &lt;Image source=&#123;&#123;<span class="attr">uri</span>:owData.icon&#125;&#125; style=&#123;styles.iconStyle&#125;/&gt;</div><div class="line">          &lt;Text style=&#123;styles.descStyle&#125;&gt;</div><div class="line">            &#123;owData.name&#125;</div><div class="line">          &lt;<span class="regexp">/Text&gt;</span></div><div class="line"><span class="regexp">        &lt;/</span>View&gt;</div><div class="line">      &lt;<span class="regexp">/TouchableOpacity&gt;</span></div><div class="line"><span class="regexp">    );</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">  renderSectionHeader(sectionData,sectionID) &#123;</span></div><div class="line"><span class="regexp">    return(</span></div><div class="line"><span class="regexp">      &lt;View style=&#123;styles.secHeaderStyle&#125;&gt;</span></div><div class="line"><span class="regexp">        &lt;Text&gt;</span></div><div class="line"><span class="regexp">          &#123;sectionData&#125;</span></div><div class="line"><span class="regexp">        &lt;/</span>Text&gt;</div><div class="line">      &lt;<span class="regexp">/View&gt;</span></div><div class="line"><span class="regexp">    );</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">const styles = StyleSheet.create(&#123;</span></div><div class="line"><span class="regexp">  innerViewStyle: &#123;</span></div><div class="line"><span class="regexp">    flexDirection:'row'</span></div><div class="line"><span class="regexp">  &#125;,</span></div><div class="line"><span class="regexp">  iconStyle: &#123;</span></div><div class="line"><span class="regexp">    width: 100, height: 100,</span></div><div class="line"><span class="regexp">  &#125;,</span></div><div class="line"><span class="regexp">  descStyle: &#123;</span></div><div class="line"><span class="regexp">    fontSize: 20,</span></div><div class="line"><span class="regexp">    alignSelf:'center',</span></div><div class="line"><span class="regexp">    marginLeft:20</span></div><div class="line"><span class="regexp">  &#125;,</span></div><div class="line"><span class="regexp">  secHeaderStyle: &#123;</span></div><div class="line"><span class="regexp">    height:30,</span></div><div class="line"><span class="regexp">    justifyContent:'center',</span></div><div class="line"><span class="regexp">    paddingLeft:10,</span></div><div class="line"><span class="regexp">    backgroundColor:"#ede1e1"</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">&#125;);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">AppRegistry.registerComponent('ListViewSectionHeader', () =&gt; ListViewSectionHeader);</span></div></pre></td></tr></table></figure>
 <h1 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h1><p>很难看，不过实现方式没错就行啦<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/Screenshot_2017-02-19-14-34-56-385_com.listviewsectionheader.png" alt=""></p>
 
       
@@ -954,6 +729,12 @@ AppRegistry.registerComponent(&#39;ListViewSectionHeader&#39;, () =&gt; ListView
   <script src="/js/src/algolia-search.js?v=5.1.0"></script>
 
 
-
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+   $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   prettyPrint();
+ })    
+</script>
 </body>
 </html>

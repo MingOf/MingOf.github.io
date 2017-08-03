@@ -128,6 +128,7 @@
 
 
 
+<link href="/js/google-code-prettify/tomorrow-night-bright.min.css" type="text/css" rel="stylesheet" />
 
   <title> 爱凉拌菜真是太好了 </title>
 </head>
@@ -381,116 +382,11 @@
 <li><p>dataBlob结构：<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/image002.png" alt=""></p>
 </li>
 <li><p>实现getSectionData 和 getRowData</p>
-<pre><code class="js">constructor(props) {
-super(props);
-var getSectionData = (dataBlob,sectionID) =&gt; {
-  return dataBlob[sectionID];
-}
-var getRowData = (dataBlob,sectionID,rowID) =&gt; {
-  return dataBlob[sectionID+&#39;:&#39;+rowID];
-}
-this.state = {
-  dataSource: new ListView.DataSource({
-    getSectionData:getSectionData,
-    getRowData:getRowData,
-    rowHasChanged: (r1,r2)=&gt;r1!==r2,
-    sectionHeaderHasChanged:(s1,s2)=&gt;s1!==s2
-  })
-}
-}
-</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">constructor</span>(props) &#123;</div><div class="line">  <span class="keyword">super</span>(props);</div><div class="line">  <span class="keyword">var</span> getSectionData = <span class="function">(<span class="params">dataBlob,sectionID</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> dataBlob[sectionID];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> getRowData = <span class="function">(<span class="params">dataBlob,sectionID,rowID</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> dataBlob[sectionID+<span class="string">':'</span>+rowID];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">this</span>.state = &#123;</div><div class="line">    dataSource: <span class="keyword">new</span> ListView.DataSource(&#123;</div><div class="line">      getSectionData:getSectionData,</div><div class="line">      getRowData:getRowData,</div><div class="line">      rowHasChanged: <span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2,</div><div class="line">      sectionHeaderHasChanged:<span class="function">(<span class="params">s1,s2</span>)=&gt;</span>s1!==s2</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h1 id="处理外部json数据，生成dataBlob"><a href="#处理外部json数据，生成dataBlob" class="headerlink" title="处理外部json数据，生成dataBlob"></a>处理外部json数据，生成dataBlob</h1><p>json数据如下</p>
-<pre><code class="json">{
-  &quot;data&quot;: [
-    {
-      &quot;images&quot;: [
-        {
-          &quot;icon&quot;: &quot;a&quot;,
-          &quot;name&quot;: &quot;路飞&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;b&quot;,
-          &quot;name&quot;: &quot;阿里&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;c&quot;,
-          &quot;name&quot;: &quot;。。。&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;d&quot;,
-          &quot;name&quot;: &quot;风景&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;e&quot;,
-          &quot;name&quot;: &quot;女神(づ￣ 3￣)づ&quot;
-        }
-      ],
-      &quot;title&quot;: &quot;B&quot;
-    },
-    {
-      &quot;images&quot;: [
-        {
-          &quot;icon&quot;: &quot;a&quot;,
-          &quot;name&quot;: &quot;路飞&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;b&quot;,
-          &quot;name&quot;: &quot;阿里&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;c&quot;,
-          &quot;name&quot;: &quot;。。。&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;d&quot;,
-          &quot;name&quot;: &quot;风景&quot;
-        },
-        {
-          &quot;icon&quot;: &quot;e&quot;,
-          &quot;name&quot;: &quot;女神(づ￣ 3￣)づ&quot;
-        }
-      ],
-      &quot;title&quot;: &quot;B&quot;
-    },
-    ...
-  ]
-}
-</code></pre>
-<pre><code class="js">loadDataFromJson() {
-  var data = require(&#39;./data.json&#39;).data;
-  console.log(data);
-  var dataBlob   = {},
-      sectionIDs = []; //存放组ID的数组
-      rowIDs     = []; //存放行ID的数组
-      rows       = []; //存放行数据数组
-  for(var i=0,l=data.length;i&lt;l;i++) {
-    // 1.把section id 放入sectionID数组中
-    var sectionID = i;
-    // sectionIDs.push(sectionID);
-    sectionIDs.push(i); //sectionID 不一定必须是i：0,1,2,3...
-    // 2. 把组中内容放入dataBlob中
-    // 相当于dataBlob[SectionID]=data[i].title
-    dataBlob[i]=data[i].title;
-    // 3. 取出该数组中所有的行数据
-    rows = data[i].images;
-    // 4. 记录每一行中的数据
-    rowIDs[i]=[];
-    // 5. 获取行中每一组数据
-    for(var j=0,lr=rows.length;j&lt;lr;j++){
-      // 把行号放入rowIDs中
-      rowIDs[i].push(j);
-      // 把每一行中的内容放如dataBlob对象中
-      dataBlob[i+&#39;:&#39;+j] = rows[j];
-    }
-  }
-  console.log(dataBlob,sectionIDs,rowIDs);
-  this.setState({
-    dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs)
-  });
-}
-</code></pre>
+<h1 id="处理外部json数据，生成dataBlob"><a href="#处理外部json数据，生成dataBlob" class="headerlink" title="处理外部json数据，生成dataBlob"></a>处理外部json数据，生成dataBlob</h1><p>json数据如下<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"data"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"images"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"a"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"路飞"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"b"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"阿里"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"c"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"。。。"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"d"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"风景"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"e"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"女神(づ￣ 3￣)づ"</span></div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      <span class="attr">"title"</span>: <span class="string">"B"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"images"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"a"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"路飞"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"b"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"阿里"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"c"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"。。。"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"d"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"风景"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">"icon"</span>: <span class="string">"e"</span>,</div><div class="line">          <span class="attr">"name"</span>: <span class="string">"女神(づ￣ 3￣)づ"</span></div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      <span class="attr">"title"</span>: <span class="string">"B"</span></div><div class="line">    &#125;,</div><div class="line">    ...</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">loadDataFromJson() &#123;</div><div class="line">  <span class="keyword">var</span> data = <span class="built_in">require</span>(<span class="string">'./data.json'</span>).data;</div><div class="line">  <span class="built_in">console</span>.log(data);</div><div class="line">  <span class="keyword">var</span> dataBlob   = &#123;&#125;,</div><div class="line">      sectionIDs = []; <span class="comment">//存放组ID的数组</span></div><div class="line">      rowIDs     = []; <span class="comment">//存放行ID的数组</span></div><div class="line">      rows       = []; <span class="comment">//存放行数据数组</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>,l=data.length;i&lt;l;i++) &#123;</div><div class="line">    <span class="comment">// 1.把section id 放入sectionID数组中</span></div><div class="line">    <span class="keyword">var</span> sectionID = i;</div><div class="line">    <span class="comment">// sectionIDs.push(sectionID);</span></div><div class="line">    sectionIDs.push(i); <span class="comment">//sectionID 不一定必须是i：0,1,2,3...</span></div><div class="line">    <span class="comment">// 2. 把组中内容放入dataBlob中</span></div><div class="line">    <span class="comment">// 相当于dataBlob[SectionID]=data[i].title</span></div><div class="line">    dataBlob[i]=data[i].title;</div><div class="line">    <span class="comment">// 3. 取出该数组中所有的行数据</span></div><div class="line">    rows = data[i].images;</div><div class="line">    <span class="comment">// 4. 记录每一行中的数据</span></div><div class="line">    rowIDs[i]=[];</div><div class="line">    <span class="comment">// 5. 获取行中每一组数据</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>,lr=rows.length;j&lt;lr;j++)&#123;</div><div class="line">      <span class="comment">// 把行号放入rowIDs中</span></div><div class="line">      rowIDs[i].push(j);</div><div class="line">      <span class="comment">// 把每一行中的内容放如dataBlob对象中</span></div><div class="line">      dataBlob[i+<span class="string">':'</span>+j] = rows[j];</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(dataBlob,sectionIDs,rowIDs);</div><div class="line">  <span class="keyword">this</span>.setState(&#123;</div><div class="line">    dataSource: <span class="keyword">this</span>.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs)</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>可以看到将dataBlob，sectionIDs，rowIDs打印出来是如下结果<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/dataBlob-console-result" alt=""></p>
 <h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1>
           <!--noindex-->
@@ -621,48 +517,17 @@ this.state = {
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a href="http://www.jianshu.com/p/2eebd6ad284d">Windows 10 和 ubuntu 共存安装参考</a></p>
 <h1 id="切换显卡"><a href="#切换显卡" class="headerlink" title="切换显卡"></a>切换显卡</h1><p>系统设置–&gt; 软件和更行 –&gt; 附加驱动（据说开源驱动性能虽然不强，但是稳定性好，我还是继续用开源驱动吧）</p>
 <h1 id="换主题"><a href="#换主题" class="headerlink" title="换主题"></a>换主题</h1><p>unity乳齿便秘的默认主题真的让我第一次开机看到它过后就想换掉！ubuntu14.04的主题很多不是扁平化的，如果电脑支持的话还是安装16.04比较好（该死的联想z485）</p>
-<p>首先安装unity-tweak-tool</p>
-<pre><code class="shell">sudo apt install unity-tweak-tool
-</code></pre>
+<p>首先安装unity-tweak-tool<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure></p>
 <p>然后推荐去<a href="http://www.noobslab.com/p/themes-icons.html">noobSlab</a>，这个网站有很多个主题可以选择，安装方式也写出来了，配合unity-tweak-tool使用。个人喜欢Numix主题</p>
 <h1 id="安装搜狗输入法"><a href="#安装搜狗输入法" class="headerlink" title="安装搜狗输入法"></a>安装搜狗输入法</h1><p>去搜狗官网下载linux 版本搜狗，然后双击安装，完毕后。<br><br>系统设置–&gt;语言支持–&gt;键盘输入方式系统：fcitx–&gt;重启</p>
 <p>如果发现安装好后不能调出输入法面板，输入时只能看不到候选词，那么可以检查一下依赖sudo apt-get install -f</p>
-<p>如果使用一段时间过后搜狗输入法一直崩溃,可能是配置文件出问题了，可以选择删除配置文件，然后重启fctix</p>
-<pre><code class="sh">killall fctix
-rm -rf ~/.config/sogou-qimpanel
-rm -rf ~/.config/SogouPY.users
-rm -rf ~/.config/SogouPY
-fctix
-</code></pre>
-<h1 id="安装cairo-dock"><a href="#安装cairo-dock" class="headerlink" title="安装cairo-dock"></a>安装cairo-dock</h1><p>很实用的小工具（模拟mac的dock栏）</p>
-<pre><code class="bash">sudo add-apt-repository ppa:cairo-dock-team/ppa
-sudo apt-get update
-sudo apt-get install cairo-dock
-# 启动命令 cairo-dock
-</code></pre>
+<p>如果使用一段时间过后搜狗输入法一直崩溃,可能是配置文件出问题了，可以选择删除配置文件，然后重启fctix<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">killall fctix</div><div class="line">rm -rf ~/.config/sogou-qimpanel</div><div class="line">rm -rf ~/.config/SogouPY.users</div><div class="line">rm -rf ~/.config/SogouPY</div><div class="line">fctix</div></pre></td></tr></table></figure></p>
+<h1 id="安装cairo-dock"><a href="#安装cairo-dock" class="headerlink" title="安装cairo-dock"></a>安装cairo-dock</h1><p>很实用的小工具（模拟mac的dock栏）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:cairo-dock-team/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install cairo-dock</div><div class="line"><span class="comment"># 启动命令 cairo-dock</span></div></pre></td></tr></table></figure></p>
 <p>第一次打开会提示是否开启OpenGl，我的电脑上面测试开启过后会出问题，我选择不开启，如果以后想开启，可以使用cairo-dock -c（不开启） / cario-dock -o（开启OpenGl）切换</p>
-<h1 id="安装shadowsocks-qt5"><a href="#安装shadowsocks-qt5" class="headerlink" title="安装shadowsocks-qt5"></a>安装shadowsocks-qt5</h1><p>“纸飞机”这个东西还是必须要有的啊，没有这个东西感觉整个人都不好了</p>
-<pre><code class="sh">sudo add-apt-repository ppa:hzwhuang/ss-qt5
-sudo apt-get update
-sudo apt-get install shadowsocks-qt5
-#启动命令 ss-qt5
-</code></pre>
-<h1 id="安装proxychain4"><a href="#安装proxychain4" class="headerlink" title="安装proxychain4"></a>安装proxychain4</h1><p>ss-qt5 是桌面级应用，尽管连上代理，命令行还是无法通过代理上网。proxychain 可以完美解决命令行不能使用代理的问题</p>
-<pre><code class="sh">git clone https://github.com/rofl0r/proxychains-ng.git
-cd proxychains-ng
-./configure
-(sudo) make &amp;&amp; make instal
-</code></pre>
-<p>安装完毕后，需要手动新建配置文件</p>
-<pre><code class="sh">sudo vi /etc/proxychains.conf
-
-#然后填入以下内容
-[ProxyList]
-socks5  127.0.0.1 1080
-</code></pre>
-<p>使用方法</p>
-<pre><code class="sh">proxychains (sudo) 需要执行的命令 ...
-</code></pre>
+<h1 id="安装shadowsocks-qt5"><a href="#安装shadowsocks-qt5" class="headerlink" title="安装shadowsocks-qt5"></a>安装shadowsocks-qt5</h1><p>“纸飞机”这个东西还是必须要有的啊，没有这个东西感觉整个人都不好了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div><div class="line"><span class="comment">#启动命令 ss-qt5</span></div></pre></td></tr></table></figure></p>
+<h1 id="安装proxychain4"><a href="#安装proxychain4" class="headerlink" title="安装proxychain4"></a>安装proxychain4</h1><p>ss-qt5 是桌面级应用，尽管连上代理，命令行还是无法通过代理上网。proxychain 可以完美解决命令行不能使用代理的问题<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/rofl0r/proxychains-ng.git</div><div class="line"><span class="built_in">cd</span> proxychains-ng</div><div class="line">./configure</div><div class="line">(sudo) make &amp;&amp; make instal</div></pre></td></tr></table></figure></p>
+<p>安装完毕后，需要手动新建配置文件<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/proxychains.conf</div><div class="line"></div><div class="line"><span class="comment">#然后填入以下内容</span></div><div class="line">[ProxyList]</div><div class="line">socks5  127.0.0.1 1080</div></pre></td></tr></table></figure></p>
+<p>使用方法<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxychains (sudo) 需要执行的命令 ...</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/17/ubuntu配置/#more" rel="contents">
@@ -788,53 +653,8 @@ socks5  127.0.0.1 1080
       
         
           <p><a href="https://facebook.github.io/react-native/docs/listview.html">react-native ListView DOC</a></p>
-<h3 id="ListView-基本用法"><a href="#ListView-基本用法" class="headerlink" title="ListView 基本用法"></a>ListView 基本用法</h3><pre><code class="js">//es5 写法
-var ListViewDemo = React.createClass({
-  getInitialState() {
-    // 设置初始值
-    // 1.1 设置数据源
-    var ds = new ListView.DataSource({rowHasChanged:(r1,r2)=&gt;r1!==r2});
-    // 1.2 设置返回数据
-    return {
-      //listData 为一个数组格式
-      dataSource: ds.cloneWithRows(listData)
-    }
-  },
-
-  // 设置render函数
-  render() {
-    return (
-      &lt;ListView dataSource={this.state.dataSource}
-        renderRow={this.renderListView}
-        //this.renderListView后不加括号表示默认接受所有参数（owData，sectionID...)
-        /&gt;
-    );
-  },
-  renderListView(owData, sectionID, rowID, highlightRow) {
-    //renderRow 回调函数
-  }
-}
-</code></pre>
-<pre><code class="javascript">//es6 写法
-class MyComponent extends Component {
-  constructor() {
-    super();
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) =&gt; r1 !== r2});
-    this.state = {
-      dataSource: ds.cloneWithRows(listData),
-    };
-  }
-
-  render() {
-    return (
-      &lt;ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderListView}
-      /&gt;
-    );
-  }
-}
-</code></pre>
+<h3 id="ListView-基本用法"><a href="#ListView-基本用法" class="headerlink" title="ListView 基本用法"></a>ListView 基本用法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//es5 写法</span></div><div class="line"><span class="keyword">var</span> ListViewDemo = React.createClass(&#123;</div><div class="line">  getInitialState() &#123;</div><div class="line">    <span class="comment">// 设置初始值</span></div><div class="line">    <span class="comment">// 1.1 设置数据源</span></div><div class="line">    <span class="keyword">var</span> ds = <span class="keyword">new</span> ListView.DataSource(&#123;<span class="attr">rowHasChanged</span>:<span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2&#125;);</div><div class="line">    <span class="comment">// 1.2 设置返回数据</span></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="comment">//listData 为一个数组格式</span></div><div class="line">      dataSource: ds.cloneWithRows(listData)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="comment">// 设置render函数</span></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;ListView dataSource=&#123;<span class="keyword">this</span>.state.dataSource&#125;</div><div class="line">        renderRow=&#123;<span class="keyword">this</span>.renderListView&#125;</div><div class="line">        <span class="comment">//this.renderListView后不加括号表示默认接受所有参数（owData，sectionID...)</span></div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;,</div><div class="line">  renderListView(owData, sectionID, rowID, highlightRow) &#123;</div><div class="line">    <span class="comment">//renderRow 回调函数</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//es6 写法</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">super</span>();</div><div class="line">    <span class="keyword">const</span> ds = <span class="keyword">new</span> ListView.DataSource(&#123;<span class="attr">rowHasChanged</span>: <span class="function">(<span class="params">r1, r2</span>) =&gt;</span> r1 !== r2&#125;);</div><div class="line">    <span class="keyword">this</span>.state = &#123;</div><div class="line">      dataSource: ds.cloneWithRows(listData),</div><div class="line">    &#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;ListView</div><div class="line">        dataSource=&#123;<span class="keyword">this</span>.state.dataSource&#125;</div><div class="line">        renderRow=&#123;<span class="keyword">this</span>.renderListView&#125;</div><div class="line">      /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/08/react学习日记之ListView/#more" rel="contents">
@@ -960,108 +780,7 @@ class MyComponent extends Component {
       
         
           
-            <h1 id="用listView实现九宫格效果"><a href="#用listView实现九宫格效果" class="headerlink" title="用listView实现九宫格效果"></a>用listView实现九宫格效果</h1><p>这次时照着es6的写法写的，es6和es5的写法有很多地方不一样<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/Screenshot_2017-02-08-19-16-32-198_com.listviewjiugongge.png" alt="效果图"></p>
-<pre><code class="js">import React, { Component } from &#39;react&#39;;
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  TouchableOpacity,
-  Image
-} from &#39;react-native&#39;;
-import Dimensions from &#39;Dimensions&#39;;
-const listData = [
-  {
-    src:&#39;a&#39;, desc:&#39;第一张&#39;
-  },
-  {
-    src:&#39;b&#39;, desc:&#39;第二张&#39;
-  },
-  {
-    src:&#39;c&#39;, desc:&#39;第三张&#39;
-  },
-  {
-    src:&#39;d&#39;, desc:&#39;第四张&#39;
-  },
-  {
-    src:&#39;e&#39;, desc:&#39;第五张&#39;
-  },
-  {
-    src:&#39;b&#39;, desc:&#39;第二张&#39;
-  },
-  {
-    src:&#39;c&#39;, desc:&#39;第三张&#39;
-  },
-  {
-    src:&#39;d&#39;, desc:&#39;第四张&#39;
-  },
-  {
-    src:&#39;e&#39;, desc:&#39;第五张&#39;
-  }
-];
-// 获取屏幕宽高
-var {width,height} = Dimensions.get(&#39;window&#39;);
-var cols = 3; //3列
-var cellWidth = 100,cellHeight = 100;
-var vMargin = (width-cols*cellWidth)/(cols+1); //九宫格横向margin算法
-var hMargin = 20; //九宫格纵向margin
-export default class ListViewjiugongge extends Component {
-  constructor(props) {
-    super(props);
-    const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=&gt;r1!==r2});
-    this.state = {
-      dataSource: ds.cloneWithRows(listData)
-    }
-  }
-  render() {
-    return (
-      &lt;ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        // renderSeparator={(sectionID,rowID,adjacentRowHighlighted)=&gt;{
-        //   console.log(sectionID,rowID,adjacentRowHighlighted);
-        //   return(
-        //     &lt;View key={`${sectionID}-${rowID}`}
-        //       style={{height:90,width:1,backgroundColor:adjacentRowHighlighted?'blue':'red'}}
-        //       &gt;&lt;/View&gt;
-        //   )
-        // }}
-        contentContainerStyle={styles.listViewStyle}
-        /&gt;
-    );
-  }
-  renderRow(owData,sectionID,rowID,highlightRow) {
-    return(
-      &lt;TouchableOpacity activeOpacity={0.5} onPress={()=&gt;{highlightRow(sectionID,rowID)}}&gt;
-        &lt;View style={styles.cellViewStyle}&gt;
-          {/*图片src*/}
-          &lt;Image source={{uri:owData.src}} style={{width:100,height:100,borderRadius:50}}/&gt;
-        &lt;/View&gt;
-      &lt;/TouchableOpacity&gt;
-    )
-  }
-}
-
-const styles = StyleSheet.create({
-  listViewStyle: {
-    flexDirection:&#39;row&#39;,
-    flexWrap:&#39;wrap&#39;,
-    alignItems:&#39;flex-start&#39;
-  },
-  cellViewStyle: {
-    marginLeft:vMargin,
-    marginTop: hMargin
-  },
-  descStyle: {
-    // flexDirection:&#39;row&#39;,
-    // alignItems:&#39;center&#39;
-  }
-});
-
-AppRegistry.registerComponent(&#39;ListViewjiugongge&#39;, () =&gt; ListViewjiugongge);
-</code></pre>
+            <h1 id="用listView实现九宫格效果"><a href="#用listView实现九宫格效果" class="headerlink" title="用listView实现九宫格效果"></a>用listView实现九宫格效果</h1><p>这次时照着es6的写法写的，es6和es5的写法有很多地方不一样<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/Screenshot_2017-02-08-19-16-32-198_com.listviewjiugongge.png" alt="效果图"><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View,</div><div class="line">  ListView,</div><div class="line">  TouchableOpacity,</div><div class="line">  Image</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"><span class="keyword">import</span> Dimensions <span class="keyword">from</span> <span class="string">'Dimensions'</span>;</div><div class="line"><span class="keyword">const</span> listData = [</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'a'</span>, <span class="attr">desc</span>:<span class="string">'第一张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'b'</span>, <span class="attr">desc</span>:<span class="string">'第二张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'c'</span>, <span class="attr">desc</span>:<span class="string">'第三张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'d'</span>, <span class="attr">desc</span>:<span class="string">'第四张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'e'</span>, <span class="attr">desc</span>:<span class="string">'第五张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'b'</span>, <span class="attr">desc</span>:<span class="string">'第二张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'c'</span>, <span class="attr">desc</span>:<span class="string">'第三张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'d'</span>, <span class="attr">desc</span>:<span class="string">'第四张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'e'</span>, <span class="attr">desc</span>:<span class="string">'第五张'</span></div><div class="line">  &#125;</div><div class="line">];</div><div class="line"><span class="comment">// 获取屏幕宽高</span></div><div class="line"><span class="keyword">var</span> &#123;width,height&#125; = Dimensions.get(<span class="string">'window'</span>);</div><div class="line"><span class="keyword">var</span> cols = <span class="number">3</span>; <span class="comment">//3列</span></div><div class="line"><span class="keyword">var</span> cellWidth = <span class="number">100</span>,cellHeight = <span class="number">100</span>;</div><div class="line"><span class="keyword">var</span> vMargin = (width-cols*cellWidth)/(cols+<span class="number">1</span>); <span class="comment">//九宫格横向margin算法</span></div><div class="line"><span class="keyword">var</span> hMargin = <span class="number">20</span>; <span class="comment">//九宫格纵向margin</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">ListViewjiugongge</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">const</span> ds = <span class="keyword">new</span> ListView.DataSource(&#123;<span class="attr">rowHasChanged</span>:<span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2&#125;);</div><div class="line">    <span class="keyword">this</span>.state = &#123;</div><div class="line">      dataSource: ds.cloneWithRows(listData)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;ListView</div><div class="line">        dataSource=&#123;<span class="keyword">this</span>.state.dataSource&#125;</div><div class="line">        renderRow=&#123;<span class="keyword">this</span>.renderRow&#125;</div><div class="line">        <span class="comment">// renderSeparator=&#123;(sectionID,rowID,adjacentRowHighlighted)=&gt;&#123;</span></div><div class="line">        <span class="comment">//   console.log(sectionID,rowID,adjacentRowHighlighted);</span></div><div class="line">        <span class="comment">//   return(</span></div><div class="line">        <span class="comment">//     &lt;View key=&#123;`$&#123;sectionID&#125;-$&#123;rowID&#125;`&#125;</span></div><div class="line">        <span class="comment">//       style=&#123;&#123;height:90,width:1,backgroundColor:adjacentRowHighlighted?'blue':'red'&#125;&#125;</span></div><div class="line">        <span class="comment">//       &gt;&lt;/View&gt;</span></div><div class="line">        <span class="comment">//   )</span></div><div class="line">        <span class="comment">// &#125;&#125;</span></div><div class="line">        contentContainerStyle=&#123;styles.listViewStyle&#125;</div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">  renderRow(owData,sectionID,rowID,highlightRow) &#123;</div><div class="line">    <span class="keyword">return</span>(</div><div class="line">      &lt;TouchableOpacity activeOpacity=&#123;<span class="number">0.5</span>&#125; onPress=&#123;()=&gt;&#123;highlightRow(sectionID,rowID)&#125;&#125;&gt;</div><div class="line">        &lt;View style=&#123;styles.cellViewStyle&#125;&gt;</div><div class="line">          &#123;<span class="comment">/*图片src*/</span>&#125;</div><div class="line">          &lt;Image source=&#123;&#123;<span class="attr">uri</span>:owData.src&#125;&#125; style=&#123;&#123;<span class="attr">width</span>:<span class="number">100</span>,<span class="attr">height</span>:<span class="number">100</span>,<span class="attr">borderRadius</span>:<span class="number">50</span>&#125;&#125;/&gt;</div><div class="line">        &lt;<span class="regexp">/View&gt;</span></div><div class="line"><span class="regexp">      &lt;/</span>TouchableOpacity&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> styles = StyleSheet.create(&#123;</div><div class="line">  listViewStyle: &#123;</div><div class="line">    flexDirection:<span class="string">'row'</span>,</div><div class="line">    flexWrap:<span class="string">'wrap'</span>,</div><div class="line">    alignItems:<span class="string">'flex-start'</span></div><div class="line">  &#125;,</div><div class="line">  cellViewStyle: &#123;</div><div class="line">    marginLeft:vMargin,</div><div class="line">    marginTop: hMargin</div><div class="line">  &#125;,</div><div class="line">  descStyle: &#123;</div><div class="line">    <span class="comment">// flexDirection:'row',</span></div><div class="line">    <span class="comment">// alignItems:'center'</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">AppRegistry.registerComponent(<span class="string">'ListViewjiugongge'</span>, () =&gt; ListViewjiugongge);</div></pre></td></tr></table></figure></p>
 
           
         
@@ -1463,6 +1182,12 @@ AppRegistry.registerComponent(&#39;ListViewjiugongge&#39;, () =&gt; ListViewjiug
   <script src="/js/src/algolia-search.js?v=5.1.0"></script>
 
 
-
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+   $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   prettyPrint();
+ })    
+</script>
 </body>
 </html>

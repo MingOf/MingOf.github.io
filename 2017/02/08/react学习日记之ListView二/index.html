@@ -87,47 +87,17 @@
 
 
 
-<meta name="description" content="用listView实现九宫格效果这次时照着es6的写法写的，es6和es5的写法有很多地方不一样
-import React, { Component } from &amp;#39;react&amp;#39;;
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  TouchableOpacity,
-  Image
-} from">
+<meta name="description" content="用listView实现九宫格效果这次时照着es6的写法写的，es6和es5的写法有很多地方不一样12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808">
 <meta property="og:type" content="article">
 <meta property="og:title" content="react-native学习日记之ListView二">
 <meta property="og:url" content="http://yoursite.com/2017/02/08/react学习日记之ListView二/index.html">
 <meta property="og:site_name" content="爱凉拌菜真是太好了">
-<meta property="og:description" content="用listView实现九宫格效果这次时照着es6的写法写的，es6和es5的写法有很多地方不一样
-import React, { Component } from &amp;#39;react&amp;#39;;
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  TouchableOpacity,
-  Image
-} from">
+<meta property="og:description" content="用listView实现九宫格效果这次时照着es6的写法写的，es6和es5的写法有很多地方不一样12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808">
 <meta property="og:image" content="http://7xoilf.com1.z0.glb.clouddn.com/Screenshot_2017-02-08-19-16-32-198_com.listviewjiugongge.png">
 <meta property="og:updated_time" content="2017-02-08T12:43:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react-native学习日记之ListView二">
-<meta name="twitter:description" content="用listView实现九宫格效果这次时照着es6的写法写的，es6和es5的写法有很多地方不一样
-import React, { Component } from &amp;#39;react&amp;#39;;
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  TouchableOpacity,
-  Image
-} from">
+<meta name="twitter:description" content="用listView实现九宫格效果这次时照着es6的写法写的，es6和es5的写法有很多地方不一样12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808">
 <meta name="twitter:image" content="http://7xoilf.com1.z0.glb.clouddn.com/Screenshot_2017-02-08-19-16-32-198_com.listviewjiugongge.png">
 
 
@@ -161,6 +131,7 @@ import {
 
 
 
+<link href="/js/google-code-prettify/tomorrow-night-bright.min.css" type="text/css" rel="stylesheet" />
 
   <title> react-native学习日记之ListView二 | 爱凉拌菜真是太好了 </title>
 </head>
@@ -402,108 +373,7 @@ import {
       
 
       
-        <h1 id="用listView实现九宫格效果"><a href="#用listView实现九宫格效果" class="headerlink" title="用listView实现九宫格效果"></a>用listView实现九宫格效果</h1><p>这次时照着es6的写法写的，es6和es5的写法有很多地方不一样<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/Screenshot_2017-02-08-19-16-32-198_com.listviewjiugongge.png" alt="效果图"></p>
-<pre><code class="js">import React, { Component } from &#39;react&#39;;
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  TouchableOpacity,
-  Image
-} from &#39;react-native&#39;;
-import Dimensions from &#39;Dimensions&#39;;
-const listData = [
-  {
-    src:&#39;a&#39;, desc:&#39;第一张&#39;
-  },
-  {
-    src:&#39;b&#39;, desc:&#39;第二张&#39;
-  },
-  {
-    src:&#39;c&#39;, desc:&#39;第三张&#39;
-  },
-  {
-    src:&#39;d&#39;, desc:&#39;第四张&#39;
-  },
-  {
-    src:&#39;e&#39;, desc:&#39;第五张&#39;
-  },
-  {
-    src:&#39;b&#39;, desc:&#39;第二张&#39;
-  },
-  {
-    src:&#39;c&#39;, desc:&#39;第三张&#39;
-  },
-  {
-    src:&#39;d&#39;, desc:&#39;第四张&#39;
-  },
-  {
-    src:&#39;e&#39;, desc:&#39;第五张&#39;
-  }
-];
-// 获取屏幕宽高
-var {width,height} = Dimensions.get(&#39;window&#39;);
-var cols = 3; //3列
-var cellWidth = 100,cellHeight = 100;
-var vMargin = (width-cols*cellWidth)/(cols+1); //九宫格横向margin算法
-var hMargin = 20; //九宫格纵向margin
-export default class ListViewjiugongge extends Component {
-  constructor(props) {
-    super(props);
-    const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=&gt;r1!==r2});
-    this.state = {
-      dataSource: ds.cloneWithRows(listData)
-    }
-  }
-  render() {
-    return (
-      &lt;ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        // renderSeparator={(sectionID,rowID,adjacentRowHighlighted)=&gt;{
-        //   console.log(sectionID,rowID,adjacentRowHighlighted);
-        //   return(
-        //     &lt;View key={`${sectionID}-${rowID}`}
-        //       style={{height:90,width:1,backgroundColor:adjacentRowHighlighted?'blue':'red'}}
-        //       &gt;&lt;/View&gt;
-        //   )
-        // }}
-        contentContainerStyle={styles.listViewStyle}
-        /&gt;
-    );
-  }
-  renderRow(owData,sectionID,rowID,highlightRow) {
-    return(
-      &lt;TouchableOpacity activeOpacity={0.5} onPress={()=&gt;{highlightRow(sectionID,rowID)}}&gt;
-        &lt;View style={styles.cellViewStyle}&gt;
-          {/*图片src*/}
-          &lt;Image source={{uri:owData.src}} style={{width:100,height:100,borderRadius:50}}/&gt;
-        &lt;/View&gt;
-      &lt;/TouchableOpacity&gt;
-    )
-  }
-}
-
-const styles = StyleSheet.create({
-  listViewStyle: {
-    flexDirection:&#39;row&#39;,
-    flexWrap:&#39;wrap&#39;,
-    alignItems:&#39;flex-start&#39;
-  },
-  cellViewStyle: {
-    marginLeft:vMargin,
-    marginTop: hMargin
-  },
-  descStyle: {
-    // flexDirection:&#39;row&#39;,
-    // alignItems:&#39;center&#39;
-  }
-});
-
-AppRegistry.registerComponent(&#39;ListViewjiugongge&#39;, () =&gt; ListViewjiugongge);
-</code></pre>
+        <h1 id="用listView实现九宫格效果"><a href="#用listView实现九宫格效果" class="headerlink" title="用listView实现九宫格效果"></a>用listView实现九宫格效果</h1><p>这次时照着es6的写法写的，es6和es5的写法有很多地方不一样<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/Screenshot_2017-02-08-19-16-32-198_com.listviewjiugongge.png" alt="效果图"><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View,</div><div class="line">  ListView,</div><div class="line">  TouchableOpacity,</div><div class="line">  Image</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"><span class="keyword">import</span> Dimensions <span class="keyword">from</span> <span class="string">'Dimensions'</span>;</div><div class="line"><span class="keyword">const</span> listData = [</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'a'</span>, <span class="attr">desc</span>:<span class="string">'第一张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'b'</span>, <span class="attr">desc</span>:<span class="string">'第二张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'c'</span>, <span class="attr">desc</span>:<span class="string">'第三张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'d'</span>, <span class="attr">desc</span>:<span class="string">'第四张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'e'</span>, <span class="attr">desc</span>:<span class="string">'第五张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'b'</span>, <span class="attr">desc</span>:<span class="string">'第二张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'c'</span>, <span class="attr">desc</span>:<span class="string">'第三张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'d'</span>, <span class="attr">desc</span>:<span class="string">'第四张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'e'</span>, <span class="attr">desc</span>:<span class="string">'第五张'</span></div><div class="line">  &#125;</div><div class="line">];</div><div class="line"><span class="comment">// 获取屏幕宽高</span></div><div class="line"><span class="keyword">var</span> &#123;width,height&#125; = Dimensions.get(<span class="string">'window'</span>);</div><div class="line"><span class="keyword">var</span> cols = <span class="number">3</span>; <span class="comment">//3列</span></div><div class="line"><span class="keyword">var</span> cellWidth = <span class="number">100</span>,cellHeight = <span class="number">100</span>;</div><div class="line"><span class="keyword">var</span> vMargin = (width-cols*cellWidth)/(cols+<span class="number">1</span>); <span class="comment">//九宫格横向margin算法</span></div><div class="line"><span class="keyword">var</span> hMargin = <span class="number">20</span>; <span class="comment">//九宫格纵向margin</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">ListViewjiugongge</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">const</span> ds = <span class="keyword">new</span> ListView.DataSource(&#123;<span class="attr">rowHasChanged</span>:<span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2&#125;);</div><div class="line">    <span class="keyword">this</span>.state = &#123;</div><div class="line">      dataSource: ds.cloneWithRows(listData)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;ListView</div><div class="line">        dataSource=&#123;<span class="keyword">this</span>.state.dataSource&#125;</div><div class="line">        renderRow=&#123;<span class="keyword">this</span>.renderRow&#125;</div><div class="line">        <span class="comment">// renderSeparator=&#123;(sectionID,rowID,adjacentRowHighlighted)=&gt;&#123;</span></div><div class="line">        <span class="comment">//   console.log(sectionID,rowID,adjacentRowHighlighted);</span></div><div class="line">        <span class="comment">//   return(</span></div><div class="line">        <span class="comment">//     &lt;View key=&#123;`$&#123;sectionID&#125;-$&#123;rowID&#125;`&#125;</span></div><div class="line">        <span class="comment">//       style=&#123;&#123;height:90,width:1,backgroundColor:adjacentRowHighlighted?'blue':'red'&#125;&#125;</span></div><div class="line">        <span class="comment">//       &gt;&lt;/View&gt;</span></div><div class="line">        <span class="comment">//   )</span></div><div class="line">        <span class="comment">// &#125;&#125;</span></div><div class="line">        contentContainerStyle=&#123;styles.listViewStyle&#125;</div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">  renderRow(owData,sectionID,rowID,highlightRow) &#123;</div><div class="line">    <span class="keyword">return</span>(</div><div class="line">      &lt;TouchableOpacity activeOpacity=&#123;<span class="number">0.5</span>&#125; onPress=&#123;()=&gt;&#123;highlightRow(sectionID,rowID)&#125;&#125;&gt;</div><div class="line">        &lt;View style=&#123;styles.cellViewStyle&#125;&gt;</div><div class="line">          &#123;<span class="comment">/*图片src*/</span>&#125;</div><div class="line">          &lt;Image source=&#123;&#123;<span class="attr">uri</span>:owData.src&#125;&#125; style=&#123;&#123;<span class="attr">width</span>:<span class="number">100</span>,<span class="attr">height</span>:<span class="number">100</span>,<span class="attr">borderRadius</span>:<span class="number">50</span>&#125;&#125;/&gt;</div><div class="line">        &lt;<span class="regexp">/View&gt;</span></div><div class="line"><span class="regexp">      &lt;/</span>TouchableOpacity&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> styles = StyleSheet.create(&#123;</div><div class="line">  listViewStyle: &#123;</div><div class="line">    flexDirection:<span class="string">'row'</span>,</div><div class="line">    flexWrap:<span class="string">'wrap'</span>,</div><div class="line">    alignItems:<span class="string">'flex-start'</span></div><div class="line">  &#125;,</div><div class="line">  cellViewStyle: &#123;</div><div class="line">    marginLeft:vMargin,</div><div class="line">    marginTop: hMargin</div><div class="line">  &#125;,</div><div class="line">  descStyle: &#123;</div><div class="line">    <span class="comment">// flexDirection:'row',</span></div><div class="line">    <span class="comment">// alignItems:'center'</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">AppRegistry.registerComponent(<span class="string">'ListViewjiugongge'</span>, () =&gt; ListViewjiugongge);</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -840,6 +710,12 @@ AppRegistry.registerComponent(&#39;ListViewjiugongge&#39;, () =&gt; ListViewjiug
   <script src="/js/src/algolia-search.js?v=5.1.0"></script>
 
 
-
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+   $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   prettyPrint();
+ })    
+</script>
 </body>
 </html>
