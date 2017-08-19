@@ -97,7 +97,7 @@
 <meta property="og:description" content="有时候希望textarea 能够自动调整高度来适应输入的内容
 网上看到了很多解决方案，比如动态创建一个隐藏的div，当用户输入的时候将textarea的内容绑定到div，由于div的高度会自动撑开，因此可以动态检测div的高度，然后将div的高度复制给textarea。这个方法应该是兼容性较好而且比较稳健的办法，但实在太繁琐
 还有一个解决办法就是动态将textarea的scrollHeight 复">
-<meta property="og:updated_time" content="2017-08-19T02:11:53.275Z">
+<meta property="og:updated_time" content="2017-08-19T02:16:55.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="textarea 实现高度自动增长">
 <meta name="twitter:description" content="有时候希望textarea 能够自动调整高度来适应输入的内容
@@ -382,6 +382,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> textarea = <span class="built_in">document</span>.getElementById(<span class="string">'textarea'</span>);</div><div class="line">    <span class="comment">// hide scroll bar</span></div><div class="line">textarea.style.overflow = <span class="string">'hidden'</span>;</div><div class="line"><span class="keyword">var</span> height = <span class="built_in">parseInt</span>(<span class="built_in">window</span>.getComputedStyle(textarea).height);</div><div class="line"><span class="keyword">var</span> width = <span class="built_in">parseInt</span>(<span class="built_in">window</span>.getComputedStyle(textarea).width);</div><div class="line"></div><div class="line"><span class="keyword">var</span> autoHeight = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.scrollHeight &lt;= height || <span class="keyword">this</span>.value == <span class="string">''</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.style.height=height + <span class="string">'px'</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.style.height = <span class="keyword">this</span>.scrollHeight +  <span class="string">'px'</span>;</div><div class="line">&#125;</div><div class="line">textarea.oninput = autoHeight;</div></pre></td></tr></table></figure>
 <p>这个方法就是通过监听textarea的oninput 来实现，也可以监听keyup，keydown；但是如果使用keyup或者keydown来监听的话会存在一个问题，那就是如果textarea有复制或者剪切操作，keyup，keydown不会立即响应内容的变化，并且也不能响应鼠标右键粘贴。</p>
 <p>最后再象征性地增加兼容<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">textarea.onpropertychange = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(event.propertyName.toLowerCase() == <span class="string">'value'</span>) &#123;</div><div class="line">        autoHeight();</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.value);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然而悲伤的是这种方式并不适用移动端，移动端所有浏览器均测试无效</p>
 <p>另外还有一个解决办法就是不使用textarea，而是使用普通div模拟textarea，因为div本身高度就自动增长，所有就不用担心其他问题了。实现方式就是给div设置属性<code>contentEditable=true</code>，这样div就变为可编辑的了。不过这种方式在某些firefox上面，div外层会出现虚框，从而使得div的本质暴露无疑。解决办法就是css配置<code>outline:0 none</code></p>
 
       
@@ -422,6 +423,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/19/react-个人小项目开发question/" rel="prev" title="react 个人小项目开发question">
+                react 个人小项目开发question <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -482,7 +487,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
