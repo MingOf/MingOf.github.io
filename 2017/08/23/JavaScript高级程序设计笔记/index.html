@@ -98,7 +98,7 @@ Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表
 对未初始化的变量执行 typeof 操作符会返回 undefined 值,而对未声明的变量执行 typeof 操作符同样也会返回 undefined 值
 Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表示的最大">
 <meta property="og:image" content="http://7xoilf.com1.z0.glb.clouddn.com/prototype.png">
-<meta property="og:updated_time" content="2017-08-23T04:37:09.264Z">
+<meta property="og:updated_time" content="2017-08-23T04:50:16.999Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript高级程序设计笔记">
 <meta name="twitter:description" content="第 3 章 基本概念typeof 的返回值有undefined, boolean, string, number, object, function
@@ -618,7 +618,7 @@ Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表
 <ul>
 <li><strong>寄生式继承</strong></li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createAnother</span>(<span class="params">original</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> clone = object(original);</div><div class="line">    clone.sayHi = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    alert(<span class="string">"hi"</span>);</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> clone;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createAnother</span>(<span class="params">original</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> clone = object(original);</div><div class="line">    clone.sayHi = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        alert(<span class="string">"hi"</span>);</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> clone;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
 <li><strong>寄生组合式继承</strong></li>
 </ul>
