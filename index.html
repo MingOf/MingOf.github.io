@@ -296,6 +296,134 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/使用JS动态获取背景颜色/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/21/使用JS动态获取背景颜色/" itemprop="url">
+                  使用JS动态获取背景颜色
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-21T13:45:26+08:00">
+                2017-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在写vue-music的时候，希望把song-list组件做成向qq音乐那样，背景颜色根据歌单封面变化</p>
+<p>使用canvas 的getImageData可以获取到图片的数据，包括rgba</p>
+<p>但是canvas 存在跨域问题。因此服务器端需要设置响应头,并且客户端设置<code>image.crossOrigin = &#39;anonymous&#39;</code></p>
+<p>实现方式如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> HOST = <span class="string">'...'</span>;</div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getImageColor</span> (<span class="params">src</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>)</div><div class="line">  <span class="keyword">var</span> context = canvas.getContext(<span class="string">'2d'</span>)</div><div class="line">  <span class="keyword">var</span> image = <span class="keyword">new</span> Image()</div><div class="line">  image.crossOrigin = <span class="string">'anonymous'</span></div><div class="line">  image.src = <span class="string">`<span class="subst">$&#123;HOST&#125;</span>/QQMusicAvatar?src=`</span> + src</div><div class="line">  <span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    image.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">var</span> imgWidth = <span class="keyword">this</span>.width</div><div class="line">      <span class="keyword">var</span> imgHeight = <span class="keyword">this</span>.height</div><div class="line">      canvas.width = imgWidth</div><div class="line">      canvas.height = imgHeight</div><div class="line">      context.drawImage(<span class="keyword">this</span>, <span class="number">0</span>, <span class="number">0</span>, imgWidth, imgHeight)</div><div class="line">      <span class="keyword">var</span> imgData = context.getImageData(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</div><div class="line">      resolve(imgData)</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> promise</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/21/使用JS动态获取背景颜色/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/vue-music-兼容性调整/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -846,133 +974,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/nodeJS-文件上传与下载/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/09/21/nodeJS-文件上传与下载/" itemprop="url">
-                  nodeJS 文件上传与下载
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-21T10:07:41+08:00">
-                2017-09-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="nodeJS-文件上传"><a href="#nodeJS-文件上传" class="headerlink" title="nodeJS 文件上传"></a>nodeJS 文件上传</h3><p>express 下使用body-parser是无法解析multipart/form-data的内容的，如果客户端发来文件内容，使用body-parser中间件是看不到文件的</p>
-<p>此时需要引入multer模块，<code>npm install multer -S</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</div><div class="line"><span class="keyword">var</span> upload = <span class="built_in">require</span>(<span class="string">'multer'</span>)(&#123;</div><div class="line">    dest: <span class="string">'uploads/'</span> <span class="comment">//指定文件上传后存放的位置</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">var</span> app = <span class="built_in">require</span>(<span class="string">'express'</span>)();</div><div class="line">app.use(bodyParser.json());</div><div class="line">app.use(bodyParser.urlencoded(&#123;<span class="attr">extended</span>: <span class="literal">true</span>&#125;));</div><div class="line">app.listen(<span class="string">'8888'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'.....'</span>)</div><div class="line">&#125;);</div><div class="line">app.post(<span class="string">'/uploads'</span>,upload.any(), <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(req.fields);</div><div class="line">    <span class="built_in">console</span>.log(req.files); <span class="comment">// 此时可以在req.files 已上传内容的信息了</span></div><div class="line">    <span class="built_in">console</span>.log(req.body);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>客户端使用FormData上传file Object<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"up"</span> <span class="attr">name</span>=<span class="string">"up"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span> <span class="attr">id</span>=<span class="string">"file"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">id</span>=<span class="string">"submit"</span>  /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> form = <span class="built_in">document</span>.getElementById(<span class="string">'up'</span>);</span></div><div class="line"><span class="javascript">    form.addEventListener(<span class="string">'submit'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span></div><div class="line"><span class="undefined">        e.preventDefault();</span></div><div class="line"><span class="javascript">        <span class="keyword">var</span> data = <span class="keyword">new</span> FormData(form);</span></div><div class="line"><span class="javascript">        <span class="built_in">console</span>.log(data);</span></div><div class="line"><span class="javascript">        <span class="keyword">var</span> en = data.entries();</span></div><div class="line"><span class="javascript">        <span class="built_in">console</span>.log(en);</span></div><div class="line"><span class="javascript">        <span class="keyword">for</span>(<span class="keyword">var</span> pair <span class="keyword">of</span> en) &#123;</span></div><div class="line"><span class="javascript">            <span class="built_in">console</span>.log(pair);</span></div><div class="line"><span class="undefined">        &#125;</span></div><div class="line"><span class="javascript">        xhr.open(<span class="string">'post'</span>,<span class="string">'http://localhost:8888/upload'</span>,<span class="literal">true</span>);</span></div><div class="line"><span class="undefined">        xhr.send(data);</span></div><div class="line"><span class="undefined">    &#125;)</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/21/nodeJS-文件上传与下载/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1020,7 +1021,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
