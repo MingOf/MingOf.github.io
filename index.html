@@ -296,6 +296,138 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/socket-io-的使用/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/21/socket-io-的使用/" itemprop="url">
+                  socket.io 的使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-21T11:11:14+08:00">
+                2017-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="首先配置好服务器"><a href="#首先配置好服务器" class="headerlink" title="首先配置好服务器"></a>首先配置好服务器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">... <span class="comment">//前面省略</span></div><div class="line">...</div><div class="line"><span class="keyword">var</span> server = app.listen(app.get(<span class="string">'port'</span>), <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'node 正在运行，端口:'</span>+app.get(<span class="string">'port'</span>));</div><div class="line">&#125;);</div><div class="line"><span class="keyword">var</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>)(server, &#123;</div><div class="line">    pingTimeout: <span class="number">5000</span>,</div><div class="line">    pingInterval: <span class="number">10000</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"></div><div class="line">io.on(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">socket</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(socket.id)</div><div class="line">    socket.on(<span class="string">'disconnect'</span>, () =&gt; &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> oSocketIDs) &#123;</div><div class="line">            <span class="keyword">if</span>(oSocketIDs[i] === socket.id) &#123;</div><div class="line">                <span class="keyword">delete</span>(oSocketIDs[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">delete</span>(oSockets[socket.id])</div><div class="line">    &#125;)</div><div class="line">    socket.on(<span class="string">'chat message'</span>,(msg, fn) =&gt; &#123;</div><div class="line">        io.emit(<span class="string">'chat message'</span>, msg);</div><div class="line">        fn(<span class="string">'success'</span>)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="然后客户端需要配置socket"><a href="#然后客户端需要配置socket" class="headerlink" title="然后客户端需要配置socket"></a>然后客户端需要配置socket</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"messages"</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"m"</span> <span class="attr">autocomplete</span>=<span class="string">"off"</span> /&gt;</span><span class="tag">&lt;<span class="name">button</span>&gt;</span>Send<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/socket.io/socket.io.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-1.11.1.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 如果socket.io.js 和服务器不在一个域下面，则需要指定详细地址 --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- &lt;script src='http://localhost:8888/socket.io/socket.io.js'&gt;&lt;/script&gt; --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">      <span class="keyword">var</span> socket = io();</span></div><div class="line"><span class="javascript">    <span class="comment">//   如果socket.io.js 和服务器不在一个域下面，则需要指定详细地址</span></span></div><div class="line"><span class="javascript">    <span class="comment">//  var socket = io('http://localhost:8888')</span></span></div><div class="line"><span class="javascript">      $(<span class="string">'form'</span>).submit(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span></div><div class="line"><span class="undefined">          event.preventDefault();</span></div><div class="line"><span class="javascript">          socket.emit(<span class="string">'chat message'</span>, $(<span class="string">'#m'</span>).val());</span></div><div class="line"><span class="javascript">          <span class="keyword">return</span> <span class="literal">false</span>;</span></div><div class="line"><span class="undefined">      &#125;);</span></div><div class="line"><span class="javascript">      socket.on(<span class="string">'chat message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">msg</span>) </span>&#123;</span></div><div class="line"><span class="javascript">          $(<span class="string">'#messages'</span>).append($(<span class="string">'&lt;li&gt;'</span>).text(msg));</span></div><div class="line"><span class="undefined">      &#125;)</span></div><div class="line"><span class="javascript">      $.ajax(&#123;</span></div><div class="line"><span class="javascript">          url: <span class="string">'/test'</span>,</span></div><div class="line"><span class="javascript">          type: <span class="string">'get'</span>,</span></div><div class="line"><span class="javascript">          data: &#123;<span class="attr">param1</span>: <span class="string">'value1'</span>&#125;</span></div><div class="line"><span class="undefined">      &#125;)</span></div><div class="line"><span class="javascript">      .done(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></div><div class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="string">"success"</span>);</span></div><div class="line"><span class="undefined">      &#125;)</span></div><div class="line"><span class="javascript">      .fail(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></div><div class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="string">"error"</span>);</span></div><div class="line"><span class="undefined">      &#125;)</span></div><div class="line"><span class="javascript">      .always(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></div><div class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="string">"complete"</span>);</span></div><div class="line"><span class="undefined">      &#125;);</span></div><div class="line"><span class="undefined"></span></div><div class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>客户端手动断开socket, 使用socket.close(); 手动重连socket.open();</li>
+<li>socket监听事件,使用socket.on();</li>
+<li>服务端广播消息，io.emit:广播全部包括自己， socket.broadcast.emit: 广播全部不包括自己</li>
+</ul>
+<h3 id="socket-io-实现点对点发送消息"><a href="#socket-io-实现点对点发送消息" class="headerlink" title="socket.io 实现点对点发送消息"></a>socket.io 实现点对点发送消息</h3><p>实现方式：在io.on(‘connection’)的时候，所有的socket按照某种关键字保存起来, 比如一个对象oSockets。做{username: socket} 的对应关系。然后在服务器端监听到某个私有消息事件的时候，根据客户端指定的username，选择oSockets[username].emit(…)就行了<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/21/socket-io-的使用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/一份完整的express4后台配置/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -802,162 +934,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/23/JavaScript高级程序设计笔记/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/23/JavaScript高级程序设计笔记/" itemprop="url">
-                  JavaScript高级程序设计笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-23T00:00:00+08:00">
-                2017-08-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="第-3-章-基本概念"><a href="#第-3-章-基本概念" class="headerlink" title="第 3 章 基本概念"></a>第 3 章 基本概念</h1><p>typeof 的返回值有undefined, boolean, string, number, object, function</p>
-<p>对未初始化的变量执行 typeof 操作符会返回 undefined 值,而对未声明<br>的变量执行 typeof 操作符同样也会返回 undefined 值</p>
-<p>Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表示的最大数值保存在<br>Number.MAX_VALUE 中——在大多数浏览器中,这个值是 1.7976931348623157e+308</p>
-<p>0 除以 0 才会返回 NaN,正数除以 0 返回 Infinity,负数除以 0 返回-Infinity</p>
-<p>转型函数 Number() 可以用于任何数据类型,而另两个函数则专门用于把字符串转换成数值</p>
-<p>Number() 函数的转换规则如下:</p>
-<ul>
-<li>如果是 Boolean 值, true 和 false 将分别被转换为 1 和 0。</li>
-<li>如果是数字值,只是简单的传入和返回。</li>
-<li>如果是 null 值,返回 0。</li>
-<li>如果是 undefined ,返回 NaN 。</li>
-<li>如果是字符串,遵循下列规则:<ul>
-<li>如果字符串中只包含数字(包括前面带正号或负号的情况),则将其转换为十进制数值,即 “1”<br>会变成 1, “123” 会变成 123,而 “011” 会变成 11(注意:前导的零被忽略了);</li>
-<li>如果字符串中包含有效的浮点格式,如 “1.1” ,则将其转换为对应的浮点数值(同样,也会忽<br>略前导零);</li>
-<li>如果字符串中包含有效的十六进制格式,例如 “0xf” ,则将其转换为相同大小的十进制整<br>数值;</li>
-<li>如果字符串是空的(不包含任何字符),则将其转换为 0;</li>
-<li>如果字符串中包含除上述格式之外的字符,则将其转换为 NaN 。</li>
-</ul>
-</li>
-<li>如果是对象,则调用对象的 valueOf() 方法,然后依照前面的规则转换返回的值。如果转换<br>的结果是 NaN ,则调用对象的 toString() 方法,然后再次依照前面的规则转换返回的字符<br>串值。</li>
-</ul>
-<p>String() 函数遵循下列转换规则:</p>
-<ul>
-<li>如果值有 toString() 方法,则调用该方法(没有参数)并返回相应的结果;</li>
-<li>如果值是 null ,则返回 “null” ;</li>
-<li>如果值是 undefined ,则返回 “undefined”</li>
-</ul>
-<p>arguments 的行为,还有一点比较有意思。那就是它的值永远与对应命名参数的值保持同步</p>
-<p>ECMAScript 中的所有参数传递的都是值,不可能通过引用传递参数</p>
-<h1 id="第四章-变量、作用域和内存问题"><a href="#第四章-变量、作用域和内存问题" class="headerlink" title="第四章 变量、作用域和内存问题"></a>第四章 变量、作用域和内存问题</h1><p>执行环境定义了变量或函数有权访问的其他数据,决定了它们各自的行为</p>
-<p>每个函数都有自己的执行环境。当执行流进入一个函数时,函数的环境就会被推入一个环境栈中。而在函数执行之后,栈将其环境弹出,把控制权返回给之前的执行环境</p>
-<p>当代码在一个环境中执行时,会创建变量对象的一个<strong>作用域链(scope chain)</strong><br>。作用域链的用途,是保证对执行环境有权访问的所有变量和函数的有序访问。作用域链的前端,始终都是当前执行的代码所在环境的 <strong>变量对象</strong>。如果这个环境是函数,则将其<strong>活动对象</strong>(activation object)作为变量对象。活动对。作用域链中象在最开始时只包含一个变量,即 arguments 对象(这个对象在全局环境中是不存在的)的下一个变量对象来自包含(外部)环境,而再下一个变量对象则来自下一个包含环境。这样,一直延续到全局执行环境;全局执行环境的变量对象始终都是作用域链中的最后一个对象。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/23/JavaScript高级程序设计笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1005,7 +981,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1016,7 +992,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
