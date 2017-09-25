@@ -98,7 +98,7 @@ Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表
 对未初始化的变量执行 typeof 操作符会返回 undefined 值,而对未声明的变量执行 typeof 操作符同样也会返回 undefined 值
 Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表示的最大">
 <meta property="og:image" content="http://7xoilf.com1.z0.glb.clouddn.com/prototype.png">
-<meta property="og:updated_time" content="2017-08-23T04:50:17.000Z">
+<meta property="og:updated_time" content="2017-09-25T02:39:42.195Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript高级程序设计笔记">
 <meta name="twitter:description" content="第 3 章 基本概念typeof 的返回值有undefined, boolean, string, number, object, function
@@ -623,6 +623,74 @@ Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表
 <li><strong>寄生组合式继承</strong></li>
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inheritPrototype</span>(<span class="params">subType, superType</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> prototype = object(superType.prototype);</div><div class="line">    prototype.constructor = subType;</div><div class="line">    subType.prototype = prototype;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.colors = [<span class="string">"red"</span>, <span class="string">"blue"</span>, <span class="string">"green"</span>];</div><div class="line">&#125;</div><div class="line">SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.name);</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name, age</span>)</span>&#123;</div><div class="line">    SuperType.call(<span class="keyword">this</span>, name);</div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">&#125;</div><div class="line">inheritPrototype(SubType, SuperType);</div><div class="line">SubType.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.age);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h1 id="第七章-函数表达式"><a href="#第七章-函数表达式" class="headerlink" title="第七章 函数表达式"></a>第七章 函数表达式</h1><p><strong>闭包</strong></p>
+<p>概念： 闭包是指有权访问另一个函数作用域中的变量的函数</p>
+<p>作用域链本质上是一个指向变量对象的指针列表,它只引用但不实际包含变量对象</p>
+<p>闭包形成原因： 函数在执行完毕后,其活动对象也不会被销毁,因为匿名函数的作用域链仍然在引用这个活动对象</p>
+<p>使用立即执行函数这种做法可以减少闭包占用的内存问题,因为没有指向匿名函数的引用。只要函数执行完毕,就可以立即销毁其作用域链了</p>
+<h1 id="第八章-BOM"><a href="#第八章-BOM" class="headerlink" title="第八章 BOM"></a>第八章 BOM</h1><p><strong>setTimeout 和 setInterval</strong></p>
+<p>JavaScript 是一个单线程序的解释器,因此一定时间内只能执行一段代码。为了控制要执行的代码,就<br>有一个 JavaScript 任务队列。这些任务会按照将它们添加到队列的顺序执行。 <strong>setTimeout() 的第二个<br>参数告诉 JavaScript 再过多长时间把当前任务添加到队列中</strong>。如果队列是空的,那么添加的代码会立即<br>执行;如果队列不是空的,那么它就要等前面的代码执行完了以后再执行。</p>
+<p>超时调用的代码都是在全局作用域中执行的,因此函数中 this 的值在非严格模<br>式下指向 window 对象,在严格模式下是 <strong>undefined</strong></p>
+<p>般认为,使用超时调用来模拟间歇调用的是一种最佳模式。<strong>在开发环境下,很少使用真正的间歇调用,原因是后一个间歇调用可能会在前一个间歇调用结束之前启动</strong>。而像前面示例中那样使用超时调用,则完全可以避免这一点。所以,最好不要使用间歇调用</p>
+<p><strong>location</strong></p>
+<p>可以使用document.location 和 window.loaction访问</p>
+<p>它提供了与当前窗口中加载的文档有关的信息,还提供了一些导航功能</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性名</th>
+<th style="text-align:left">例子</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">hash</td>
+<td style="text-align:left">‘#content’</td>
+<td style="text-align:left">返回URL中的hash(#号后跟零或多个字符),如果URL中不包含散列,则返回空字符串</td>
+</tr>
+<tr>
+<td style="text-align:left">host</td>
+<td style="text-align:left">“www.wrox.com:80”</td>
+<td style="text-align:left">返回服务器名称和端口号(如果有)</td>
+</tr>
+<tr>
+<td style="text-align:left">hostname</td>
+<td style="text-align:left">“www.wrox.com”</td>
+<td style="text-align:left">返回不带端口号的服务器名称</td>
+</tr>
+<tr>
+<td style="text-align:left">href</td>
+<td style="text-align:left">http:/www.wrox.com”</td>
+<td style="text-align:left">返回当前加载页面的完整URL。而location对象的toString()方法也返回这个值</td>
+</tr>
+<tr>
+<td style="text-align:left">pathname</td>
+<td style="text-align:left">“/WileyCDA/“</td>
+<td style="text-align:left">返回URL中的目录和(或)文件名</td>
+</tr>
+<tr>
+<td style="text-align:left">port</td>
+<td style="text-align:left">“8080”</td>
+<td style="text-align:left">返回URL中指定的端口号。如果URL中不包含端口号,则这个属性返回空字符串</td>
+</tr>
+<tr>
+<td style="text-align:left">protocol</td>
+<td style="text-align:left">“http:”</td>
+<td style="text-align:left">返回页面使用的协议。通常是http:或https:</td>
+</tr>
+<tr>
+<td style="text-align:left">search</td>
+<td style="text-align:left">“?q=javascript”</td>
+<td style="text-align:left">返回URL的查询字符串。这个字符串以问号开头</td>
+</tr>
+</tbody>
+</table>
+<h1 id="第22章-高级技巧"><a href="#第22章-高级技巧" class="headerlink" title="第22章 高级技巧"></a>第22章 高级技巧</h1><p><strong>作用域安全的构造函数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age, job</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> Person)&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">        <span class="keyword">this</span>.job = job;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Person(name, age, job);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> person1 = Person(<span class="string">"Nicholas"</span>, <span class="number">29</span>, <span class="string">"Software Engineer"</span>);</div><div class="line">alert(<span class="built_in">window</span>.name);</div><div class="line"><span class="comment">//""</span></div><div class="line">alert(person1.name);</div><div class="line"><span class="comment">//"Nicholas"</span></div><div class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">"Shelby"</span>, <span class="number">34</span>, <span class="string">"Ergonomist"</span>);</div><div class="line">alert(person2.name);</div><div class="line"><span class="comment">//"Shelby"</span></div></pre></td></tr></table></figure></p>
+<p>使用作用域安全的构造函数会使得call和apply 方法失效，解决办法是使用原型</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Polygon</span>(<span class="params">sides</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> Polygon) &#123;</div><div class="line">        <span class="keyword">this</span>.sides = sides;</div><div class="line">        <span class="keyword">this</span>.getArea = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Polygon(sides);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rectangle</span>(<span class="params">width, height</span>)</span>&#123;</div><div class="line">    Polygon.call(<span class="keyword">this</span>, <span class="number">2</span>);</div><div class="line">    <span class="keyword">this</span>.width = width;</div><div class="line">    <span class="keyword">this</span>.height = height;</div><div class="line">    <span class="keyword">this</span>.getArea = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.width * <span class="keyword">this</span>.height;</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Rectangle.prototype = <span class="keyword">new</span> Polygon();</div><div class="line"><span class="keyword">var</span> rect = <span class="keyword">new</span> Rectangle(<span class="number">5</span>, <span class="number">10</span>);</div><div class="line">alert(rect.sides);</div><div class="line"><span class="comment">//2</span></div></pre></td></tr></table></figure>
+<p>由于指定了Rectangele的prototype为Ploygon的实例，因此一个 Rectangle 实例也同时是一个 Polygon 实例。这样Polygon的 instance 检测就会通过</p>
+<p><strong>惰性载入函数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> createXHR = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> XMLHttpRequest != <span class="string">"undefined"</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">        &#125;;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> ActiveXObject != <span class="string">"undefined"</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">arguments</span>.callee.activeXString != <span class="string">"string"</span>)&#123;</div><div class="line">                <span class="keyword">var</span> versions = [<span class="string">"MSXML2.XMLHttp.6.0"</span>, <span class="string">"MSXML2.XMLHttp.3.0"</span>, <span class="string">"MSXML2.XMLHttp"</span>], i, len;</div><div class="line">                <span class="keyword">for</span> (i=<span class="number">0</span>,len=versions.length; i &lt; len; i++)&#123;</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        <span class="keyword">new</span> ActiveXObject(versions[i]);</div><div class="line">                        <span class="built_in">arguments</span>.callee.activeXString = versions[i];</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125; <span class="keyword">catch</span> (ex)&#123;</div><div class="line">                        <span class="comment">//skip</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ActiveXObject(<span class="built_in">arguments</span>.callee.activeXString);</div><div class="line">        &#125;;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"No XHR object available."</span>);</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -787,7 +855,7 @@ Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第-3-章-基本概念"><span class="nav-number">1.</span> <span class="nav-text">第 3 章 基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四章-变量、作用域和内存问题"><span class="nav-number">2.</span> <span class="nav-text">第四章 变量、作用域和内存问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第五章-引用类型"><span class="nav-number">3.</span> <span class="nav-text">第五章 引用类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第六章-面向对象的程序设计"><span class="nav-number">4.</span> <span class="nav-text">第六章 面向对象的程序设计</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第-3-章-基本概念"><span class="nav-number">1.</span> <span class="nav-text">第 3 章 基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四章-变量、作用域和内存问题"><span class="nav-number">2.</span> <span class="nav-text">第四章 变量、作用域和内存问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第五章-引用类型"><span class="nav-number">3.</span> <span class="nav-text">第五章 引用类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第六章-面向对象的程序设计"><span class="nav-number">4.</span> <span class="nav-text">第六章 面向对象的程序设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第七章-函数表达式"><span class="nav-number">5.</span> <span class="nav-text">第七章 函数表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第八章-BOM"><span class="nav-number">6.</span> <span class="nav-text">第八章 BOM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第22章-高级技巧"><span class="nav-number">7.</span> <span class="nav-text">第22章 高级技巧</span></a></li></ol></div>
             
 
           </div>
