@@ -296,6 +296,382 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/30/webpack-css-modules-和global-css-共存/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/30/webpack-css-modules-和global-css-共存/" itemprop="url">
+                  webpack css-modules 和global css 共存
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-30T17:29:14+08:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在使用ant design 时候遇到ant design css 和自定义的css 冲突的问题。<br>./node_modules/ 中ant desing 的css 文件作为全局的css 和 自定义的css_modules 会发生冲突。解决办法是将/node_modules/中的css与自定义的css 分开处理。即对css_modules使用<code>exclude:/node_modules/</code>，对node_modules中的css使用<code>include:path.resolve(__dirname,&#39;node_modules&#39;)</code></p>
+<p>最开始定义的webpack.config.js 的处理方式：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  context: __dirname+<span class="string">'/src'</span>,</div><div class="line">  entry: <span class="string">"./js/index.js"</span>,</div><div class="line">  <span class="built_in">module</span>: &#123;</div><div class="line">    rules: [</div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.js?$/</span>,</div><div class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">        use: &#123;</div><div class="line">          loader: <span class="string">'babel-loader'</span>,</div><div class="line">          options: &#123;</div><div class="line">            presets: [<span class="string">'react'</span>,<span class="string">'es2015'</span>],</div><div class="line">            <span class="comment">// ant design  babel-plugin-import</span></div><div class="line">            plugins: [[<span class="string">'import'</span>,&#123;<span class="string">'libraryName'</span>:<span class="string">'antd'</span>,<span class="string">'style'</span>:<span class="string">'css'</span>&#125;]]</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">        use: [</div><div class="line">          &#123;<span class="attr">loader</span>:<span class="string">'style-loader'</span>&#125;,</div><div class="line">          &#123;</div><div class="line">            loader: <span class="string">'css-loader'</span>,</div><div class="line">            options: &#123;</div><div class="line">              modules: <span class="literal">true</span>,</div><div class="line">              loacalIdentName: <span class="string">'[name]__[local]_[hash:base64:5]'</span>,</div><div class="line">              sourceMap: <span class="literal">true</span>,</div><div class="line">              importLoaders: <span class="number">1</span></div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        ]</div><div class="line">      &#125;,  </div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  output: &#123;</div><div class="line">    path: __dirname+<span class="string">'/src'</span>,</div><div class="line">    filename: <span class="string">'bundle.js'</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>报错：</p>
+<blockquote>
+<p>ERROR in ./node_modules/antd/lib/button/style/index.css<br>Module parse failed: /home/johnny/Project/react/demo3/node_modules/antd/lib/button/style/index.css Unexpected token (1:0)<br>You may need an appropriate loader to handle this file type.</p>
+</blockquote>
+<p>找到解决办法是，分别处理node_modules(ant design)中的css和css_modules：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  context: __dirname+<span class="string">'/src'</span>,</div><div class="line">  entry: <span class="string">"./js/index.js"</span>,</div><div class="line">  <span class="built_in">module</span>: &#123;</div><div class="line">    rules: [</div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.js?$/</span>,</div><div class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">        use: &#123;</div><div class="line">          loader: <span class="string">'babel-loader'</span>,</div><div class="line">          options: &#123;</div><div class="line">            presets: [<span class="string">'react'</span>,<span class="string">'es2015'</span>],</div><div class="line">            plugins: [[<span class="string">'import'</span>,&#123;<span class="string">'libraryName'</span>:<span class="string">'antd'</span>,<span class="string">'style'</span>:<span class="string">'css'</span>&#125;]]</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      <span class="comment">// css_modules 处理方式</span></div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">        use: [</div><div class="line">          &#123;<span class="attr">loader</span>:<span class="string">'style-loader'</span>&#125;,</div><div class="line">          &#123;</div><div class="line">            loader: <span class="string">'css-loader'</span>,</div><div class="line">            options: &#123;</div><div class="line">              modules: <span class="literal">true</span>,</div><div class="line">              loacalIdentName: <span class="string">'[name]__[local]_[hash:base64:5]'</span>,</div><div class="line">              sourceMap: <span class="literal">true</span>,</div><div class="line">              importLoaders: <span class="number">1</span></div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      <span class="comment">// ant design 处理方式</span></div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        include: path.resolve(__dirname, <span class="string">'node_modules'</span>),</div><div class="line">        use: [</div><div class="line">          &#123;<span class="attr">loader</span>:<span class="string">'style-loader'</span>&#125;,</div><div class="line">          &#123;</div><div class="line">            loader:<span class="string">'css-loader'</span>,</div><div class="line">          &#125;</div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  output: &#123;</div><div class="line">    path: __dirname+<span class="string">'/src'</span>,</div><div class="line">    filename: <span class="string">'bundle.js'</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/27/react-native学习日记之TabNavigator/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/27/react-native学习日记之TabNavigator/" itemprop="url">
+                  react-native学习日记之TabNavigator
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-27T13:11:59+08:00">
+                2017-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>安卓中不能像IOS一样有NavigatorIOS和tabBarIOS，如果需要跨平台实现类似的功能，必须要借助第三方组件<br>如<a href="https://github.com/exponent/react-native-tab-navigator" target="_blank" rel="external">https://github.com/exponent/react-native-tab-navigator</a></p>
+<p>安装：</p>
+<p><code>npm install react-native-tab-navigator</code></p>
+<p>使用：</p>
+<p><code>import TabNavigator from &#39;react-native-tab-navigator&#39;</code></p>
+<p>这个组件的使用方式类似于TabBarIOS，配合Navigator一起使用就可以到达跨平台的效果了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View,</div><div class="line">  Image,</div><div class="line">  Navigator</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"><span class="keyword">import</span> TabNavigator <span class="keyword">from</span> <span class="string">'react-native-tab-navigator'</span>;</div><div class="line"><span class="keyword">import</span> HomeView <span class="keyword">from</span> <span class="string">'./Components/homeView.js'</span>;</div><div class="line"><span class="keyword">import</span> ProfileView <span class="keyword">from</span> <span class="string">'./Components/profileView.js'</span>;</div><div class="line"><span class="keyword">var</span> icons=[</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_1.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_2.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_3.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_4.png'</span>)</div><div class="line">];</div><div class="line"><span class="keyword">var</span> pressIcons = [</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_1_press.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_2_press.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_3_press.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./imgs/tabbar_4_press.png'</span>)</div><div class="line">]</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">TabNavigatorDemo</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">this</span>.state=&#123;</div><div class="line">      selectedTab:<span class="string">'home'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">let</span> defaultName = <span class="string">'HomeView'</span>;</div><div class="line">    <span class="keyword">let</span> defaultComponent = HomeView;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;View style=&#123;&#123;<span class="attr">flex</span>:<span class="number">1</span>&#125;&#125;&gt;</div><div class="line">        &lt;TabNavigator tabBarStyle=&#123;styles.tabBarStyle&#125;&gt;</div><div class="line">          &lt;TabNavigator.Item</div><div class="line">            selected=&#123;<span class="keyword">this</span>.state.selectedTab === <span class="string">'home'</span>&#125;</div><div class="line">            title=<span class="string">"Home"</span></div><div class="line">            renderIcon=&#123;() =&gt; <span class="xml"><span class="tag">&lt;<span class="name">Image</span> <span class="attr">style</span>=<span class="string">&#123;styles.iconStyle&#125;</span> <span class="attr">source</span>=<span class="string">&#123;icons[0]&#125;</span> /&gt;</span>&#125;</span></div><div class="line">            renderSelectedIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;pressIcons[0]&#125; /&gt;&#125;</div><div class="line">            badgeText="1"</div><div class="line">            onPress=&#123;() =&gt; this.setState(&#123; selectedTab: 'home' &#125;)&#125;&gt;</div><div class="line">            &lt;Navigator</div><div class="line">              initialRoute=&#123;&#123;name:defaultName,component:defaultComponent&#125;&#125;</div><div class="line">              configureScene=&#123;(route)=&gt;&#123;</div><div class="line">                return Navigator.SceneConfigs.VerticalDownSwipeJump;</div><div class="line">              &#125;&#125;</div><div class="line">              renderScene=&#123;(route,navigator)=&gt;&#123;</div><div class="line">                // console.log(route,navigator);</div><div class="line">                let Component = route.component;</div><div class="line">                return &lt;Component &#123;...route.params&#125; navigator=&#123;navigator&#125; /&gt;</div><div class="line">              &#125;&#125;</div><div class="line">              navigationBar=&#123;</div><div class="line">                &lt;Navigator.NavigationBar</div><div class="line">                  routeMapper=&#123;&#123;</div><div class="line">                    LeftButton: (route,navigator,index,navState)=&gt;&#123;</div><div class="line">                      return (&lt;Text&gt;前进&lt;/Text&gt;);</div><div class="line">                    &#125;,</div><div class="line">                    Title: (route,navigator,index,navState)=&gt;&#123;</div><div class="line">                      return (&lt;Text&gt;首页&lt;/Text&gt;);</div><div class="line">                    &#125;,</div><div class="line">                    RightButton: (route, navigator, index, navState) =&gt; &#123;&#125;,</div><div class="line">                  &#125;&#125;</div><div class="line">                  /&gt;</div><div class="line">              &#125;</div><div class="line">              /&gt;</div><div class="line">          &lt;/TabNavigator.Item&gt;</div><div class="line">          &lt;TabNavigator.Item</div><div class="line">            selected=&#123;this.state.selectedTab === 'profile'&#125;</div><div class="line">            title="Profile"</div><div class="line">            renderIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;icons[1]&#125; /&gt;&#125;</div><div class="line">            renderSelectedIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;pressIcons[1]&#125; /&gt;&#125;</div><div class="line">            // renderBadge=&#123;() =&gt; &lt;CustomBadgeView /&gt;&#125;</div><div class="line">            onPress=&#123;() =&gt; this.setState(&#123; selectedTab: 'profile' &#125;)&#125;&gt;</div><div class="line">            &lt;ProfileView/&gt;</div><div class="line">          &lt;/TabNavigator.Item&gt;</div><div class="line">          &lt;TabNavigator.Item</div><div class="line">            selected=&#123;this.state.selectedTab === 'favor'&#125;</div><div class="line">            title="favor"</div><div class="line">            renderIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;icons[2]&#125; /&gt;&#125;</div><div class="line">            renderSelectedIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;pressIcons[2]&#125; /&gt;&#125;</div><div class="line">            // renderBadge=&#123;() =&gt; &lt;CustomBadgeView /&gt;&#125;</div><div class="line">            onPress=&#123;() =&gt; this.setState(&#123; selectedTab: 'favor' &#125;)&#125;&gt;</div><div class="line">            &lt;ProfileView/&gt;</div><div class="line">          &lt;/TabNavigator.Item&gt;</div><div class="line">          &lt;TabNavigator.Item</div><div class="line">            selected=&#123;this.state.selectedTab === 'me'&#125;</div><div class="line">            title="me"</div><div class="line">            renderIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;icons[3]&#125; /&gt;&#125;</div><div class="line">            renderSelectedIcon=&#123;() =&gt; &lt;Image style=&#123;styles.iconStyle&#125; source=&#123;pressIcons[3]&#125; /&gt;&#125;</div><div class="line">            // renderBadge=&#123;() =&gt; &lt;CustomBadgeView /&gt;&#125;</div><div class="line">            onPress=&#123;() =&gt; this.setState(&#123; selectedTab: 'me' &#125;)&#125;&gt;</div><div class="line">            &lt;ProfileView/&gt;</div><div class="line">          &lt;/TabNavigator.Item&gt;</div><div class="line">        &lt;/TabNavigator&gt;</div><div class="line">      &lt;/View&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const styles = StyleSheet.create(&#123;</div><div class="line">  tabBarStyle: &#123;</div><div class="line">    // backgroundColor:'red'</div><div class="line">  &#125;,</div><div class="line">  iconStyle: &#123;</div><div class="line">    width:20,</div><div class="line">    height:20</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">AppRegistry.registerComponent('TabNavigatorDemo', () =&gt; TabNavigatorDemo);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/react-native学习日记之tabBar/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/22/react-native学习日记之tabBar/" itemprop="url">
+                  react-native学习日记之tabBar
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-22T11:44:59+08:00">
+                2017-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>IOS 上可以使用tabBarIOS组件实现底栏tabBar，但是安卓不行。不过可以借助第三方组件实现类似的功能<br><a href="https://github.com/react-native-community/react-native-tab-view" target="_blank" rel="external">react-native-tab-view</a></p>
+<p>基本用法如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"><span class="keyword">import</span> &#123;TabViewAnimated,TabBar&#125; <span class="keyword">from</span> <span class="string">'react-native-tab-view'</span>;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">tabView</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  state = &#123;</div><div class="line">    index: <span class="number">0</span>,</div><div class="line">    routes: [</div><div class="line">      &#123; <span class="attr">key</span>: <span class="string">'1'</span>, <span class="attr">title</span>: <span class="string">'First'</span> &#125;,</div><div class="line">      &#123; <span class="attr">key</span>: <span class="string">'2'</span>, <span class="attr">title</span>: <span class="string">'Second'</span> &#125;,</div><div class="line">    ],</div><div class="line">  &#125;;</div><div class="line">  _handleChangeTab = <span class="function">(<span class="params">index</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">this</span>.setState(&#123;index&#125;);</div><div class="line">  &#125;;</div><div class="line">  _renderHeader = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(TabBar);</div><div class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">TabBar</span> &#123;<span class="attr">...props</span>&#125; <span class="attr">style</span>=<span class="string">&#123;styles.tabBar&#125;/</span>&gt;</span></span></div><div class="line"><span class="xml">  &#125;;</span></div><div class="line"><span class="xml">  _renderFooter = (props) =&gt; &#123;</span></div><div class="line"><span class="xml">    console.log(TabBar);</span></div><div class="line">    return &lt;TabBar &#123;...props&#125; style=&#123;styles.tabBar&#125; indicatorStyle=&#123;&#123;backgroundColor:'transparent'&#125;&#125;/&gt;</div><div class="line">  &#125;;</div><div class="line">  _renderScene = (&#123;route&#125;) =&gt; &#123;</div><div class="line">    switch (route.key) &#123;</div><div class="line">      case '1':</div><div class="line">        return &lt;View style=&#123;[styles.page,&#123;backgroundColor:'#ff4081'&#125;]&#125;&gt;</div><div class="line">                  &lt;Text&gt;</div><div class="line">                    第一页</div><div class="line">                  &lt;/Text&gt;</div><div class="line">               &lt;/View&gt;</div><div class="line">      case "2":</div><div class="line">        return &lt;View style=&#123;[styles.page,&#123;backgroundColor:'#673ab7'&#125;]&#125;&gt;</div><div class="line">                  &lt;Text&gt;</div><div class="line">                    第二页</div><div class="line">                  &lt;/Text&gt;</div><div class="line">               &lt;/View&gt;</div><div class="line">      default:</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">  render() &#123;</div><div class="line">    return (</div><div class="line">      &lt;TabViewAnimated</div><div class="line">        style=&#123;styles.container&#125;</div><div class="line">        navigationState=&#123;this.state&#125;</div><div class="line">        renderScene=&#123;this._renderScene&#125;</div><div class="line">        renderHeader=&#123;this._renderHeader&#125;</div><div class="line">        // renderFooter=&#123;this._renderFooter&#125;</div><div class="line">        onRequestChangeTab=&#123;this._handleChangeTab&#125;</div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const styles = StyleSheet.create(&#123;</div><div class="line">  container: &#123;</div><div class="line">    flex: 1,</div><div class="line">  &#125;,</div><div class="line">  page: &#123;</div><div class="line">    flex: 1,</div><div class="line">    alignItems: 'center',</div><div class="line">    justifyContent: 'center',</div><div class="line">  &#125;,</div><div class="line">&#125;);</div><div class="line"></div><div class="line">AppRegistry.registerComponent('tabView', () =&gt; tabView);</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/19/atom-package清单/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -545,393 +921,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/ubuntu配置/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/17/ubuntu配置/" itemprop="url">
-                  ubuntu 14.04配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-17T23:05:15+08:00">
-                2017-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近又尝试从Windows 切换到 ubuntu 。经过很多次折腾，发现自己对linux 有了一定的理解过后再去<br>接触这些，已经不再那么陌生和“恐惧”了</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a href="http://www.jianshu.com/p/2eebd6ad284d">Windows 10 和 ubuntu 共存安装参考</a></p>
-<h1 id="切换显卡"><a href="#切换显卡" class="headerlink" title="切换显卡"></a>切换显卡</h1><p>系统设置–&gt; 软件和更行 –&gt; 附加驱动（据说开源驱动性能虽然不强，但是稳定性好，我还是继续用开源驱动吧）</p>
-<h1 id="换主题"><a href="#换主题" class="headerlink" title="换主题"></a>换主题</h1><p>unity乳齿便秘的默认主题真的让我第一次开机看到它过后就想换掉！ubuntu14.04的主题很多不是扁平化的，如果电脑支持的话还是安装16.04比较好（该死的联想z485）</p>
-<p>首先安装unity-tweak-tool<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure></p>
-<p>然后推荐去<a href="http://www.noobslab.com/p/themes-icons.html">noobSlab</a>，这个网站有很多个主题可以选择，安装方式也写出来了，配合unity-tweak-tool使用。个人喜欢Numix主题</p>
-<h1 id="安装搜狗输入法"><a href="#安装搜狗输入法" class="headerlink" title="安装搜狗输入法"></a>安装搜狗输入法</h1><p>去搜狗官网下载linux 版本搜狗，然后双击安装，完毕后。<br><br>系统设置–&gt;语言支持–&gt;键盘输入方式系统：fcitx–&gt;重启</p>
-<p>如果发现安装好后不能调出输入法面板，输入时只能看不到候选词，那么可以检查一下依赖sudo apt-get install -f</p>
-<p>如果使用一段时间过后搜狗输入法一直崩溃,可能是配置文件出问题了，可以选择删除配置文件，然后重启fctix<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">killall fctix</div><div class="line">rm -rf ~/.config/sogou-qimpanel</div><div class="line">rm -rf ~/.config/SogouPY.users</div><div class="line">rm -rf ~/.config/SogouPY</div><div class="line">fctix</div></pre></td></tr></table></figure></p>
-<h1 id="安装cairo-dock"><a href="#安装cairo-dock" class="headerlink" title="安装cairo-dock"></a>安装cairo-dock</h1><p>很实用的小工具（模拟mac的dock栏）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:cairo-dock-team/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install cairo-dock</div><div class="line"><span class="comment"># 启动命令 cairo-dock</span></div></pre></td></tr></table></figure></p>
-<p>第一次打开会提示是否开启OpenGl，我的电脑上面测试开启过后会出问题，我选择不开启，如果以后想开启，可以使用cairo-dock -c（不开启） / cario-dock -o（开启OpenGl）切换</p>
-<h1 id="安装shadowsocks-qt5"><a href="#安装shadowsocks-qt5" class="headerlink" title="安装shadowsocks-qt5"></a>安装shadowsocks-qt5</h1><p>“纸飞机”这个东西还是必须要有的啊，没有这个东西感觉整个人都不好了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div><div class="line"><span class="comment">#启动命令 ss-qt5</span></div></pre></td></tr></table></figure></p>
-<h1 id="安装proxychain4"><a href="#安装proxychain4" class="headerlink" title="安装proxychain4"></a>安装proxychain4</h1><p>ss-qt5 是桌面级应用，尽管连上代理，命令行还是无法通过代理上网。proxychain 可以完美解决命令行不能使用代理的问题<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/rofl0r/proxychains-ng.git</div><div class="line"><span class="built_in">cd</span> proxychains-ng</div><div class="line">./configure</div><div class="line">(sudo) make &amp;&amp; make instal</div></pre></td></tr></table></figure></p>
-<p>安装完毕后，需要手动新建配置文件<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/proxychains.conf</div><div class="line"></div><div class="line"><span class="comment">#然后填入以下内容</span></div><div class="line">[ProxyList]</div><div class="line">socks5  127.0.0.1 1080</div></pre></td></tr></table></figure></p>
-<p>使用方法<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxychains (sudo) 需要执行的命令 ...</div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/17/ubuntu配置/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/08/react学习日记之ListView二/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/react学习日记之ListView二/" itemprop="url">
-                  react-native学习日记之ListView二
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T13:35:04+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="用listView实现九宫格效果"><a href="#用listView实现九宫格效果" class="headerlink" title="用listView实现九宫格效果"></a>用listView实现九宫格效果</h1><p>这次时照着es6的写法写的，es6和es5的写法有很多地方不一样<br><img src="http://7xoilf.com1.z0.glb.clouddn.com/Screenshot_2017-02-08-19-16-32-198_com.listviewjiugongge.png" alt="效果图"><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View,</div><div class="line">  ListView,</div><div class="line">  TouchableOpacity,</div><div class="line">  Image</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</div><div class="line"><span class="keyword">import</span> Dimensions <span class="keyword">from</span> <span class="string">'Dimensions'</span>;</div><div class="line"><span class="keyword">const</span> listData = [</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'a'</span>, <span class="attr">desc</span>:<span class="string">'第一张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'b'</span>, <span class="attr">desc</span>:<span class="string">'第二张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'c'</span>, <span class="attr">desc</span>:<span class="string">'第三张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'d'</span>, <span class="attr">desc</span>:<span class="string">'第四张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'e'</span>, <span class="attr">desc</span>:<span class="string">'第五张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'b'</span>, <span class="attr">desc</span>:<span class="string">'第二张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'c'</span>, <span class="attr">desc</span>:<span class="string">'第三张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'d'</span>, <span class="attr">desc</span>:<span class="string">'第四张'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    src:<span class="string">'e'</span>, <span class="attr">desc</span>:<span class="string">'第五张'</span></div><div class="line">  &#125;</div><div class="line">];</div><div class="line"><span class="comment">// 获取屏幕宽高</span></div><div class="line"><span class="keyword">var</span> &#123;width,height&#125; = Dimensions.get(<span class="string">'window'</span>);</div><div class="line"><span class="keyword">var</span> cols = <span class="number">3</span>; <span class="comment">//3列</span></div><div class="line"><span class="keyword">var</span> cellWidth = <span class="number">100</span>,cellHeight = <span class="number">100</span>;</div><div class="line"><span class="keyword">var</span> vMargin = (width-cols*cellWidth)/(cols+<span class="number">1</span>); <span class="comment">//九宫格横向margin算法</span></div><div class="line"><span class="keyword">var</span> hMargin = <span class="number">20</span>; <span class="comment">//九宫格纵向margin</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">ListViewjiugongge</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">const</span> ds = <span class="keyword">new</span> ListView.DataSource(&#123;<span class="attr">rowHasChanged</span>:<span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2&#125;);</div><div class="line">    <span class="keyword">this</span>.state = &#123;</div><div class="line">      dataSource: ds.cloneWithRows(listData)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;ListView</div><div class="line">        dataSource=&#123;<span class="keyword">this</span>.state.dataSource&#125;</div><div class="line">        renderRow=&#123;<span class="keyword">this</span>.renderRow&#125;</div><div class="line">        <span class="comment">// renderSeparator=&#123;(sectionID,rowID,adjacentRowHighlighted)=&gt;&#123;</span></div><div class="line">        <span class="comment">//   console.log(sectionID,rowID,adjacentRowHighlighted);</span></div><div class="line">        <span class="comment">//   return(</span></div><div class="line">        <span class="comment">//     &lt;View key=&#123;`$&#123;sectionID&#125;-$&#123;rowID&#125;`&#125;</span></div><div class="line">        <span class="comment">//       style=&#123;&#123;height:90,width:1,backgroundColor:adjacentRowHighlighted?'blue':'red'&#125;&#125;</span></div><div class="line">        <span class="comment">//       &gt;&lt;/View&gt;</span></div><div class="line">        <span class="comment">//   )</span></div><div class="line">        <span class="comment">// &#125;&#125;</span></div><div class="line">        contentContainerStyle=&#123;styles.listViewStyle&#125;</div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">  renderRow(owData,sectionID,rowID,highlightRow) &#123;</div><div class="line">    <span class="keyword">return</span>(</div><div class="line">      &lt;TouchableOpacity activeOpacity=&#123;<span class="number">0.5</span>&#125; onPress=&#123;()=&gt;&#123;highlightRow(sectionID,rowID)&#125;&#125;&gt;</div><div class="line">        &lt;View style=&#123;styles.cellViewStyle&#125;&gt;</div><div class="line">          &#123;<span class="comment">/*图片src*/</span>&#125;</div><div class="line">          &lt;Image source=&#123;&#123;<span class="attr">uri</span>:owData.src&#125;&#125; style=&#123;&#123;<span class="attr">width</span>:<span class="number">100</span>,<span class="attr">height</span>:<span class="number">100</span>,<span class="attr">borderRadius</span>:<span class="number">50</span>&#125;&#125;/&gt;</div><div class="line">        &lt;<span class="regexp">/View&gt;</span></div><div class="line"><span class="regexp">      &lt;/</span>TouchableOpacity&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> styles = StyleSheet.create(&#123;</div><div class="line">  listViewStyle: &#123;</div><div class="line">    flexDirection:<span class="string">'row'</span>,</div><div class="line">    flexWrap:<span class="string">'wrap'</span>,</div><div class="line">    alignItems:<span class="string">'flex-start'</span></div><div class="line">  &#125;,</div><div class="line">  cellViewStyle: &#123;</div><div class="line">    marginLeft:vMargin,</div><div class="line">    marginTop: hMargin</div><div class="line">  &#125;,</div><div class="line">  descStyle: &#123;</div><div class="line">    <span class="comment">// flexDirection:'row',</span></div><div class="line">    <span class="comment">// alignItems:'center'</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">AppRegistry.registerComponent(<span class="string">'ListViewjiugongge'</span>, () =&gt; ListViewjiugongge);</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/08/react学习日记之ListView/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/react学习日记之ListView/" itemprop="url">
-                  react-native学习日记之ListView
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T13:35:04+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://facebook.github.io/react-native/docs/listview.html">react-native ListView DOC</a></p>
-<h3 id="ListView-基本用法"><a href="#ListView-基本用法" class="headerlink" title="ListView 基本用法"></a>ListView 基本用法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//es5 写法</span></div><div class="line"><span class="keyword">var</span> ListViewDemo = React.createClass(&#123;</div><div class="line">  getInitialState() &#123;</div><div class="line">    <span class="comment">// 设置初始值</span></div><div class="line">    <span class="comment">// 1.1 设置数据源</span></div><div class="line">    <span class="keyword">var</span> ds = <span class="keyword">new</span> ListView.DataSource(&#123;<span class="attr">rowHasChanged</span>:<span class="function">(<span class="params">r1,r2</span>)=&gt;</span>r1!==r2&#125;);</div><div class="line">    <span class="comment">// 1.2 设置返回数据</span></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="comment">//listData 为一个数组格式</span></div><div class="line">      dataSource: ds.cloneWithRows(listData)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="comment">// 设置render函数</span></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;ListView dataSource=&#123;<span class="keyword">this</span>.state.dataSource&#125;</div><div class="line">        renderRow=&#123;<span class="keyword">this</span>.renderListView&#125;</div><div class="line">        <span class="comment">//this.renderListView后不加括号表示默认接受所有参数（owData，sectionID...)</span></div><div class="line">        /&gt;</div><div class="line">    );</div><div class="line">  &#125;,</div><div class="line">  renderListView(owData, sectionID, rowID, highlightRow) &#123;</div><div class="line">    <span class="comment">//renderRow 回调函数</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//es6 写法</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">super</span>();</div><div class="line">    <span class="keyword">const</span> ds = <span class="keyword">new</span> ListView.DataSource(&#123;<span class="attr">rowHasChanged</span>: <span class="function">(<span class="params">r1, r2</span>) =&gt;</span> r1 !== r2&#125;);</div><div class="line">    <span class="keyword">this</span>.state = &#123;</div><div class="line">      dataSource: ds.cloneWithRows(listData),</div><div class="line">    &#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;ListView</div><div class="line">        dataSource=&#123;<span class="keyword">this</span>.state.dataSource&#125;</div><div class="line">        renderRow=&#123;<span class="keyword">this</span>.renderListView&#125;</div><div class="line">      /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/08/react学习日记之ListView/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -979,7 +968,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -990,7 +979,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

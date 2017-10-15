@@ -296,6 +296,389 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/socket-io-的使用/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/21/socket-io-的使用/" itemprop="url">
+                  socket.io 的使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-21T11:11:14+08:00">
+                2017-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="首先配置好服务器"><a href="#首先配置好服务器" class="headerlink" title="首先配置好服务器"></a>首先配置好服务器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">... <span class="comment">//前面省略</span></div><div class="line">...</div><div class="line"><span class="keyword">var</span> server = app.listen(app.get(<span class="string">'port'</span>), <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'node 正在运行，端口:'</span>+app.get(<span class="string">'port'</span>));</div><div class="line">&#125;);</div><div class="line"><span class="keyword">var</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>)(server, &#123;</div><div class="line">    pingTimeout: <span class="number">5000</span>,</div><div class="line">    pingInterval: <span class="number">10000</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"></div><div class="line">io.on(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">socket</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(socket.id)</div><div class="line">    socket.on(<span class="string">'disconnect'</span>, () =&gt; &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> oSocketIDs) &#123;</div><div class="line">            <span class="keyword">if</span>(oSocketIDs[i] === socket.id) &#123;</div><div class="line">                <span class="keyword">delete</span>(oSocketIDs[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">delete</span>(oSockets[socket.id])</div><div class="line">    &#125;)</div><div class="line">    socket.on(<span class="string">'chat message'</span>,(msg, fn) =&gt; &#123;</div><div class="line">        io.emit(<span class="string">'chat message'</span>, msg);</div><div class="line">        fn(<span class="string">'success'</span>)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="然后客户端需要配置socket"><a href="#然后客户端需要配置socket" class="headerlink" title="然后客户端需要配置socket"></a>然后客户端需要配置socket</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"messages"</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"m"</span> <span class="attr">autocomplete</span>=<span class="string">"off"</span> /&gt;</span><span class="tag">&lt;<span class="name">button</span>&gt;</span>Send<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/socket.io/socket.io.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-1.11.1.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 如果socket.io.js 和服务器不在一个域下面，则需要指定详细地址 --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- &lt;script src='http://localhost:8888/socket.io/socket.io.js'&gt;&lt;/script&gt; --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">      <span class="keyword">var</span> socket = io();</span></div><div class="line"><span class="javascript">    <span class="comment">//   如果socket.io.js 和服务器不在一个域下面，则需要指定详细地址</span></span></div><div class="line"><span class="javascript">    <span class="comment">//  var socket = io('http://localhost:8888')</span></span></div><div class="line"><span class="javascript">      $(<span class="string">'form'</span>).submit(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span></div><div class="line"><span class="undefined">          event.preventDefault();</span></div><div class="line"><span class="javascript">          socket.emit(<span class="string">'chat message'</span>, $(<span class="string">'#m'</span>).val());</span></div><div class="line"><span class="javascript">          <span class="keyword">return</span> <span class="literal">false</span>;</span></div><div class="line"><span class="undefined">      &#125;);</span></div><div class="line"><span class="javascript">      socket.on(<span class="string">'chat message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">msg</span>) </span>&#123;</span></div><div class="line"><span class="javascript">          $(<span class="string">'#messages'</span>).append($(<span class="string">'&lt;li&gt;'</span>).text(msg));</span></div><div class="line"><span class="undefined">      &#125;)</span></div><div class="line"><span class="javascript">      $.ajax(&#123;</span></div><div class="line"><span class="javascript">          url: <span class="string">'/test'</span>,</span></div><div class="line"><span class="javascript">          type: <span class="string">'get'</span>,</span></div><div class="line"><span class="javascript">          data: &#123;<span class="attr">param1</span>: <span class="string">'value1'</span>&#125;</span></div><div class="line"><span class="undefined">      &#125;)</span></div><div class="line"><span class="javascript">      .done(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></div><div class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="string">"success"</span>);</span></div><div class="line"><span class="undefined">      &#125;)</span></div><div class="line"><span class="javascript">      .fail(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></div><div class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="string">"error"</span>);</span></div><div class="line"><span class="undefined">      &#125;)</span></div><div class="line"><span class="javascript">      .always(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></div><div class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="string">"complete"</span>);</span></div><div class="line"><span class="undefined">      &#125;);</span></div><div class="line"><span class="undefined"></span></div><div class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>客户端手动断开socket, 使用socket.close(); 手动重连socket.open();</li>
+<li>socket监听事件,使用socket.on();</li>
+<li>服务端广播消息，io.emit:广播全部包括自己， socket.broadcast.emit: 广播全部不包括自己</li>
+</ul>
+<h3 id="socket-io-实现点对点发送消息"><a href="#socket-io-实现点对点发送消息" class="headerlink" title="socket.io 实现点对点发送消息"></a>socket.io 实现点对点发送消息</h3><p>实现方式：在io.on(‘connection’)的时候，所有的socket按照某种关键字保存起来, 比如一个对象oSockets。做{username: socket} 的对应关系。然后在服务器端监听到某个私有消息事件的时候，根据客户端指定的username，选择oSockets[username].emit(…)就行了<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/21/socket-io-的使用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/一份完整的express4后台配置/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/21/一份完整的express4后台配置/" itemprop="url">
+                  一份完整的express4后台配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-21T11:01:28+08:00">
+                2017-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>备份一个express4 的后台配置，省的每次都要去重写一遍<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/21/一份完整的express4后台配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/nodeJS-设置跨域响应头/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/21/nodeJS-设置跨域响应头/" itemprop="url">
+                  nodeJS 设置跨域响应头
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-21T10:50:39+08:00">
+                2017-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'hostname:'</span> + req.hostname)</div><div class="line">    <span class="keyword">var</span> allowOrigins = [</div><div class="line">        <span class="string">'http://www.linyqiang.com'</span>,</div><div class="line">        <span class="string">"http://localhost:3000"</span>,</div><div class="line">        <span class="string">'http://192.168.1.101:3000'</span></div><div class="line">    ];</div><div class="line">    <span class="keyword">var</span> origin = req.headers.origin;</div><div class="line">    <span class="keyword">if</span> (allowOrigins.indexOf(origin) &gt; <span class="number">-1</span> || <span class="regexp">/(\b|.*\.)linyqiang.com$/</span>.test(origin) === <span class="literal">true</span>) &#123;</div><div class="line">        <span class="comment">// 如果req.headers.origin 在 allowOrigin 里面，则指定origin可以跨域</span></div><div class="line">        res.setHeader(<span class="string">'Access-Control-Allow-Origin'</span>, origin);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        res.setHeader(<span class="string">'Access-Control-Allow-Origin'</span>, <span class="string">'*'</span>);</div><div class="line">    &#125;</div><div class="line">    res.header(<span class="string">'Access-Control-Allow-Credentials'</span>, <span class="literal">true</span>);</div><div class="line">    res.header(<span class="string">'Access-Control-Allow-Methods'</span>, <span class="string">'GET,PUT,DELET,POST'</span>);</div><div class="line">    res.header(<span class="string">'Access-Control-Allow-Headers'</span>, <span class="string">'Content-Type,x-access-token,Access-Control-Allow-Headers, Authorization, X-Requested-With'</span>);</div><div class="line">    next();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>分开指定<code>res.setHeader(&#39;Access-Control-Allow-Origin&#39;, origin);</code> 和<code>res.setHeader(&#39;Access-Control-Allow-Origin&#39;, &#39;*&#39;);</code><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/21/nodeJS-设置跨域响应头/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/nodeJS-文件上传与下载/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -551,434 +934,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/23/JavaScript高级程序设计笔记/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/23/JavaScript高级程序设计笔记/" itemprop="url">
-                  JavaScript高级程序设计笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-23T00:00:00+08:00">
-                2017-08-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="第-3-章-基本概念"><a href="#第-3-章-基本概念" class="headerlink" title="第 3 章 基本概念"></a>第 3 章 基本概念</h1><p>typeof 的返回值有undefined, boolean, string, number, object, function</p>
-<p>对未初始化的变量执行 typeof 操作符会返回 undefined 值,而对未声明<br>的变量执行 typeof 操作符同样也会返回 undefined 值</p>
-<p>Number.MIN_VALUE 中——在大多数浏览器中,这个值是 5e-324;能够表示的最大数值保存在<br>Number.MAX_VALUE 中——在大多数浏览器中,这个值是 1.7976931348623157e+308</p>
-<p>0 除以 0 才会返回 NaN,正数除以 0 返回 Infinity,负数除以 0 返回-Infinity</p>
-<p>转型函数 Number() 可以用于任何数据类型,而另两个函数则专门用于把字符串转换成数值</p>
-<p>Number() 函数的转换规则如下:</p>
-<ul>
-<li>如果是 Boolean 值, true 和 false 将分别被转换为 1 和 0。</li>
-<li>如果是数字值,只是简单的传入和返回。</li>
-<li>如果是 null 值,返回 0。</li>
-<li>如果是 undefined ,返回 NaN 。</li>
-<li>如果是字符串,遵循下列规则:<ul>
-<li>如果字符串中只包含数字(包括前面带正号或负号的情况),则将其转换为十进制数值,即 “1”<br>会变成 1, “123” 会变成 123,而 “011” 会变成 11(注意:前导的零被忽略了);</li>
-<li>如果字符串中包含有效的浮点格式,如 “1.1” ,则将其转换为对应的浮点数值(同样,也会忽<br>略前导零);</li>
-<li>如果字符串中包含有效的十六进制格式,例如 “0xf” ,则将其转换为相同大小的十进制整<br>数值;</li>
-<li>如果字符串是空的(不包含任何字符),则将其转换为 0;</li>
-<li>如果字符串中包含除上述格式之外的字符,则将其转换为 NaN 。</li>
-</ul>
-</li>
-<li>如果是对象,则调用对象的 valueOf() 方法,然后依照前面的规则转换返回的值。如果转换<br>的结果是 NaN ,则调用对象的 toString() 方法,然后再次依照前面的规则转换返回的字符<br>串值。</li>
-</ul>
-<p>String() 函数遵循下列转换规则:</p>
-<ul>
-<li>如果值有 toString() 方法,则调用该方法(没有参数)并返回相应的结果;</li>
-<li>如果值是 null ,则返回 “null” ;</li>
-<li>如果值是 undefined ,则返回 “undefined”</li>
-</ul>
-<p>arguments 的行为,还有一点比较有意思。那就是它的值永远与对应命名参数的值保持同步</p>
-<p>ECMAScript 中的所有参数传递的都是值,不可能通过引用传递参数</p>
-<h1 id="第四章-变量、作用域和内存问题"><a href="#第四章-变量、作用域和内存问题" class="headerlink" title="第四章 变量、作用域和内存问题"></a>第四章 变量、作用域和内存问题</h1><p>执行环境定义了变量或函数有权访问的其他数据,决定了它们各自的行为</p>
-<p>每个函数都有自己的执行环境。当执行流进入一个函数时,函数的环境就会被推入一个环境栈中。而在函数执行之后,栈将其环境弹出,把控制权返回给之前的执行环境</p>
-<p>当代码在一个环境中执行时,会创建变量对象的一个<strong>作用域链(scope chain)</strong><br>。作用域链的用途,是保证对执行环境有权访问的所有变量和函数的有序访问。作用域链的前端,始终都是当前执行的代码所在环境的 <strong>变量对象</strong>。如果这个环境是函数,则将其<strong>活动对象</strong>(activation object)作为变量对象。活动对。作用域链中象在最开始时只包含一个变量,即 arguments 对象(这个对象在全局环境中是不存在的)的下一个变量对象来自包含(外部)环境,而再下一个变量对象则来自下一个包含环境。这样,一直延续到全局执行环境;全局执行环境的变量对象始终都是作用域链中的最后一个对象。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/23/JavaScript高级程序设计笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/21/优化的数组去重/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/21/优化的数组去重/" itemprop="url">
-                  数组去重
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-21T23:18:27+08:00">
-                2017-08-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>传统数组去重<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> a = [], l = <span class="keyword">this</span>.length;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;l; i++) &#123;</div><div class="line">      <span class="keyword">for</span>(<span class="keyword">var</span> j=i+<span class="number">1</span>; j&lt;l; j++)</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>[i] === <span class="keyword">this</span>[j]) j = ++i;</div><div class="line">      a.push(<span class="keyword">this</span>[i]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> a;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>优化数组去重方法,利用对象的键名不重复来筛选数组<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> o = &#123;&#125;, i, l = <span class="keyword">this</span>.length, r = [];</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;l;i+=<span class="number">1</span>) o[<span class="keyword">this</span>[i]] = <span class="keyword">this</span>[i];</div><div class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> o) r.push(o[i]);</div><div class="line">    <span class="keyword">return</span> r;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>还有一种比较简便的方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique1</span>(<span class="params">array</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> n = [];</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; array.length; i++)&#123;</div><div class="line">    <span class="keyword">if</span> (n.indexOf(array[i]) == <span class="number">-1</span>) n.push(array[i]);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> n;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>最后还有一个最简便的方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="keyword">new</span> <span class="built_in">Set</span>(someArray)]</div></pre></td></tr></table></figure></p>
-<p>后两种需要考虑兼容性, 但是比较简便,第二个方法的性能完胜第一个</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/19/react-个人小项目开发question/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/19/react-个人小项目开发question/" itemprop="url">
-                  react 个人小项目开发question
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-19T10:18:37+08:00">
-                2017-08-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="React-Component-Lifecycle"><a href="#React-Component-Lifecycle" class="headerlink" title="React Component Lifecycle"></a>React Component Lifecycle</h3><p><a href="https://solome.js.org/web/react/2016/11/30/react-lifecycle.html" target="_blank" rel="external">https://solome.js.org/web/react/2016/11/30/react-lifecycle.html</a></p>
-<h3 id="React-createElement-type-is-invalid-–-expected-a-string-or-a-class-function-but-got-undefined"><a href="#React-createElement-type-is-invalid-–-expected-a-string-or-a-class-function-but-got-undefined" class="headerlink" title="React.createElement: type is invalid – expected a string or a class/function but got: undefined"></a><pre style="color:red;">React.createElement: type is invalid – expected a string or a class/function but got: undefined</pre></h3><p><strong>resolution</strong>:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;Menu.Item key=<span class="string">'logout'</span> className=<span class="string">'register'</span>&gt;</div><div class="line">  &lt;Button type=<span class="string">"primary"</span>&gt;&#123;<span class="keyword">this</span>.state.username&#125;&lt;<span class="regexp">/Button&gt;</span></div><div class="line"><span class="regexp">  &amp;nbsp;&amp;nbsp;</span></div><div class="line"><span class="regexp">  &#123;/</span>* <span class="xml"><span class="tag">&lt;<span class="name">Link</span> <span class="attr">target</span>=<span class="string">'_blank'</span>&gt;</span><span class="tag">&lt;<span class="name">Button</span> <span class="attr">type</span>=<span class="string">'dashed'</span>&gt;</span>个人中心<span class="tag">&lt;/<span class="name">Button</span>&gt;</span><span class="tag">&lt;/<span class="name">Link</span>&gt;</span></span> *<span class="regexp">/&#125;</span></div><div class="line"><span class="regexp">  &lt;Button type="ghost"&gt;退出&lt;/</span>Button&gt;</div><div class="line">&lt;<span class="regexp">/MenuItem&gt;/</span><span class="regexp">/error</span></div><div class="line"><span class="regexp">:</span></div><div class="line"><span class="regexp">&lt;Menu.Item key='register' className='register'&gt;</span></div><div class="line"><span class="regexp">  &lt;Icon type="appstore"/</span>&gt;注册/登录</div><div class="line">&lt;<span class="regexp">/MenuItem&gt;</span></div></pre></td></tr></table></figure>
-<p>to</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="keyword">const</span> MenuItem = Menu.Item;</div><div class="line">&lt;MenuItem key=<span class="string">'logout'</span> className=<span class="string">'register'</span>&gt;</div><div class="line">  &lt;Button type=<span class="string">"primary"</span>&gt;&#123;<span class="keyword">this</span>.state.username&#125;&lt;<span class="regexp">/Button&gt;</span></div><div class="line"><span class="regexp">  &amp;nbsp;&amp;nbsp;</span></div><div class="line"><span class="regexp">  &#123;/</span>* <span class="xml"><span class="tag">&lt;<span class="name">Link</span> <span class="attr">target</span>=<span class="string">'_blank'</span>&gt;</span><span class="tag">&lt;<span class="name">Button</span> <span class="attr">type</span>=<span class="string">'dashed'</span>&gt;</span>个人中心<span class="tag">&lt;/<span class="name">Button</span>&gt;</span><span class="tag">&lt;/<span class="name">Link</span>&gt;</span></span> *<span class="regexp">/&#125;</span></div><div class="line"><span class="regexp">  &lt;Button type="ghost"&gt;退出&lt;/</span>Button&gt;</div><div class="line">&lt;<span class="regexp">/MenuItem&gt;</span></div><div class="line"><span class="regexp">:</span></div><div class="line"><span class="regexp">&lt;MenuItem key='register' className='register'&gt;</span></div><div class="line"><span class="regexp">  &lt;Icon type="appstore"/</span>&gt;注册/登录</div><div class="line">&lt;<span class="regexp">/MenuItem&gt;</span></div></pre></td></tr></table></figure>
-<p><br><br><br></p>
-<h3 id="Warning-Failed-context-type-The-context-router-is-marked-as-required-in-Link-but-its-value-is-undefined"><a href="#Warning-Failed-context-type-The-context-router-is-marked-as-required-in-Link-but-its-value-is-undefined" class="headerlink" title="Warning: Failed context type: The context router is marked as required in Link, but its value is undefined."></a><pre style="color:red">Warning: Failed context type: The context <code>router</code> is marked as required in <code>Link</code>, but its value is <code>undefined</code>.</pre></h3><p><strong>resolution</strong>: change /src/root.js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">  &lt;MediaQuery query=<span class="string">'(min-device-width:997px)'</span>&gt;</div><div class="line">    &lt;PCIndex /&gt;</div><div class="line">  &lt;<span class="regexp">/MediaQuery&gt;</span></div><div class="line"><span class="regexp">  &lt;MediaQuery query='(max-device-width:997px)'&gt;</span></div><div class="line"><span class="regexp">    &lt;MobileIndex /</span>&gt;</div><div class="line">  &lt;<span class="regexp">/MediaQuery&gt;</span></div><div class="line"><span class="regexp">&lt;/</span>div&gt;</div></pre></td></tr></table></figure></p>
-<p>to</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;Router&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;MediaQuery query=<span class="string">'(min-device-width:997px)'</span>&gt;</div><div class="line">      &lt;PCIndex /&gt;</div><div class="line">    &lt;<span class="regexp">/MediaQuery&gt;</span></div><div class="line"><span class="regexp">    &lt;MediaQuery query='(max-device-width:997px)'&gt;</span></div><div class="line"><span class="regexp">      &lt;MobileIndex /</span>&gt;</div><div class="line">    &lt;<span class="regexp">/MediaQuery&gt;</span></div><div class="line"><span class="regexp">  &lt;/</span>div&gt;</div><div class="line">&lt;<span class="regexp">/Router&gt;</span></div></pre></td></tr></table></figure>
-<p><br><br><br></p>
-<h3 id="how-to-modify-themes-of-ant-design-via-third-party-or-custom-webpackConfig"><a href="#how-to-modify-themes-of-ant-design-via-third-party-or-custom-webpackConfig" class="headerlink" title="how to modify themes of ant design via third-party or custom webpackConfig"></a>how to modify themes of ant design via third-party or custom webpackConfig</h3><p><strong>resolution</strong>: change webpack.config.js to<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  test: <span class="regexp">/\.js?$/</span>,</div><div class="line">  exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">  use: &#123;</div><div class="line">    loader: <span class="string">'babel-loader'</span>,</div><div class="line">    options: &#123;</div><div class="line">      presets: [<span class="string">'react'</span>,<span class="string">'es2015'</span>],</div><div class="line">      <span class="comment">// ant design  babel-plugin-import</span></div><div class="line">      plugins: [[<span class="string">'import'</span>,&#123;<span class="string">'libraryName'</span>:<span class="string">'antd'</span>,<span class="string">'style'</span>:<span class="literal">true</span>&#125;]]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">  test: <span class="regexp">/\.less$/</span>,</div><div class="line">  include: path.resolve(__dirname, <span class="string">'./node_modules'</span>),</div><div class="line">  use: [</div><div class="line">    <span class="string">'style-loader'</span>,</div><div class="line">    <span class="string">'css-loader'</span>,</div><div class="line">    &#123;</div><div class="line">      loader: <span class="string">'less-loader'</span>,</div><div class="line">      options: &#123; <span class="comment">// add less-loader option 'modifyVars' to change less var that defined in ant-design css</span></div><div class="line">        modifyVars: &#123;</div><div class="line">          <span class="string">"primary-color"</span>: <span class="string">'#1da57a'</span></div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><br><br><br></p>
-<h3 id="loading-static-sources-images-with-webpack"><a href="#loading-static-sources-images-with-webpack" class="headerlink" title="loading static sources (images) with webpack"></a>loading static sources (images) with webpack</h3><p><strong>resolutions</strong>: add rules like this<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  test: <span class="regexp">/\.(png|jpe?g|gif|svg)$/</span>,</div><div class="line">  exclude: <span class="regexp">/(node_modules)/</span>,</div><div class="line">  use: &#123;</div><div class="line">    loader: <span class="string">'url-loader'</span>,</div><div class="line">    options: &#123;</div><div class="line">      limit: <span class="number">8192</span>,</div><div class="line">      name: <span class="string">'img/[hash:5].[ext]'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>now can use <code>require(...)</code> or ‘import’ to load images by relative path in jsx;</p>
-<h3 id="how-to-use-css-media-query-in-css-modules"><a href="#how-to-use-css-media-query-in-css-modules" class="headerlink" title="how to use css media query in css-modules"></a>how to use css media query in css-modules</h3><p><a href="https://npm.taobao.org/package/postcss-modules-values" target="_blank" rel="external">https://npm.taobao.org/package/postcss-modules-values</a></p>
-<h3 id="cannot-read-videos-of-null"><a href="#cannot-read-videos-of-null" class="headerlink" title="cannot read videos of null"></a><pre style="color:red">cannot read videos of null</pre></h3><p>when map the this.state.videos<br><strong>resolution</strong>:<br>add <code>this.state={...}</code> to constructor</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">constructor</span>() &#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">to</div><div class="line"></div><div class="line"><span class="keyword">constructor</span>() &#123;</div><div class="line">  <span class="keyword">this</span>.state= &#123;</div><div class="line">    videos: <span class="string">''</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="how-to-use-Promise-all-to-fetch-two-urls-simultaneously"><a href="#how-to-use-Promise-all-to-fetch-two-urls-simultaneously" class="headerlink" title="how to use Promise.all to fetch two urls simultaneously"></a>how to use Promise.all to fetch two urls simultaneously</h3><p>refer to: <a href="https://segmentfault.com/q/1010000004101262/a-1020000004101642" target="_blank" rel="external">https://segmentfault.com/q/1010000004101262/a-1020000004101642</a></p>
-<h3 id="how-to-use-BMap-with-webpack"><a href="#how-to-use-BMap-with-webpack" class="headerlink" title="how to use BMap with webpack"></a>how to use BMap with webpack</h3><p><strong>resolution</strong>:<br>add option <code>externals</code> to the end of webpack-config.js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  ...</div><div class="line">  entry...</div><div class="line">  output...</div><div class="line">  externals: &#123;</div><div class="line">    <span class="string">'BMap'</span>: <span class="string">'BMap'</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>and then <code>import BMap from &#39;BMap&#39;</code> when you need;</p>
-<h3 id="where-to-find-svg-pics"><a href="#where-to-find-svg-pics" class="headerlink" title="where to find svg pics"></a>where to find svg pics</h3><p>pixabay.com</p>
-<h3 id="this-props-dispatch-is-not-a-function"><a href="#this-props-dispatch-is-not-a-function" class="headerlink" title="this.props.dispatch is not a function"></a><pre style="color:red">this.props.dispatch is not a function</pre></h3><p>when using react-redux to connect store and component;<br><strong>resolution</strong>:  explicitly return it yourself in  <code>mapDispatchToProps</code> implementation;<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch,ownProps</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="string">"dispatch"</span>: dispatch,</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="ant-design-Carousel-component-connot-autoplay-when-using-react-redux-to-connect-component-which-has-imported-the-Carousel"><a href="#ant-design-Carousel-component-connot-autoplay-when-using-react-redux-to-connect-component-which-has-imported-the-Carousel" class="headerlink" title="ant design Carousel component connot autoplay when using react-redux to connect component which has imported the Carousel"></a>ant design Carousel component connot autoplay when using react-redux to connect component which has imported the Carousel</h3><p><strong>resolution</strong>:<br>dont use “connect” for Carousel contained components;</p>
-<h3 id="ant-design-Tabs-animated-lag-during-switch-tabpane-via-big-data"><a href="#ant-design-Tabs-animated-lag-during-switch-tabpane-via-big-data" class="headerlink" title="ant design Tabs animated lag during switch tabpane via big data"></a>ant design Tabs animated lag during switch tabpane via big data</h3><h3 id="do-not-forget-to-call-callback-in-the-validator-of-Form-Item-when-you-call-this-props-form-validateFields-or-this-props-form-validateFieldsAndScroll-with-a-Form-Item-which-contains-a-validator’s-callback-not-called"><a href="#do-not-forget-to-call-callback-in-the-validator-of-Form-Item-when-you-call-this-props-form-validateFields-or-this-props-form-validateFieldsAndScroll-with-a-Form-Item-which-contains-a-validator’s-callback-not-called" class="headerlink" title="do not forget to call callback in the validator of Form.Item when you call this.props.form.validateFields or this.props.form.validateFieldsAndScroll with a Form.Item which contains a validator’s callback not called"></a>do not forget to call callback in the <code>validator</code> of Form.Item when you call <code>this.props.form.validateFields</code> or <code>this.props.form.validateFieldsAndScroll</code> with a <code>Form.Item</code> which contains a validator’s callback not called</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;getFieldDecorator(<span class="string">'r_confirm'</span>,&#123;</div><div class="line">  rules: [&#123;</div><div class="line">    required: <span class="literal">true</span>, <span class="attr">message</span>: <span class="string">'请确认密码'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    validator: <span class="function">(<span class="params">rule, value, callback</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">if</span>(value &amp;&amp; value!==<span class="keyword">this</span>.props.form.getFieldValue(<span class="string">'r_password'</span>)) &#123;</div><div class="line">          callback(<span class="string">'密码不一致'</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">]</div><div class="line">&#125;)(</div><div class="line">  &lt;Input type=<span class="string">"password"</span> placeholder=<span class="string">'请确认您的密码'</span> /&gt;</div><div class="line">)&#125;</div></pre></td></tr></table></figure>
-<p>is not equal to:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&#123;getFieldDecorator(<span class="string">'r_confirm'</span>,&#123;</div><div class="line">  rules: [&#123;</div><div class="line">    required: <span class="literal">true</span>, <span class="attr">message</span>: <span class="string">'请确认密码'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    validator: <span class="function">(<span class="params">rule, value, callback</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">if</span>(value &amp;&amp; value!==<span class="keyword">this</span>.props.form.getFieldValue(<span class="string">'r_password'</span>)) &#123;</div><div class="line">          callback(<span class="string">'密码不一致'</span>)</div><div class="line">        &#125;</div><div class="line">        callback()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">]</div><div class="line">&#125;)(</div><div class="line">  &lt;Input type=<span class="string">"password"</span> placeholder=<span class="string">'请确认您的密码'</span> /&gt;</div><div class="line">)&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="nodejs-server-router-is-in-conflict-with-react-router-BrowserRouter"><a href="#nodejs-server-router-is-in-conflict-with-react-router-BrowserRouter" class="headerlink" title="nodejs server router is in conflict with react-router BrowserRouter"></a>nodejs server router is in conflict with react-router BrowserRouter</h4><p><strong>resolution</strong>:<br>use HashRouter instead of BrowserRouter or manualy set histroyFallback<br><a href="http://www.cnblogs.com/YZH-chengdu/p/6855237.html" target="_blank" rel="external">http://www.cnblogs.com/YZH-chengdu/p/6855237.html</a></p>
-<h4 id="textarea-height-auto-increment"><a href="#textarea-height-auto-increment" class="headerlink" title="textarea height auto increment"></a>textarea height auto increment</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="comment">// textarea height auto increment</span></div><div class="line">    <span class="keyword">var</span> textarea = <span class="built_in">document</span>.getElementById(<span class="string">'textarea'</span>);</div><div class="line">    <span class="comment">// hide scroll bar</span></div><div class="line">    textarea.style.overflow = <span class="string">'hidden'</span>;</div><div class="line">    <span class="keyword">var</span> height = <span class="built_in">parseInt</span>(<span class="built_in">window</span>.getComputedStyle(textarea).height);</div><div class="line">    <span class="keyword">var</span> width = <span class="built_in">parseInt</span>(<span class="built_in">window</span>.getComputedStyle(textarea).width);</div><div class="line">    <span class="keyword">var</span> autoHeight = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.scrollHeight &lt;= height || <span class="keyword">this</span>.value == <span class="string">''</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.style.height=height + <span class="string">'px'</span>;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.style.height = <span class="keyword">this</span>.scrollHeight +  <span class="string">'px'</span>;</div><div class="line">    &#125;</div><div class="line">    textarea.oninput = autoHeight;</div><div class="line">    textarea.onpropertychange = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span>(event.propertyName.toLowerCase() == <span class="string">'value'</span>) &#123;</div><div class="line">            autoHeight();</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.value);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;)()</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1026,7 +981,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1037,7 +992,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

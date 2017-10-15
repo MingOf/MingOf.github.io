@@ -100,7 +100,7 @@
 切换显卡系统设置–&amp;gt; 软件和更行 –&amp;gt; 附加驱动（据说开源驱动性能虽然不强，但是稳定性好，我还是继续用开源驱动吧）
 换主题unity乳齿便秘的默认主题真的让我第一次开机看到它过后">
 <meta property="og:image" content="http://7xoilf.com1.z0.glb.clouddn.com/2017-02-18%2001:20:43%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
-<meta property="og:updated_time" content="2017-07-24T09:25:54.411Z">
+<meta property="og:updated_time" content="2017-09-28T02:57:58.514Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu 14.04配置">
 <meta name="twitter:description" content="最近又尝试从Windows 切换到 ubuntu 。经过很多次折腾，发现自己对linux 有了一定的理解过后再去接触这些，已经不再那么陌生和“恐惧”了
@@ -387,6 +387,7 @@
 <h1 id="换主题"><a href="#换主题" class="headerlink" title="换主题"></a>换主题</h1><p>unity乳齿便秘的默认主题真的让我第一次开机看到它过后就想换掉！ubuntu14.04的主题很多不是扁平化的，如果电脑支持的话还是安装16.04比较好（该死的联想z485）</p>
 <p>首先安装unity-tweak-tool<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure></p>
 <p>然后推荐去<a href="http://www.noobslab.com/p/themes-icons.html" target="_blank" rel="external">noobSlab</a>，这个网站有很多个主题可以选择，安装方式也写出来了，配合unity-tweak-tool使用。个人喜欢Numix主题</p>
+<a id="more"></a>
 <h1 id="安装搜狗输入法"><a href="#安装搜狗输入法" class="headerlink" title="安装搜狗输入法"></a>安装搜狗输入法</h1><p>去搜狗官网下载linux 版本搜狗，然后双击安装，完毕后。<br><br>系统设置–&gt;语言支持–&gt;键盘输入方式系统：fcitx–&gt;重启</p>
 <p>如果发现安装好后不能调出输入法面板，输入时只能看不到候选词，那么可以检查一下依赖sudo apt-get install -f</p>
 <p>如果使用一段时间过后搜狗输入法一直崩溃,可能是配置文件出问题了，可以选择删除配置文件，然后重启fctix<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">killall fctix</div><div class="line">rm -rf ~/.config/sogou-qimpanel</div><div class="line">rm -rf ~/.config/SogouPY.users</div><div class="line">rm -rf ~/.config/SogouPY</div><div class="line">fctix</div></pre></td></tr></table></figure></p>
@@ -396,7 +397,6 @@
 <h1 id="安装proxychain4"><a href="#安装proxychain4" class="headerlink" title="安装proxychain4"></a>安装proxychain4</h1><p>ss-qt5 是桌面级应用，尽管连上代理，命令行还是无法通过代理上网。proxychain 可以完美解决命令行不能使用代理的问题<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/rofl0r/proxychains-ng.git</div><div class="line"><span class="built_in">cd</span> proxychains-ng</div><div class="line">./configure</div><div class="line">(sudo) make &amp;&amp; make instal</div></pre></td></tr></table></figure></p>
 <p>安装完毕后，需要手动新建配置文件<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/proxychains.conf</div><div class="line"></div><div class="line"><span class="comment">#然后填入以下内容</span></div><div class="line">[ProxyList]</div><div class="line">socks5  127.0.0.1 1080</div></pre></td></tr></table></figure></p>
 <p>使用方法<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxychains (sudo) 需要执行的命令 ...</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
 <h1 id="为firefox-和-chrome-安装flash"><a href="#为firefox-和-chrome-安装flash" class="headerlink" title="为firefox 和 chrome 安装flash"></a>为firefox 和 chrome 安装flash</h1><p>首先进入系统设置–&gt;软件和更行–&gt;其它软件–&gt;勾选Canonial合作伙伴，<br>然后运行命令<br><figure class="highlight zsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install adobe-flashplugin</div></pre></td></tr></table></figure></p>
 <h1 id="安装atom"><a href="#安装atom" class="headerlink" title="安装atom"></a>安装atom</h1><p>atom 是一款非常优秀的编辑器，不解释。由于官方网站没有提供32bit deb包（64bit无视），因此需要自行通过ppa安装<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:webupd8team/atom  </div><div class="line">sudo apt-get update  </div><div class="line">sudo apt-get install atom</div></pre></td></tr></table></figure></p>
 <h1 id="安装nodejs-最新版（较新版）"><a href="#安装nodejs-最新版（较新版）" class="headerlink" title="安装nodejs 最新版（较新版）"></a>安装nodejs 最新版（较新版）</h1><p>到<a href="https://nodejs.org/download/release/v7.5.0/" target="_blank" rel="external">https://nodejs.org/download/release/v7.5.0/</a> 去下载最新的nodejs包<br>我这里选择node-v7.5.0-linux-x86.tar.gz<br>下载下来过后，执行<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">tar -zxvf node-v7.5.0-linux-x86.tar.gz</div><div class="line">cp node-v7.5.0-linux-x86 /opt/node-v7.5.0</div><div class="line">sudo ln <span class="_">-s</span> /opt/node-v7.5.0/bin/node /usr/<span class="built_in">local</span>/bin/node</div><div class="line">sudo ln <span class="_">-s</span> /opt/node-v7.5.0/bin/npm /usr/<span class="built_in">local</span>/bin/npm</div></pre></td></tr></table></figure></p>
@@ -526,7 +526,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -537,7 +537,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
