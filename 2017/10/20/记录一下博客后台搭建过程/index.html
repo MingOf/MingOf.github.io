@@ -87,22 +87,22 @@
 
 
 
-<meta name="description" content="一切建立在已经有域名并且已经解析到服务器的前提下
-拷贝文件到服务器本地写完nodejs过后，将这些后台代码和网页静态文件一并拷贝到服务器
-可以使用scp、ftp、rsync等。 感觉还是rsync最方便1234rsync -av --exclude &apos;node_modules&apos; 本地文件 root@服务器地址:远程主机文件夹如：rsync -av --exclude &apos;node_modules&apos;">
+<meta name="description" content="本地项目开发完毕，如何部署到服务器却成了难题，如果不熟悉Linux那简直是遭罪
+做个搭建记录，万一以后又用上了呢
+这一切都建立在已经有域名并且已经解析到服务器的前提下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记录一下博客后台搭建过程">
 <meta property="og:url" content="http://yoursite.com/2017/10/20/记录一下博客后台搭建过程/index.html">
 <meta property="og:site_name" content="爱凉拌菜真是太好了">
-<meta property="og:description" content="一切建立在已经有域名并且已经解析到服务器的前提下
-拷贝文件到服务器本地写完nodejs过后，将这些后台代码和网页静态文件一并拷贝到服务器
-可以使用scp、ftp、rsync等。 感觉还是rsync最方便1234rsync -av --exclude &apos;node_modules&apos; 本地文件 root@服务器地址:远程主机文件夹如：rsync -av --exclude &apos;node_modules&apos;">
-<meta property="og:updated_time" content="2017-10-20T06:55:14.189Z">
+<meta property="og:description" content="本地项目开发完毕，如何部署到服务器却成了难题，如果不熟悉Linux那简直是遭罪
+做个搭建记录，万一以后又用上了呢
+这一切都建立在已经有域名并且已经解析到服务器的前提下">
+<meta property="og:updated_time" content="2017-10-20T07:05:05.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记录一下博客后台搭建过程">
-<meta name="twitter:description" content="一切建立在已经有域名并且已经解析到服务器的前提下
-拷贝文件到服务器本地写完nodejs过后，将这些后台代码和网页静态文件一并拷贝到服务器
-可以使用scp、ftp、rsync等。 感觉还是rsync最方便1234rsync -av --exclude &apos;node_modules&apos; 本地文件 root@服务器地址:远程主机文件夹如：rsync -av --exclude &apos;node_modules&apos;">
+<meta name="twitter:description" content="本地项目开发完毕，如何部署到服务器却成了难题，如果不熟悉Linux那简直是遭罪
+做个搭建记录，万一以后又用上了呢
+这一切都建立在已经有域名并且已经解析到服务器的前提下">
 
 
 
@@ -376,7 +376,10 @@
       
 
       
-        <p>一切建立在已经有域名并且已经解析到服务器的前提下</p>
+        <p>本地项目开发完毕，如何部署到服务器却成了难题，如果不熟悉Linux那简直是遭罪</p>
+<p>做个搭建记录，万一以后又用上了呢</p>
+<p>这一切都建立在已经有域名并且已经解析到服务器的前提下</p>
+<a id="more"></a>
 <h1 id="拷贝文件到服务器"><a href="#拷贝文件到服务器" class="headerlink" title="拷贝文件到服务器"></a>拷贝文件到服务器</h1><p>本地写完nodejs过后，将这些后台代码和网页静态文件一并拷贝到服务器</p>
 <p>可以使用scp、ftp、rsync等。 感觉还是rsync最方便<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rsync -av --exclude <span class="string">'node_modules'</span> 本地文件 root@服务器地址:远程主机文件夹</div><div class="line"></div><div class="line">如：</div><div class="line">rsync -av --exclude <span class="string">'node_modules'</span> ~/blog/ root@xxx:/var/www/blog/</div></pre></td></tr></table></figure></p>
 <h1 id="服务器安装mongodb并导入mongodb数据"><a href="#服务器安装mongodb并导入mongodb数据" class="headerlink" title="服务器安装mongodb并导入mongodb数据"></a>服务器安装mongodb并导入mongodb数据</h1><h3 id="安装mongodb"><a href="#安装mongodb" class="headerlink" title="安装mongodb"></a>安装mongodb</h3><blockquote>
