@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="javascript," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,37 +87,16 @@
 
 
 
-<meta name="description" content="在写vue-music的时候，希望把song-list组件做成向qq音乐那样，背景颜色根据歌单封面变化
-就像这样：
-
-
-使用canvas 的getImageData可以获取到图片的数据，包括rgba
-但是canvas 存在跨域问题。因此服务器端需要设置响应头,并且客户端设置image.crossOrigin = &amp;#39;anonymous&amp;#39;
-实现方式如下：1234567891011121">
+<meta name="description" content="爱凉拌菜真是太好了的博客">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用JS动态获取背景颜色">
-<meta property="og:url" content="http://yoursite.com/2017/09/21/使用JS动态获取背景颜色/index.html">
+<meta property="og:title" content="使用Vue搭建博客（一）">
+<meta property="og:url" content="http://yoursite.com/2017/10/23/使用Vue搭建博客（一）/index.html">
 <meta property="og:site_name" content="爱凉拌菜真是太好了">
-<meta property="og:description" content="在写vue-music的时候，希望把song-list组件做成向qq音乐那样，背景颜色根据歌单封面变化
-就像这样：
-
-
-使用canvas 的getImageData可以获取到图片的数据，包括rgba
-但是canvas 存在跨域问题。因此服务器端需要设置响应头,并且客户端设置image.crossOrigin = &amp;#39;anonymous&amp;#39;
-实现方式如下：1234567891011121">
-<meta property="og:image" content="http://7xoilf.com1.z0.glb.clouddn.com/song-list1.png">
-<meta property="og:image" content="http://7xoilf.com1.z0.glb.clouddn.com/song-list2.png">
-<meta property="og:updated_time" content="2017-10-02T04:19:19.518Z">
+<meta property="og:description" content="爱凉拌菜真是太好了的博客">
+<meta property="og:updated_time" content="2017-10-23T09:58:30.956Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用JS动态获取背景颜色">
-<meta name="twitter:description" content="在写vue-music的时候，希望把song-list组件做成向qq音乐那样，背景颜色根据歌单封面变化
-就像这样：
-
-
-使用canvas 的getImageData可以获取到图片的数据，包括rgba
-但是canvas 存在跨域问题。因此服务器端需要设置响应头,并且客户端设置image.crossOrigin = &amp;#39;anonymous&amp;#39;
-实现方式如下：1234567891011121">
-<meta name="twitter:image" content="http://7xoilf.com1.z0.glb.clouddn.com/song-list1.png">
+<meta name="twitter:title" content="使用Vue搭建博客（一）">
+<meta name="twitter:description" content="爱凉拌菜真是太好了的博客">
 
 
 
@@ -145,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/21/使用JS动态获取背景颜色/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/23/使用Vue搭建博客（一）/"/>
 
 
 
 
 
-  <title> 使用JS动态获取背景颜色 | 爱凉拌菜真是太好了 </title>
+  <title> 使用Vue搭建博客（一） | 爱凉拌菜真是太好了 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -316,7 +295,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/使用JS动态获取背景颜色/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/23/使用Vue搭建博客（一）/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Johnny Lin">
@@ -340,7 +319,7 @@
             
             
               
-                使用JS动态获取背景颜色
+                使用Vue搭建博客（一）
               
             
           </h1>
@@ -355,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-21T13:45:26+08:00">
-                2017-09-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-23T17:58:30+08:00">
+                2017-10-23
               </time>
             
 
@@ -391,16 +370,7 @@
       
 
       
-        <p>在写vue-music的时候，希望把song-list组件做成向qq音乐那样，背景颜色根据歌单封面变化</p>
-<p>就像这样：</p>
-<div style="overflow:hidden"><a href="http://7xoilf.com1.z0.glb.clouddn.com/song-list1.png" style="float:left;border-bottom:none;margin-bottom:20px; max-width: 45%;" target="_blank" rel="external"><img src="http://7xoilf.com1.z0.glb.clouddn.com/song-list1.png"></a><a href="http://7xoilf.com1.z0.glb.clouddn.com/song-list2.png" style="float:right;border-bottom:none;max-width: 45%" target="_blank" rel="external"><img src="http://7xoilf.com1.z0.glb.clouddn.com/song-list2.png"><br></a></div>
-
-<p>使用canvas 的getImageData可以获取到图片的数据，包括rgba</p>
-<p>但是canvas 存在跨域问题。因此服务器端需要设置响应头,并且客户端设置<code>image.crossOrigin = &#39;anonymous&#39;</code></p>
-<p>实现方式如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> HOST = <span class="string">'...'</span>;</div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getImageColor</span> (<span class="params">src</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>)</div><div class="line">  <span class="keyword">var</span> context = canvas.getContext(<span class="string">'2d'</span>)</div><div class="line">  <span class="keyword">var</span> image = <span class="keyword">new</span> Image()</div><div class="line">  image.crossOrigin = <span class="string">'anonymous'</span></div><div class="line">  image.src = <span class="string">`<span class="subst">$&#123;HOST&#125;</span>/QQMusicAvatar?src=`</span> + src</div><div class="line">  <span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    image.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">var</span> imgWidth = <span class="keyword">this</span>.width</div><div class="line">      <span class="keyword">var</span> imgHeight = <span class="keyword">this</span>.height</div><div class="line">      canvas.width = imgWidth</div><div class="line">      canvas.height = imgHeight</div><div class="line">      context.drawImage(<span class="keyword">this</span>, <span class="number">0</span>, <span class="number">0</span>, imgWidth, imgHeight)</div><div class="line">      <span class="keyword">var</span> imgData = context.getImageData(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</div><div class="line">      resolve(imgData)</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> promise</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 接下来就可以在song-list 组件中调用getImageColor了</span></div><div class="line"><span class="comment">// 比如说</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    ...</div><div class="line">    created () &#123;</div><div class="line">        <span class="keyword">this</span>._getImageColor();</div><div class="line">    &#125;</div><div class="line">    methods: &#123;</div><div class="line">        _getImageColor () &#123;</div><div class="line">            getImageColor(<span class="keyword">this</span>.focus.avatar)</div><div class="line">              .then(<span class="function">(<span class="params">imgData</span>) =&gt;</span> &#123;</div><div class="line">                <span class="keyword">this</span>.bgColor = <span class="string">`rgb(<span class="subst">$&#123;imgData.data[<span class="number">0</span>]&#125;</span>,<span class="subst">$&#123;imgData.data[<span class="number">1</span>]&#125;</span>,<span class="subst">$&#123;imgData.data[<span class="number">2</span>]&#125;</span>)`</span></div><div class="line">                <span class="keyword">this</span>.loadingComplete = <span class="literal">true</span></div><div class="line">                <span class="keyword">if</span> (imgData.data[<span class="number">0</span>] &gt; <span class="number">100</span> &amp;&amp; imgData.data[<span class="number">1</span>] &gt; <span class="number">100</span> &amp;&amp; imgData.data[<span class="number">2</span>] &gt; <span class="number">100</span>) &#123;</div><div class="line">                  <span class="keyword">this</span>.isDark = <span class="literal">false</span></div><div class="line">                &#125;</div><div class="line">              &#125;)</div><div class="line">          &#125;,</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+        
       
     </div>
 
@@ -421,12 +391,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/javascript/" rel="tag"># javascript</a>
-          
-        </div>
-      
 
       
         
@@ -436,8 +400,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/21/vue-music-兼容性调整/" rel="next" title="vue-music 兼容性调整">
-                <i class="fa fa-chevron-left"></i> vue-music 兼容性调整
+              <a href="/2017/10/20/记录一下博客后台搭建过程/" rel="next" title="记录一下博客后台搭建过程">
+                <i class="fa fa-chevron-left"></i> 记录一下博客后台搭建过程
               </a>
             
           </div>
@@ -445,10 +409,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/13/vue-router按需加载/" rel="prev" title="vue-router按需加载">
-                vue-router按需加载 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
