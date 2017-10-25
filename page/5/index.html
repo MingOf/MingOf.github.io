@@ -296,6 +296,143 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/react-router-V4-踩坑/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Johnny Lin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="爱凉拌菜真是太好了">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/01/react-router-V4-踩坑/" itemprop="url">
+                  react-router V4 踩坑
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-01T10:59:12+08:00">
+                2017-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="The-prop-history-is-marked-as-required-in-Router-…"><a href="#The-prop-history-is-marked-as-required-in-Router-…" class="headerlink" title="The prop `history` is marked as required in `Router` …"></a>The prop `history` is marked as required in `Router` …</h3><pre style="color:red">The prop `history` is marked as required in `Router`, but its value is `undefined`. in Router</pre>
+
+<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法:"></a>解决办法:</h4><p>出现这个报错是因为我用npm 安装的是react-router v4，react-router v4不再使用<code>&lt;Router history={hashHistory}&gt;</code> 这种方式定义history 实现类型。而是直接通过组件如BrowserRouter,HashRouter等</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;Router, Route, hashHistory&#125; <span class="keyword">from</span> <span class="string">'react-router'</span>;</div><div class="line">&lt;Router history=&#123;hashHistory&#125;&gt;</div><div class="line">  &lt;Route path=<span class="string">"/"</span> component=&#123;Main&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></div><div class="line">&lt;<span class="regexp">/Router&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">===&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">import &#123;BrowserRouter as Router, Route&#125; from 'react-router-dom';</span></div><div class="line"><span class="regexp">&lt;Router&gt;</span></div><div class="line"><span class="regexp">  &lt;Route path="/</span><span class="string">" component=&#123;Main&#125;&gt;&lt;/Route&gt;</span></div><div class="line"><span class="string">&lt;/Router&gt;</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">或者</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">&lt;HashRouter&gt;</span></div><div class="line"><span class="string">  &lt;Route path="</span>/<span class="string">" component=&#123;Main&#125;&gt;&lt;/Route&gt;</span></div><div class="line"><span class="string">&lt;/HashRouter&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="A-‘Router’-may-have-only-one-child-element"><a href="#A-‘Router’-may-have-only-one-child-element" class="headerlink" title="A ‘Router’ may have only one child element"></a>A ‘Router’ may have only one child element</h3><p>react-router v4 在<Router> 下面只能放一个层级，类似与react 中render 不能有两个平级div一样</p>
+<h4 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h4><p>用div 或者<a href="https://reacttraining.com/react-router/web/api/Switch">Switch</a> 包裹所有Route<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;Router&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;Route component=&#123;ComponentHeader&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></div><div class="line">    &lt;Switch&gt;</div><div class="line">      &lt;Route component=&#123;ComponentFooter&#125; path=<span class="string">'/footer/:id'</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></div><div class="line">    &lt;<span class="regexp">/Switch&gt;</span></div><div class="line"><span class="regexp">  &lt;/</span>div&gt;</div><div class="line">&lt;<span class="regexp">/Router&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="webpack-配置问题"><a href="#webpack-配置问题" class="headerlink" title="webpack 配置问题"></a>webpack 配置问题</h3><p>v4 中引入<code>&lt;BrowserRouter&gt;</code> 组件, 而BrowserRouter使用的是HTML5 的history api, 在使用webpack-dev-server时会遇到</p>
+<pre style="color:red">GET http://localhost:8080/xxx/xxx 404 (Not Found)</pre>
+
+<h4 id="解决办法：-1"><a href="#解决办法：-1" class="headerlink" title="解决办法："></a>解决办法：</h4><p>webpack.config.js中加入<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">  apiHistoryFallback: <span class="literal">true</span>,</div><div class="line">&#125;</div><div class="line">output: &#123;</div><div class="line">  ...,</div><div class="line">  publicPath: <span class="string">'/'</span>,</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后将index.html中的bundle.js改为/bundle.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=<span class="string">'bundle.js'</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> ===&gt; <span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'/bundle.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<p>参考：<a href="https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url">https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url</a></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/01/react-router-V4-踩坑/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/30/webpack-css-modules-和global-css-共存/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -787,136 +924,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/26/Generator/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Johnny Lin">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="爱凉拌菜真是太好了">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="爱凉拌菜真是太好了" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/26/Generator/" itemprop="url">
-                  'Generator 执行顺序'
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-26T12:13:50+08:00">
-                2016-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>generator 不同于普通的函数，执行方式有区别</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">yield</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> fooObj = foo();</div><div class="line"><span class="built_in">console</span>.log(fooObj.next());</div><div class="line"><span class="built_in">console</span>.log(fooObj.next());</div><div class="line"><span class="built_in">console</span>.log(fooObj.next());</div></pre></td></tr></table></figure>
-<p>第一个fooObj.next() 返回<code>Object {value: 1, done: false}</code><br>此时fooObj指针指向的是yield 1(第一个yield)</p>
-<p>第二次运行fooObj.next(), 指针指向console.log(yield)中的yield<br>即第二个yeild,此时函数返回<code>Object {value: undefined, done: false}</code></p>
-<p>第三次运行fooObj.next(), 指针继续向后移动,开始执行console.log(yield)<br>语句,由于next参数为undefined,则指定上一次(即第二次yeild)yeild为undefined<br>所以打印出<code>undefined 和 Object {value: undefined, done: true}</code></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -959,7 +971,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
